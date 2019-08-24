@@ -87,6 +87,14 @@
     lodash "^4.2.0"
     to-fast-properties "^2.0.0"
 
+"@tarojs/async-await@^1.3.14":
+  version "1.3.14"
+  resolved "https://registry.npm.taobao.org/@tarojs/async-await/download/@tarojs/async-await-1.3.14.tgz#64b440c965848eed87d038cd601fd94681928cc1"
+  integrity sha1-ZLRAyWWEju2H0DjNYB/ZRoGSjME=
+  dependencies:
+    promise-polyfill "^7.1.2"
+    regenerator-runtime "^0.11.1"
+
 "@tarojs/components@1.3.14":
   version "1.3.14"
   resolved "https://registry.npm.taobao.org/@tarojs/components/download/@tarojs/components-1.3.14.tgz#4f79a8979c2df96eb38a323124709ccc2cb64886"
@@ -5952,6 +5960,11 @@ promise-inflight@^1.0.1:
   resolved "https://registry.npm.taobao.org/promise-inflight/download/promise-inflight-1.0.1.tgz#98472870bf228132fcbdd868129bad12c3c029e3"
   integrity sha1-mEcocL8igTL8vdhoEputEsPAKeM=
 
+promise-polyfill@^7.1.2:
+  version "7.1.2"
+  resolved "https://registry.npm.taobao.org/promise-polyfill/download/promise-polyfill-7.1.2.tgz#ab05301d8c28536301622d69227632269a70ca3b"
+  integrity sha1-qwUwHYwoU2MBYi1pInYyJppwyjs=
+
 promise@^7.1.1:
   version "7.3.1"
   resolved "https://registry.npm.taobao.org/promise/download/promise-7.3.1.tgz#064b72602b18f90f29192b8b1bc418ffd1ebd3bf"
@@ -6205,7 +6218,7 @@ regenerate@^1.2.1:
   resolved "https://registry.npm.taobao.org/regenerate/download/regenerate-1.4.0.tgz#4a856ec4b56e4077c557589cae85e7a4c8869a11"
   integrity sha1-SoVuxLVuQHfFV1icroXnpMiGmhE=
 
-regenerator-runtime@^0.11.0:
+regenerator-runtime@^0.11.0, regenerator-runtime@^0.11.1:
   version "0.11.1"
   resolved "https://registry.npm.taobao.org/regenerator-runtime/download/regenerator-runtime-0.11.1.tgz#be05ad7f9bf7d22e056f9726cee5017fbf19e2e9"
   integrity sha1-vgWtf5v30i4Fb5cmzuUBf78Z4uk=
