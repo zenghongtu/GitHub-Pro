@@ -28,7 +28,7 @@ const Language = ({ onChangeLang }: LanguageProps) => {
   return (
     <View>
       <View>
-        <Text>My languages</Text>{" "}
+        <Text>My languages</Text>
         <AtIcon value="edit" onClick={handleIconClick}></AtIcon>
       </View>
       <View>

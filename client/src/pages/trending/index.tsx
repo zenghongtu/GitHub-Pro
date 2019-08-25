@@ -17,11 +17,10 @@ import {
   TrendingUser,
   getTrendingUsers,
   TrendingRequestParams
-} from "./services"
+} from "../../services/trending"
 import RepoCard from "./repo_card"
 import MyLanguage from "./language"
 import FabButton from "../../components/fab-button"
-import Taro from "@tarojs/taro"
 
 export interface LanguageParams {
   language: string
@@ -48,17 +47,18 @@ const Trending = () => {
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false)
 
   useEffect(() => {
-    Taro.showLoading()
+    Taro.showLoading({ title: "loading.." })
     getTrendingRepos(params).then(data => {
-      if (!data) {
-        // TODO handle error
-        return
-      }
-      if (repos[currTab]) {
-        setRepos({ [currTab]: data })
+      if (data) {
+        if (repos[currTab]) {
+          setRepos({ [currTab]: data })
+        } else {
+          setRepos({ ...repos, [currTab]: data })
+        }
       } else {
-        setRepos({ ...repos, [currTab]: data })
+        // TODO handle error
       }
+
       Taro.hideLoading()
     })
 

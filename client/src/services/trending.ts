@@ -1,4 +1,3 @@
-import { request } from "../../utils/request"
 import Taro from "@tarojs/taro"
 
 export interface TrendingRepo {
