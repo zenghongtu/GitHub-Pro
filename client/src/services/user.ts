@@ -35,5 +35,24 @@ export interface IUserInfo {
 }
 
 export const getCurrentUser = () => {
-  return request.get<IUserInfo>("/user")
+  return request.get<IUserInfo | null>("/user")
+}
+
+export interface IUserOrg {
+  login: string
+  id: number
+  node_id: string
+  url: string
+  repos_url: string
+  events_url: string
+  hooks_url: string
+  issues_url: string
+  members_url: string
+  public_members_url: string
+  avatar_url: string
+  description: string
+}
+
+export const getUserOrgs = (username: string) => {
+  return request.get<IUserOrg[]>(`/users/${username}/orgs`)
 }
