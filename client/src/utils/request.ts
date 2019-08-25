@@ -1,8 +1,7 @@
 import Taro from "@tarojs/taro"
+import { getGlobalData } from "./global_data"
 
 const BASE_URL = "https://api.github.com"
-
-let Authorization: string = Taro.getStorageSync("Authorization")
 
 type Method =
   | "OPTIONS"
@@ -20,11 +19,10 @@ export const request = (url: string, data?: any, method: Method = "GET") => {
     data,
     method,
     header: {
-      Authorization:
-        Authorization || (Authorization = Taro.getStorageSync("Authorization"))
+      Authorization: getGlobalData("authorization")
     }
   }
-
+  Taro.showLoading({ title: "loading.." })
   return Taro.request(option)
     .then(({ statusCode, data }) => {
       if (statusCode >= 200 && statusCode < 300) {
@@ -42,22 +40,25 @@ export const request = (url: string, data?: any, method: Method = "GET") => {
       })
       return null
     })
+    .finally(() => {
+      Taro.hideLoading()
+    })
 }
 
 export default {
-  get(url = "/") {
-    return request(BASE_URL + url)
+  get<T>(url = "/", data = {}): Promise<T> {
+    return request(BASE_URL + url, data, "GET")
   },
 
-  post(url = "/", data = {}) {
+  post<T>(url = "/", data = {}): Promise<T> {
     return request(BASE_URL + url, data, "POST")
   },
 
-  put(url = "/", data = {}) {
+  put<T>(url = "/", data = {}): Promise<T> {
     return request(BASE_URL + url, data, "PUT")
   },
 
-  delete(url = "/") {
-    return request(BASE_URL + url, "DELETE")
+  delete<T>(url = "/", data = {}): Promise<T> {
+    return request(BASE_URL + url, data, "DELETE")
   }
 }

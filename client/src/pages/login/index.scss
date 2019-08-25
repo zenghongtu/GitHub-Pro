@@ -1,0 +1,46 @@
+.at-input {
+  background: rgba(221, 221, 221, 0.1);
+  margin-left: 0;
+  margin-bottom: 20px;
+  padding-left: 32px;
+  border: none;
+}
+.at-tabs__underline {
+  display: none;
+}
+
+.layout-container {
+  position: relative;
+}
+
+.login-container {
+  margin: 40px 80px;
+}
+
+.login-header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.logo-img {
+  width: 120px;
+  height: 120px;
+}
+
+.login-body {
+}
+
+.tabs-body {
+  margin-top: 40px;
+}
+.login-btn-container {
+  padding: 40px 0;
+  text-align: right;
+  border-bottom: 1px solid #e3e3e3;
+}
+.login-btn {
+  width: 180px;
+  height: 70px;
+  line-height: 70px;
+  border-radius: 0;
+}
