@@ -21,7 +21,7 @@ interface BuiltBy {
   avatar: string
 }
 
-interface TrendingRequestParams {
+export interface TrendingRequestParams {
   language?: string
   since?: string
 }
