@@ -12,19 +12,19 @@ import "./index.scss"
 import NavBar from "../../components/navbar"
 import { getGlobalData, setGlobalData } from "../../utils/global_data"
 import {
-  getCurrentUser,
-  IUserInfo,
   IUserReceivedEvent,
   IUserOrg,
   getUserOrgs,
   getUserEvents,
   IUserReceivedEventsRequestData
-} from "../../services/user"
+} from "../../services/users"
+import { getCurrentUser, IUserInfo } from "../../services/user"
 import Empty from "../../components/empty"
 
 import Info from "./info/index"
 import Activity from "../../components/activity/index"
 import Starred from "./starred/index"
+import { defaultParams } from "../../constants"
 
 const tabList = [{ title: "info" }, { title: "activity" }, { title: "starred" }]
 
@@ -35,10 +35,9 @@ const Profile = () => {
   )
   const [userOrgs, setUserOrgs] = useState<IUserOrg[] | null>(null)
   const [currTab, setCurrTab] = useState<number>(0)
-  const [UREPramas, setURERparams] = useState<IUserReceivedEventsRequestData>({
-    per_page: 30,
-    page: 1
-  })
+  const [UREPramas, setURERparams] = useState<IUserReceivedEventsRequestData>(
+    defaultParams
+  )
 
   useEffect(() => {
     getCurrentUser().then(data => {
@@ -49,15 +48,15 @@ const Profile = () => {
     })
   }, [])
 
-  // useEffect(() => {
-  //   if (userInfo) {
-  //     getUserOrgs(userInfo.login).then(data => {
-  //       if (data) {
-  //         setUserOrgs(data)
-  //       }
-  //     })
-  //   }
-  // }, [userInfo])
+  useEffect(() => {
+    if (userInfo) {
+      getUserOrgs(userInfo.login).then(data => {
+        if (data) {
+          setUserOrgs(data)
+        }
+      })
+    }
+  }, [userInfo])
 
   useEffect(() => {
     if (currTab === 1 && !userEvents) {

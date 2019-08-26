@@ -1,7 +1,8 @@
 import Taro, { Component, Config, useEffect } from "@tarojs/taro"
 import { View, Text } from "@tarojs/components"
 import "./index.scss"
-import { IUserInfo, IUserReceivedEvent } from "../../services/user"
+import { IUserReceivedEvent } from "../../services/users"
+import { IUserInfo } from "../../services/user"
 import Empty from "../empty"
 import ActivityItem from "../activity-item"
 interface IActivity {

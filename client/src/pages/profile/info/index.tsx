@@ -1,7 +1,8 @@
 import Taro, { Component, Config } from "@tarojs/taro"
 import { View, Text, Block, Image } from "@tarojs/components"
 import "./index.scss"
-import { IUserInfo, IUserOrg } from "../../../services/user"
+import { IUserOrg } from "../../../services/users"
+import { IUserInfo } from "../../../services/user"
 import Empty from "../../../components/empty"
 
 interface InfoProps {
