@@ -17,22 +17,22 @@ import {
   IUserReceivedEvent,
   IUserOrg,
   getUserOrgs,
-  getUserReceivedEvents,
+  getUserEvents,
   IUserReceivedEventsRequestData
 } from "../../services/user"
 import Empty from "../../components/empty"
 
 import Info from "./info/index"
-import Activity from "./activity/index"
+import Activity from "../../components/activity/index"
 import Starred from "./starred/index"
 
 const tabList = [{ title: "info" }, { title: "activity" }, { title: "starred" }]
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
-  const [userReceivedEvents, setUserReceivedEvents] = useState<
-    IUserReceivedEvent[] | null
-  >(null)
+  const [userEvents, setUserEvents] = useState<IUserReceivedEvent[] | null>(
+    null
+  )
   const [userOrgs, setUserOrgs] = useState<IUserOrg[] | null>(null)
   const [currTab, setCurrTab] = useState<number>(0)
   const [UREPramas, setURERparams] = useState<IUserReceivedEventsRequestData>({
@@ -60,22 +60,32 @@ const Profile = () => {
   // }, [userInfo])
 
   useEffect(() => {
-    if (currTab === 1) {
-      getUserReceivedEvents(userInfo!.login, UREPramas).then(data => {
-        if (data) {
-          if (!userReceivedEvents) {
-            setUserReceivedEvents(data)
-          } else {
-            setUserReceivedEvents([...userReceivedEvents, ...data])
-          }
-        }
-      })
+    if (currTab === 1 && !userEvents) {
+      requestUserEvents(true)
     }
-  }, [currTab, UREPramas])
+  }, [currTab])
+
+  useEffect(() => {
+    if (UREPramas.page > 1) {
+      requestUserEvents(false)
+    }
+  }, [UREPramas])
 
   useReachBottom(() => {
     setURERparams({ ...UREPramas, page: UREPramas.page + 1 })
   })
+
+  const requestUserEvents = (isInit = false) => {
+    getUserEvents(userInfo!.login, UREPramas).then(data => {
+      if (data) {
+        if (isInit) {
+          setUserEvents(data)
+        } else {
+          setUserEvents([...userEvents!, ...data])
+        }
+      }
+    })
+  }
 
   const handleTabClick = val => {
     setCurrTab(val)
@@ -134,7 +144,7 @@ const Profile = () => {
             </AtTabsPane>
             <AtTabsPane current={currTab} index={1}>
               <View>
-                <Activity userReceivedEvents={userReceivedEvents}></Activity>
+                <Activity eventsData={userEvents}></Activity>
               </View>
             </AtTabsPane>
             <AtTabsPane current={currTab} index={2}>

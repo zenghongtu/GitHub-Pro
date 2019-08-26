@@ -579,3 +579,12 @@ export const getUserReceivedEvents = (
     data
   )
 }
+export const getUserEvents = (
+  username: string,
+  data?: IUserReceivedEventsRequestData
+) => {
+  return request.get<IUserReceivedEvent[] | null>(
+    `/users/${username}/events`,
+    data
+  )
+}
