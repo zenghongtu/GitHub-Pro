@@ -13,12 +13,18 @@ type Method =
   | "TRACE"
   | "CONNECT"
 
-export const request = (url: string, data?: any, method: Method = "GET") => {
+export const request = (
+  url: string,
+  data?: any,
+  method: Method = "GET",
+  headers = {}
+) => {
   const option = {
     url,
     data,
     method,
     header: {
+      ...headers,
       Authorization: getGlobalData("authorization")
     }
   }
@@ -46,8 +52,8 @@ export const request = (url: string, data?: any, method: Method = "GET") => {
 }
 
 export default {
-  get<T>(url = "/", data = {}): Promise<T> {
-    return request(BASE_URL + url, data, "GET")
+  get<T>(url = "/", data = {}, headers = {}): Promise<T> {
+    return request(BASE_URL + url, data, "GET", headers)
   },
 
   post<T>(url = "/", data = {}): Promise<T> {

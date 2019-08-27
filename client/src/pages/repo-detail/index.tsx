@@ -1,14 +1,18 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Text, Block } from "@tarojs/components"
+import Taro, { Component, Config, useState } from "@tarojs/taro"
+import { View, Text, Block, Button } from "@tarojs/components"
 import "./index.scss"
 import useRequest from "../../hooks/useRequest"
-import { getRepo, Repo } from "../../services/repos"
+import { getRepo, Repo, getReadme } from "../../services/repos"
 import Empty from "../../components/empty"
 import NavBar from "../../components/navbar"
+import Readme from "./readme"
 
-const repoName = "zenghongtu/Mob"
+const repoName = "zenghongtu/Remu"
 const RepoDetail = () => {
   const [repoInfo, refresh] = useRequest<Repo>(`/repos/${repoName}`, getRepo)
+
+  const [showReadme, setShowReadme] = useState(false)
+
   const renderInfo = () => {
     const {
       id,
@@ -98,6 +102,7 @@ const RepoDetail = () => {
         <View>
           {language} size:{size}
         </View>
+        {default_branch}
         <View>
           <Text>Info</Text>
           <Text>Files</Text>
@@ -128,6 +133,16 @@ const RepoDetail = () => {
     <View>
       <NavBar isGoBackBtn></NavBar>
       <View>{repoInfo ? renderInfo() : <Empty></Empty>}</View>
+      <View>{showReadme && <Readme repoName={repoName}></Readme>}</View>
+      <View>
+        <Button
+          onClick={() => {
+            setShowReadme(true)
+          }}
+        >
+          more
+        </Button>
+      </View>
     </View>
   )
 }

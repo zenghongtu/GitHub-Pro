@@ -120,3 +120,10 @@ interface Owner {
 export const getRepo = (url: string) => {
   return request.get<Repo | null>(url)
 }
+export const getReadme = (url: string) => {
+  return request.get<Repo | null>(
+    url,
+    {},
+    { Accept: "application/vnd.github.v3.raw" }
+  )
+}
