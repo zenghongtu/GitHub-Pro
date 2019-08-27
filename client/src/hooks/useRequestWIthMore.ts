@@ -2,12 +2,12 @@ import { useState, useEffect, useRef, useReachBottom } from "@tarojs/taro"
 
 import { defaultParams } from "../constants"
 
-function useRequest<T>(
+function useRequestWIthMore<T>(
   username: string,
-  request: (username: string, params: any) => Promise<any>
+  request: (username: string, params: any | null) => Promise<T[] | null>
 ): [T[] | null, () => void] | [] {
   if (!username) {
-    console.error("useRequest no username")
+    console.error("useRequestWIthMore no username")
     return []
   }
 
@@ -43,4 +43,4 @@ function useRequest<T>(
   return [currData, refresh]
 }
 
-export default useRequest
+export default useRequestWIthMore

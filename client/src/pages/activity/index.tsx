@@ -7,14 +7,11 @@ import ActivityItem from "./activity-item"
 import NavBar from "../../components/navbar"
 import { getGlobalData } from "../../utils/global_data"
 import { IUserInfo } from "../../services/user"
-import useRequest from "../../hooks/useReqeust"
-interface IActivity {
-  eventsData: IUserReceivedEvent[] | null
-}
+import useRequestWIthMore from "../../hooks/useRequestWIthMore"
 
 const Activity = () => {
   const userInfo = getGlobalData("userInfo") as IUserInfo
-  const [eventsData, refresh] = useRequest<IUserReceivedEvent>(
+  const [eventsData, refresh] = useRequestWIthMore<IUserReceivedEvent>(
     userInfo.login!,
     getUserEvents
   )
@@ -22,10 +19,13 @@ const Activity = () => {
   return (
     <View>
       <NavBar title="Activity"></NavBar>
-      {eventsData &&
+      {eventsData ? (
         eventsData.map(item => {
           return <ActivityItem item={item} key={item.id}></ActivityItem>
-        })}
+        })
+      ) : (
+        <Empty></Empty>
+      )}
     </View>
   )
 }

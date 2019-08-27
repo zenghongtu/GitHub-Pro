@@ -1,4 +1,4 @@
-import Taro, from "@tarojs/taro"
+import Taro from "@tarojs/taro"
 import { View, Text } from "@tarojs/components"
 import "./index.scss"
 import NavBar from "../../components/navbar"
@@ -6,13 +6,13 @@ import NavBar from "../../components/navbar"
 import { IStarred, IUserInfo } from "../../services/user"
 import Empty from "../../components/empty"
 import RepoItem from "../../components/repo-item"
-import useRequest from "../../hooks/useReqeust"
+import useRequestWIthMore from "../../hooks/useRequestWIthMore"
 import { getUserStarred } from "../../services/users"
 import { getGlobalData } from "../../utils/global_data"
 
 const StarredRepos = () => {
   const userInfo = getGlobalData("userInfo") as IUserInfo
-  const [starredRepos, refresh] = useRequest<IStarred>(
+  const [starredRepos, refresh] = useRequestWIthMore<IStarred>(
     userInfo.login,
     getUserStarred
   )
