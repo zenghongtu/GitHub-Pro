@@ -1,4 +1,5 @@
 import request from "../utils/request"
+import { starredParams, IStarred } from "./user"
 
 export interface IUserOrg {
   login: string
@@ -560,4 +561,8 @@ export const getUser = (
     `/users/${username}/events`,
     data
   )
+}
+
+export const getUserStarred = (username, params: starredParams) => {
+  return request.get<IStarred[] | null>(`/users/${username}/starred`, params)
 }
