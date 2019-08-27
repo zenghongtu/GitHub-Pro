@@ -1,7 +1,7 @@
 import Taro, { Component, Config } from "@tarojs/taro"
 import { View, Text, Image } from "@tarojs/components"
 import "./index.scss"
-import { IUserReceivedEvent } from "../../services/users"
+import { IUserReceivedEvent } from "../../../services/users"
 
 const spacesRegExp = new RegExp("[\r\n\t]+", "g")
 const refsHeadsRegExp = new RegExp("refs/heads/")
@@ -71,15 +71,16 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         )
       }
       case "IssuesEvent": {
-        const { issue, action } = payload
-        const { number, title } = issue!
+        // TODO 无法使用解构赋值？
+        // const { issue, action } = payload
+        // const { number, title } = issue!
 
         return (
           <View>
             <View>
-              {action} issue {name}
+              {payload.action} issue {name}
             </View>
-            <View>{title}</View>
+            <View>{payload.issue!.title}</View>
           </View>
         )
       }
