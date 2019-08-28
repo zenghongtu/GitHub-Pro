@@ -7,9 +7,9 @@ import Empty from "../../components/empty"
 import NavBar from "../../components/navbar"
 import Readme from "./readme"
 
-const repoName = "zenghongtu/Remu"
+const full_name = "zenghongtu/Mob"
 const RepoDetail = () => {
-  const [repoInfo, refresh] = useRequest<Repo>(`/repos/${repoName}`, getRepo)
+  const [repoInfo, refresh] = useRequest<Repo>(`/repos/${full_name}`, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
 
@@ -133,7 +133,7 @@ const RepoDetail = () => {
     <View>
       <NavBar isGoBackBtn></NavBar>
       <View>{repoInfo ? renderInfo() : <Empty></Empty>}</View>
-      <View>{showReadme && <Readme repoName={repoName}></Readme>}</View>
+      <View>{showReadme && <Readme full_name={full_name}></Readme>}</View>
       <View>
         <Button
           onClick={() => {
