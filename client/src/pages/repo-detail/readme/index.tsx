@@ -4,7 +4,7 @@ import "./index.scss"
 import useRequest from "../../../hooks/useRequest"
 import { getReadme, getRawReadme } from "../../../services/repos"
 import Empty from "@/components/empty"
-import { mdLink } from "@/utils/common"
+import { mdLink, isGitHubPage } from "@/utils/readme"
 
 const Readme = ({ full_name }) => {
   const faceLink = (f: string) => {
@@ -82,8 +82,25 @@ const Readme = ({ full_name }) => {
   )
 
   const handleClick = e => {
-    console.log("e: ", e)
     let clickurl = e.detail.currentTarget.dataset.text
+    const isGitHubUrl = isGitHubPage(clickurl)
+    if (isGitHubUrl) {
+      // TODO
+    } else {
+      Taro.setClipboardData({
+        data: `${clickurl}`,
+        // @ts-ignore
+        success: function(res) {
+          Taro.showToast({
+            title: `Copy Success`,
+            icon: "success"
+          })
+        }
+      })
+    }
+
+    // TODO redirect other mini program
+    // TODO  open file
   }
 
   const md = rawMD && getClearMD(rawMD)

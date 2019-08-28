@@ -1,3 +1,4 @@
+import Taro from "@tarojs/taro"
 export function FindGitHubUrl(c) {
   var urls = FindUrls(c)
   if (urls.length == 0) {
