@@ -131,9 +131,33 @@ export const getRawReadme = (full_name: string) => {
     { Accept: "application/vnd.github.v3.raw" }
   )
 }
-export const getRawContent = (full_name: string) => {
-  return request.get<string | null>(
-    `/repos/${full_name}/readme`,
+
+export interface File {
+  name: string;
+  path: string;
+  sha: string;
+  size: number;
+  url: string;
+  html_url: string;
+  git_url: string;
+  download_url?: string;
+  type: string;
+  _links: Links;
+}
+
+interface Links {
+  self: string;
+  git: string;
+  html: string;
+}
+
+export const getContents =(full_name:string) => {
+  return request.get<File[] | null>(
+    `/repos/${full_name}/contents`,
+    {},
+    { Accept: "application/vnd.github.v3.raw" }
+  )
+}
     {},
     { Accept: "application/vnd.github.v3.raw" }
   )
