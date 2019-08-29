@@ -4,7 +4,7 @@ import "./index.scss"
 import useRequest from "../../../hooks/useRequest"
 import { getReadme, getRawReadme } from "../../../services/repos"
 import Empty from "@/components/empty"
-import { mdLink, isGitHubPage } from "@/utils/readme"
+import { mdLink, isGitHubPage } from "@/utils/repo"
 
 const faceLink = (f: string) => {
   return (

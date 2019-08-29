@@ -16,6 +16,7 @@ const Files = () => {
         {files &&
           files.map(item => {
             const { name, path, type, download_url, url, size } = item
+            // TODO check file type to open files or content
             return (
               <View>
                 {type} {name}
