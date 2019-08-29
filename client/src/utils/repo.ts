@@ -75,7 +75,7 @@ const CodeFileExtentsions = {
   ipynb: "python"
 }
 
-export function isCodeFile(file) {
+export function getCodeMarkup(file) {
   for (var key in CodeFileExtentsions) {
     if (file.endsWith("." + key)) {
       return CodeFileExtentsions[key]

@@ -154,10 +154,12 @@ interface Links {
 export const getContents =(full_name:string) => {
   return request.get<File[] | null>(
     `/repos/${full_name}/contents`,
-    {},
-    { Accept: "application/vnd.github.v3.raw" }
   )
 }
+
+export const getRawContent =(full_file_path:string) => {
+  return request.get<string | null>(
+    `/repos/${full_file_path}`,
     {},
     { Accept: "application/vnd.github.v3.raw" }
   )
