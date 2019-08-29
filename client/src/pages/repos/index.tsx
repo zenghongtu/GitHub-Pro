@@ -9,7 +9,7 @@ import Readme from "./readme"
 
 const full_name = "zenghongtu/Mob"
 const RepoDetail = () => {
-  const [repoInfo, refresh] = useRequest<Repo>(`/repos/${full_name}`, getRepo)
+  const [repoInfo, refresh] = useRequest<Repo>(full_name, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
 

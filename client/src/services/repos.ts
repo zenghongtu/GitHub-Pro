@@ -117,16 +117,23 @@ interface Owner {
   site_admin: boolean
 }
 
-export const getRepo = (url: string) => {
-  return request.get<Repo | null>(url)
+export const getRepo = (full_name: string) => {
+  return request.get<Repo | null>(`/repos/${full_name}`)
 }
-export const getReadme = (url: string) => {
-  return request.get<Repo | null>(url, {})
+export const getReadme = (full_name: string) => {
+  return request.get<Repo | null>(`/repos/${full_name}/readme`,, {})
 }
 
-export const getRawReadme = (url: string) => {
+export const getRawReadme = (full_name: string) => {
   return request.get<string | null>(
-    url,
+    `/repos/${full_name}/readme`,
+    {},
+    { Accept: "application/vnd.github.v3.raw" }
+  )
+}
+export const getRawContent = (full_name: string) => {
+  return request.get<string | null>(
+    `/repos/${full_name}/readme`,
     {},
     { Accept: "application/vnd.github.v3.raw" }
   )
