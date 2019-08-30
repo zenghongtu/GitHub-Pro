@@ -20,9 +20,7 @@ export interface NavBarProps {
   onClickLeftIcon?: () => {}
 }
 
-const marginTop = Taro.getSystemInfoSync().statusBarHeight
-
-const styleProps = { marginTop: `${marginTop}px` }
+const statusBarHeight = Taro.getSystemInfoSync().statusBarHeight
 
 const navList = [
   { name: "profile", path: "profile" },
@@ -69,9 +67,15 @@ const NavBar = ({
 
   const curLeftIconType = isGoBackBtn ? "chevron-left" : leftIconType
 
+  const styleProps = { paddingTop: `${statusBarHeight + 40}px` }
+  const paddingTop = `${statusBarHeight}px`
+
   return (
     <View style={styleProps}>
       <AtNavBar
+        fixed
+        border={false}
+        customStyle={{ paddingTop }}
         onClickLeftIcon={handleClickLeftIcon}
         title={title}
         leftIconType={curLeftIconType}
@@ -80,7 +84,7 @@ const NavBar = ({
         show={isShowDrawer}
         onClose={handleToggleDrawer.bind(this, false)}
       >
-        <View className="drawer" style={styleProps}>
+        <View className="drawer" style={{ paddingTop }}>
           <View className="drawer-header">
             {userInfo ? (
               <Block>
