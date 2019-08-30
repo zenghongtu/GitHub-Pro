@@ -26,7 +26,7 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/services/*": ["./src/services/*"],
-      "@/constants": ["./constants.js"],
+      "@/constants": ["./src/constants.ts"],
       "@/package": ["./package.json"]
     }
   },

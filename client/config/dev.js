@@ -12,7 +12,7 @@ module.exports = {
     "@/hooks": path.resolve(__dirname, "..", "src/hooks"),
     "@/assets": path.resolve(__dirname, "..", "src/assets"),
     "@/services": path.resolve(__dirname, "..", "src/services"),
-    "@/constants": path.resolve(__dirname, "..", "constants.js"),
+    "@/constants": path.resolve(__dirname, "..", "src/constants.ts"),
     "@/package": path.resolve(__dirname, "..", "package.json")
   },
   copy: {
