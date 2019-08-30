@@ -4,7 +4,8 @@ import Taro, {
   useEffect,
   useState,
   usePullDownRefresh,
-  useDidShow
+  useDidShow,
+  useRef
 } from "@tarojs/taro"
 import { View, Text, Block } from "@tarojs/components"
 import { AtTabs, AtTabsPane, AtIcon, AtFab, AtDrawer, AtDivider } from "taro-ui"
@@ -28,7 +29,7 @@ export interface LanguageParams {
 }
 
 interface TrendingRepoState {
-  [id: number]: TrendingRepo[]
+  [id: number]: TrendingRepo[] | null
 }
 
 const tabList = [
@@ -45,22 +46,41 @@ const Trending = () => {
   const [currTab, setCurrTab] = useState<number>(0)
   const [params, setParams] = useState<TrendingRequestParams>({})
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false)
+  const [refresh, setRefresh] = useState<number>(0)
+  const countRef = useRef(0)
+
+  usePullDownRefresh(() => {
+    setRepos({ [currTab]: null })
+    setRefresh(++countRef.current)
+    console.log("refresh + 1: ", refresh + 1)
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    }, 500)
+  })
 
   useEffect(() => {
     Taro.showLoading({ title: "loading.." })
-    getTrendingRepos(params).then(data => {
-      if (data) {
-        if (repos[currTab]) {
-          setRepos({ [currTab]: data })
+    getTrendingRepos(params)
+      .then(data => {
+        if (data) {
+          if (repos[currTab]) {
+            setRepos({ [currTab]: data })
+          } else {
+            setRepos({ ...repos, [currTab]: data })
+          }
         } else {
-          setRepos({ ...repos, [currTab]: data })
+          throw new Error(data || "")
         }
-      } else {
-        // TODO handle error
-      }
-
-      Taro.hideLoading()
-    })
+      })
+      .catch(err => {
+        Taro.showToast({
+          title: "Something error, Try later",
+          icon: "none"
+        })
+      })
+      .finally(() => {
+        Taro.hideLoading()
+      })
 
     // getTrendingUsers(params).then(data => {
     //   if (!data) {
@@ -69,7 +89,7 @@ const Trending = () => {
     //   }
     //   setRepos(data)
     // })
-  }, [params])
+  }, [params, refresh])
 
   const handleClickTab = val => {
     setCurrTab(val)
@@ -99,7 +119,7 @@ const Trending = () => {
                 <AtTabsPane key={idx} current={currTab} index={idx}>
                   <View>
                     {repos[idx] ? (
-                      repos[idx].map(repo => {
+                      repos[idx]!.map(repo => {
                         return (
                           <Block key={repo.url}>
                             <RepoCard repo={repo}></RepoCard>
@@ -130,6 +150,10 @@ const Trending = () => {
       </View>
     </Block>
   )
+}
+
+Trending.config = {
+  enablePullDownRefresh: true
 }
 
 export default Trending
