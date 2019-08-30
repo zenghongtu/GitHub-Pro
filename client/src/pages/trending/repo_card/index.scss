@@ -1,0 +1,91 @@
+.card-wrap {
+  margin: 20px;
+  padding: 20px 20px 20px 25px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.card-top {
+  display: flex;
+  overflow: hidden;
+}
+
+.info {
+  max-width: 75%;
+  margin-right: 10px;
+}
+
+.name {
+  width: 100%;
+  font-size: 38px;
+  font-weight: 700;
+  line-height: 40px;
+  white-space: nowrap;
+  word-break: keep-all;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.description {
+  margin-top: 10px;
+  margin-left: 5px;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 1.5em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.author {
+  flex-basis: 1;
+  flex-shrink: 0;
+  flex-grow: 0;
+  max-width: 120px;
+  margin-left: auto;
+  text-align: center;
+}
+
+.author-name {
+  font-size: 25px;
+  color: rgb(109, 109, 109);
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 20px;
+}
+
+.card-bottom {
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+}
+
+.meta-item:not(:first-child) {
+  margin-left: 15px;
+}
+.meta-item {
+  display: inline-block;
+  font-size: 25px;
+  vertical-align: bottom;
+}
+
+.meta-item:last-child {
+  margin-left: auto;
+}
+
+.language-color {
+  display: inline-block;
+  margin-right: 8px;
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+}

@@ -52,7 +52,6 @@ const Trending = () => {
   usePullDownRefresh(() => {
     setRepos({ [currTab]: null })
     setRefresh(++countRef.current)
-    console.log("refresh + 1: ", refresh + 1)
     setTimeout(() => {
       Taro.stopPullDownRefresh()
     }, 500)
