@@ -17,12 +17,18 @@ const Content = () => {
     full_file_path,
     getRawContent
   )
+
   if (!rawContent) {
     return <Empty></Empty>
   }
 
   const file_url = url.split("?")[0]
   let content = rawContent
+
+  // stringify object
+  if (typeof rawContent === "object") {
+    content = JSON.stringify(rawContent, null, 2)
+  }
 
   if (isImageFile(file_url)) {
     content = "![](" + file_url + ")"
