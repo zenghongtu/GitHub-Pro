@@ -14,8 +14,9 @@ import { IUserOrg, getUserOrgs } from "../../services/users"
 import { getCurrentUser, IUserInfo } from "../../services/user"
 import Empty from "../../components/empty"
 
-import Info from "./info/index"
 import { AtList, AtListItem } from "taro-ui"
+import useRequest from "@/hooks/useRequest"
+import { getFormatDate } from "@/utils/date"
 
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
@@ -62,10 +63,10 @@ const Profile = () => {
       type,
       site_admin,
       name,
-      company,
-      blog,
-      location,
-      email,
+      company = "",
+      blog = "",
+      location = "",
+      email = "",
       hireable,
       bio,
       public_repos,
@@ -76,21 +77,82 @@ const Profile = () => {
       updated_at
     } = userInfo!
     return (
-      <View>
+      <View className="wrap">
         <View className="header">
-          <Image src={avatar_url}></Image>
-          <View>
-            <View>{login}</View>
-            <View>{location}</View>
-            <View>Joined at {new Date(created_at).toDateString()}</View>
+          <Image className="avatar" src={avatar_url}></Image>
+          <View className="basic">
+            <View className="name">{name}</View>
+            <View className="login">@{login}</View>
+            <View className="Joined">
+              Joined at {getFormatDate(created_at)}
+            </View>
           </View>
         </View>
-        <AtList>
-          <AtListItem arrow="right" title="Activity" />
-          <AtListItem arrow="right" title="Starred" />
-        </AtList>
-        <View>
-          <Info userInfo={userInfo} userOrgs={userOrgs}></Info>
+        <View className="bio">{bio}</View>
+        <View className="info meta">
+          <View className="nav">
+            <View className="nav-item">
+              <View className="item-count">{followers}</View>
+              <View className="item-label">followers</View>
+            </View>
+            <View className="nav-item">
+              <View className="item-count">{following}</View>
+              <View className="item-label">following</View>
+            </View>
+            <View className="nav-item">
+              <View className="item-count">{public_repos}</View>
+              <View className="item-label">repos</View>
+            </View>
+            {/* <View className="nav-item">
+              <View className="item-count">{public_gists}</View>
+              <View className="item-label">Gists</View>
+            </View> */}
+          </View>
+        </View>
+        <View className="info">
+          <AtList hasBorder={false}>
+            <AtListItem hasBorder={true} arrow="right" title="Activity" />
+            <AtListItem hasBorder={false} arrow="right" title="Starred" />
+          </AtList>
+        </View>
+
+        <View className="info">
+          <AtList hasBorder={false}>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Email"
+              extraText={email}
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Blog"
+              extraText={blog}
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Company"
+              extraText={company}
+            >
+              >
+            </AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={false}
+              title="Location"
+              extraText={location}
+            >
+              >
+            </AtListItem>
+          </AtList>
+        </View>
+        <View className="info">
+          <AtList hasBorder={false}>
+            <AtListItem hasBorder={true} arrow="right" title="Feedback" />
+            <AtListItem hasBorder={false} arrow="right" title="About" />
+          </AtList>
         </View>
       </View>
     )
