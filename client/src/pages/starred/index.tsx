@@ -30,7 +30,7 @@ const StarredRepos = () => {
           <Empty></Empty>
         )}
       </View>
-      <LoadMore hasMore={hasMore!}></LoadMore>
+      {starredRepos && <LoadMore hasMore={hasMore!}></LoadMore>}
     </View>
   )
 }
