@@ -1,9 +1,29 @@
 import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
+import { View, Image, Button } from "@tarojs/components"
 import "./index.scss"
+import img from "@/assets/spidertocat.png"
+import { AtButton } from "taro-ui"
 
 const Empty = () => {
-  return <View>数据为空...</View>
+  return (
+    <View className="wrap">
+      <View className="inner">
+        <Image src={img} className="img"></Image>
+        <View className="desc">No Data.</View>
+        {/* <View>
+          <AtButton
+            size="small"
+            type="primary"
+            onClick={() => {
+              Taro.startPullDownRefresh()
+            }}
+          >
+            retry
+          </AtButton>
+        </View> */}
+      </View>
+    </View>
+  )
 }
 
 export default Empty

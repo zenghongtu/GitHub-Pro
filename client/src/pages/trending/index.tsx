@@ -22,6 +22,7 @@ import {
 import RepoCard from "./repo_card"
 import MyLanguage from "./language"
 import FabButton from "../../components/fab-button"
+import Empty from "@/components/empty"
 
 export interface LanguageParams {
   language: string
@@ -126,7 +127,7 @@ const Trending = () => {
                         )
                       })
                     ) : (
-                      <View>努力加载中...</View>
+                      <Empty></Empty>
                     )}
                   </View>
                 </AtTabsPane>
