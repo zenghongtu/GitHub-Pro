@@ -1,0 +1,45 @@
+.item-wrap {
+  padding: 20px;
+  margin-top: 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.info {
+  display: flex;
+  align-items: center;
+}
+
+.login {
+  color: #40a0fa;
+}
+.time-ago {
+  margin-left: auto;
+  align-self: flex-start;
+  font-size: 25px;
+  color: rgb(151, 151, 151);
+}
+
+.repo-name {
+  font-weight: 800;
+}
+
+.event-wrap {
+  margin-left: 5px;
+}
+
+.commit-sha {
+  color: #40a0fa;
+}
+
+.event-desc {
+  margin-top: 10px;
+  font-size: 25px;
+  font-weight: 400;
+}
+
+.event-action {
+  text-transform: capitalize;
+}

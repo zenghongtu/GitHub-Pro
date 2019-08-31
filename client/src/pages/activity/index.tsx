@@ -8,16 +8,17 @@ import NavBar from "../../components/navbar"
 import { getGlobalData } from "../../utils/global_data"
 import { IUserInfo } from "../../services/user"
 import useRequestWIthMore from "../../hooks/useRequestWIthMore"
+import LoadMore from "@/components/load-more"
 
 const Activity = () => {
   const userInfo = getGlobalData("userInfo") as IUserInfo
-  const [eventsData, refresh] = useRequestWIthMore<IUserReceivedEvent>(
+  const [eventsData, hasMore, refresh] = useRequestWIthMore<IUserReceivedEvent>(
     userInfo.login!,
     getUserEvents
   )
 
   return (
-    <View>
+    <View className="wrap">
       <NavBar title="Activity"></NavBar>
       {eventsData ? (
         eventsData.map(item => {
@@ -26,6 +27,7 @@ const Activity = () => {
       ) : (
         <Empty></Empty>
       )}
+      {eventsData && <LoadMore hasMore={hasMore!}></LoadMore>}
     </View>
   )
 }

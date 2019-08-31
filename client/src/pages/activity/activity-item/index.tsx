@@ -2,6 +2,8 @@ import Taro, { Component, Config } from "@tarojs/taro"
 import { View, Text, Image } from "@tarojs/components"
 import "./index.scss"
 import { IUserReceivedEvent } from "../../../services/users"
+import { getTimeAgo } from "@/utils/date"
+import Avatar from "@/components/avatar"
 
 const spacesRegExp = new RegExp("[\r\n\t]+", "g")
 const refsHeadsRegExp = new RegExp("refs/heads/")
@@ -24,63 +26,55 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
   if (!item) {
     return null
   }
-  const {
-    id,
-    type,
-    actor: { avatar_url, display_login },
-    repo: { name },
-    payload,
-    created_at,
-    org
-  } = item
 
-  const renderAction = () => {
+  const renderEvent = () => {
     const {
-      id,
       type,
-      actor,
+
       repo: { name },
-      payload,
-      created_at,
-      org
+      payload
     } = item
 
     switch (type) {
       case "PushEvent": {
         const { ref, commits } = payload
         const _ref = ref!.replace(refsHeadsRegExp, "")
+        const len = commits!.length
+
         return (
           <View>
             <View>
-              Pushed to {_ref} as {name}
+              Pushed to {_ref} at <Text className="repo-name">{name}</Text>
             </View>
-            <View>
-              {commits!.map(item => {
+            <View className="event-desc">
+              {commits!.slice(0, 3).map(item => {
                 const { message, sha } = item
                 const commit = truncateText(message.replace(spacesRegExp, ""))
                 const _sha = sha.substr(0, 8)
                 return (
-                  <View key={sha}>
-                    <Text>{_sha} </Text>
-                    <Text> {commit}</Text>
+                  <View key={sha} className="commit">
+                    <Text className="commit-sha">{_sha} </Text>
+                    <Text className="commit-content"> {commit}</Text>
                   </View>
                 )
               })}
+              {len > 3 && (
+                <View className="commit">
+                  <Text className="commit-content"> ...</Text>
+                </View>
+              )}
             </View>
           </View>
         )
       }
       case "IssuesEvent": {
-        // TODO 无法使用解构赋值？
-        // const { issue, action } = payload
-        // const { number, title } = issue!
-
         return (
           <View>
             <View>
-              {payload.action} issue {name}
+              <Text className="event-action">{payload.action}</Text> issue{" "}
+              <Text className="repo-name">{name}</Text>
             </View>
-            <View>{payload.issue!.title}</View>
+            <View className="event-desc">{payload.issue!.title}</View>
           </View>
         )
       }
@@ -90,35 +84,43 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              {action} pull request {name}
+              {action} pull request <Text className="repo-name">{name}</Text>
             </View>
             <View>{title}</View>
           </View>
         )
       }
       case "IssueCommentEvent": {
-        const { comment } = payload
+        const { comment, issue } = payload
         const { body } = comment!
         const detail = body.replace(spacesRegExp, " ")
         const text = truncateText(detail)
+        const number = issue!.number
         return (
           <View>
-            <View>Commented on issue {name}</View>
-            <View>{text}</View>
+            <View>
+              Created comment on #{number} in
+              <Text className="repo-name"> {name}</Text>
+            </View>
+            <View className="event-desc">{text}</View>
           </View>
         )
       }
       case "WatchEvent": {
         return (
           <View>
-            <View>Starred {name}</View>
+            <View>
+              Starred <Text className="repo-name">{name}</Text>
+            </View>
           </View>
         )
       }
       case "PublicEvent": {
         return (
           <View>
-            <View>Open sourced {name}</View>
+            <View>
+              Open sourced <Text className="repo-name">{name}</Text>
+            </View>
           </View>
         )
       }
@@ -127,7 +129,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Forked {forkee!.full_name} from {name}
+              Forked {forkee!.full_name} from{" "}
+              <Text className="repo-name">{name}</Text>
             </View>
           </View>
         )
@@ -136,9 +139,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Created {payload.ref_type} {payload.ref || ""} as {name}
+              Created {payload.ref_type} {payload.ref || ""} at
+              <Text className="repo-name"> {name}</Text>
             </View>
-            <View>{payload.description}</View>
+            <View className="event-desc">{payload.description}</View>
           </View>
         )
       }
@@ -146,7 +150,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Deleted {payload.ref_type} {payload.ref} at {name}
+              Deleted {payload.ref_type} {payload.ref} at
+              <Text className="repo-name"> {name}</Text>
             </View>
             <View>{payload.description}</View>
           </View>
@@ -169,8 +174,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         const text = truncateText(detail)
         return (
           <View>
-            <View>Reviewed pull request in {name}</View>
-            <View>{text}</View>
+            <View>
+              Reviewed pull request in <Text className="repo-name">{name}</Text>
+            </View>
+            <View className="event-desc">{text}</View>
           </View>
         )
       }
@@ -180,7 +187,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              {action} {page_name} {name}
+              {action} {page_name} <Text className="repo-name">{name}</Text>
             </View>
           </View>
         )
@@ -190,7 +197,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               Released {payload.release.name || payload.release.tag_name} at{" "}
-              {name}
+              <Text className="repo-name">{name}</Text>
             </View>
           </View>
         )
@@ -201,7 +208,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Commented on commit {name} @ {comment!.commit_id.substring(0, 8)}
+              Commented on commit <Text className="repo-name">{name}</Text> @{" "}
+              {comment!.commit_id.substring(0, 8)}
             </View>
           </View>
         )
@@ -210,19 +218,26 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
     const text = JSON.stringify(item)
     return (
       <View>
-        <View>{text}</View>
+        <View className="event-desc">{text}</View>
       </View>
     )
   }
 
+  const {
+    actor: { avatar_url, display_login },
+    created_at
+  } = item
+
+  const timeAgo = getTimeAgo(created_at)
+
   return (
-    <View>
-      <View>
-        <Image src={avatar_url}></Image>
-        <Text>{}</Text>
-        <Text></Text>
+    <View className="item-wrap">
+      <View className="info">
+        <Avatar url={avatar_url} size="30"></Avatar>
+        <Text className="login">{display_login}</Text>
+        <Text className="time-ago">{timeAgo}</Text>
       </View>
-      <View>{renderAction()}</View>
+      <View className="event-wrap">{renderEvent()}</View>
     </View>
   )
 }
