@@ -9,17 +9,18 @@ import RepoItem from "../../components/repo-item"
 import useRequestWIthMore from "../../hooks/useRequestWIthMore"
 import { getUserStarred } from "../../services/users"
 import { getGlobalData } from "../../utils/global_data"
+import LoadMore from "@/components/load-more"
 
 const StarredRepos = () => {
   const userInfo = getGlobalData("userInfo") as IUserInfo
-  const [starredRepos, refresh] = useRequestWIthMore<IStarred>(
+  const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(
     userInfo.login,
     getUserStarred
   )
 
   return (
     <View>
-      <NavBar title="Starred repos"></NavBar>
+      <NavBar title="Starred repos" path="starred"></NavBar>
       <View>
         {starredRepos ? (
           starredRepos.map((item, idx) => {
@@ -29,6 +30,7 @@ const StarredRepos = () => {
           <Empty></Empty>
         )}
       </View>
+      <LoadMore hasMore={hasMore!}></LoadMore>
     </View>
   )
 }

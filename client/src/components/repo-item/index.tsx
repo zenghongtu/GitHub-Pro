@@ -2,6 +2,7 @@ import Taro, { Component, Config } from "@tarojs/taro"
 import { View, Text, Image } from "@tarojs/components"
 import "./index.scss"
 import { IStarred } from "../../services/user"
+import { AtIcon } from "taro-ui"
 
 interface RepoItemProps {
   repo: IStarred
@@ -88,21 +89,30 @@ const RepoItem = ({ repo }: RepoItemProps) => {
   } = repo
 
   return (
-    <View>
+    <View className="repo-wrap">
       <View>
-        <Image src={avatar_url}></Image>
+        <Image className="avatar" src={avatar_url}></Image>
       </View>
-      <View>
-        <View>
-          <Text>{name}</Text>
-          <Text>{language}</Text>
+      <View className="info">
+        <View className="top">
+          <Text className="name">{name}</Text>
+          <Text className="language">{language || ""}</Text>
           {/* // TODO language color */}
         </View>
-        <View>{description}</View>
-        <View>
-          <Text>{stargazers_count}</Text>
-          <Text>{forks_count}</Text>
-          <Text>{login}</Text>
+        <View className="desc">{description}</View>
+        <View className="bottom">
+          <View className="meta-item">
+            <AtIcon size="10" value="star"></AtIcon>
+            {stargazers_count}
+          </View>
+          <View className="meta-item">
+            <AtIcon size="10" value="star"></AtIcon>
+            {forks_count}
+          </View>
+          <View className="meta-item">
+            <AtIcon size="10" value="star"></AtIcon>
+            {login}
+          </View>
         </View>
       </View>
     </View>

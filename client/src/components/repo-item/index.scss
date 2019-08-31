@@ -1,0 +1,50 @@
+.repo-wrap {
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  box-sizing: border-box;
+  font-size: 25px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  margin-right: 20px;
+  border-radius: 50%;
+}
+.info {
+  flex: 1;
+}
+
+.top {
+  display: flex;
+}
+.name {
+  color: #40a0fa;
+  font-weight: 700;
+  font-size: 28px;
+}
+.language {
+  margin-left: auto;
+  align-self: flex-start;
+}
+
+.desc {
+  font-size: 23px;
+  font-weight: 400;
+  margin: 10px 0 10px 5px;
+}
+
+.bottom {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 23px;
+  font-weight: 300;
+}
+
+.meta-item {
+  flex: 1;
+}
