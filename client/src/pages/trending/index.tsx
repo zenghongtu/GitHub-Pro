@@ -54,7 +54,7 @@ const Trending = () => {
     setRefresh(++countRef.current)
     setTimeout(() => {
       Taro.stopPullDownRefresh()
-    }, 500)
+    }, 100)
   })
 
   useEffect(() => {
@@ -149,10 +149,6 @@ const Trending = () => {
       </View>
     </Block>
   )
-}
-
-Trending.config = {
-  enablePullDownRefresh: true
 }
 
 export default Trending

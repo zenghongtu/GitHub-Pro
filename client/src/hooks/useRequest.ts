@@ -1,4 +1,5 @@
-import { useState, useEffect, useRef } from "@tarojs/taro"
+import { useState, useEffect, useRef, usePullDownRefresh } from "@tarojs/taro"
+import Taro from "@tarojs/taro"
 
 function useRequest<T>(
   params: any,
@@ -15,10 +16,17 @@ function useRequest<T>(
     })
   }, [count])
 
+  usePullDownRefresh(() => {
+    refresh()
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    }, 100)
+  })
+
   const refresh = () => {
     setCount(count + 1)
   }
-  // TODO handle no more repos
+
   return [currData, refresh]
 }
 

@@ -34,10 +34,9 @@ class App extends Component {
       navigationStyle: "custom",
       backgroundTextStyle: "light",
       navigationBarBackgroundColor: "#fff",
-      navigationBarTitleText: "WeChat",
-      navigationBarTextStyle: "black"
-      // TODO use scroll-view
-      // enablePullDownRefresh: true
+      navigationBarTitleText: "GitHub Pro",
+      navigationBarTextStyle: "black",
+      enablePullDownRefresh: true
     },
     cloud: true
   }
