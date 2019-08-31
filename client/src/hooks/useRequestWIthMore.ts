@@ -12,13 +12,14 @@ import Taro from "@tarojs/taro"
 function useRequestWIthMore<T>(
   username: string,
   request: (username: string, params: any | null) => Promise<T[] | null>
-): [T[] | null, () => void] | [] {
+): [T[] | null, boolean, () => void] | [] {
   if (!username) {
     console.error("useRequestWIthMore: no username")
     return []
   }
 
   const [currData, setData] = useState<T[] | null>(null)
+  const [hasMore, setHasMore] = useState<boolean>(true)
   const [params, setParams] = useState(defaultParams)
 
   useEffect(() => {
@@ -28,6 +29,9 @@ function useRequestWIthMore<T>(
           setData([...currData, ...data])
         } else {
           setData(data)
+        }
+        if (data.length < params.per_page) {
+          setHasMore(false)
         }
       }
     })
@@ -50,11 +54,11 @@ function useRequestWIthMore<T>(
 
   const refresh = () => {
     setData(null)
+    setHasMore(true)
     setParams({ ...params, page: 1 })
   }
 
-  // TODO handle no more repos
-  return [currData, refresh]
+  return [currData, hasMore, refresh]
 }
 
 export default useRequestWIthMore
