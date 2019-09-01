@@ -1,4 +1,4 @@
-import Taro, { Component, Config, useState } from "@tarojs/taro"
+import Taro, { Component, Config, useState, useEffect } from "@tarojs/taro"
 import { View, Text, Block, Button } from "@tarojs/components"
 import "./index.scss"
 import useRequest from "../../hooks/useRequest"
@@ -6,9 +6,11 @@ import { getRepo, Repo, getReadme } from "../../services/repos"
 import Empty from "../../components/empty"
 import NavBar from "../../components/navbar"
 import Readme from "./readme"
+import { AtIcon, AtList, AtListItem } from "taro-ui"
+import { getFormatDate } from "../../utils/date"
 
 const full_name = "zenghongtu/Mob"
-const RepoDetail = () => {
+const Repo = () => {
   const [repoInfo, refresh] = useRequest<Repo>(full_name, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
@@ -95,56 +97,145 @@ const RepoDetail = () => {
       network_count,
       subscribers_count
     } = repoInfo!
+    const _size = (size / 1024).toFixed(2)
     return (
       <Block>
-        <View>{name}</View>
-        <View>{description}</View>
-        <View>
-          {language} size:{size}
+        <View className="header">
+          <View className="name">{name}</View>
+          <View className="desc">{description}</View>
+          <View className="meta">
+            <Text className="language">Language: {language}</Text>, size:{" "}
+            {_size} MB
+          </View>
+          <View className="meta">
+            Created at {getFormatDate(created_at)}, Latest commit{" "}
+            {getFormatDate(pushed_at)}
+          </View>
         </View>
-        {default_branch}
-        <View>
-          <Text>Info</Text>
-          <Text>Files</Text>
-          <Text>commits</Text>
-          <Text>activity</Text>
+        <View className="repo-action">
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            {stargazers_count}
+          </View>
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            {forks_count}
+          </View>
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            {subscribers_count}
+          </View>
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            share
+          </View>
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            save
+          </View>
+
+          <View className="action-item">
+            <View className="action-icon">
+              <AtIcon value="star"></AtIcon>
+            </View>
+            copy
+          </View>
         </View>
-        <View>
-          <View>
-            <Text>{owner.login}</Text>
-            <Text>{name}</Text>
-          </View>
-          <View>
-            {created_at}
-            {pushed_at}
-          </View>
-          <View>
-            <View>{stargazers_count}</View>
-            <View>{open_issues_count}</View>
-            <View>{forks_count}</View>
-            <View>{watchers_count}</View>
-          </View>
+
+        <View className="repo-info">
+          <AtList hasBorder={false}>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Author"
+              arrow="right"
+              extraText={owner.login}
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Files"
+              arrow="right"
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Activity"
+              arrow="right"
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item info-issues"
+              hasBorder={true}
+              title="Issues"
+              arrow="right"
+              extraText={`${open_issues_count}`}
+            ></AtListItem>
+          </AtList>
+        </View>
+
+        <View className="repo-info">
+          <AtList hasBorder={false}>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Commits"
+              arrow="right"
+            ></AtListItem>
+            <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Contributors"
+              arrow="right"
+            ></AtListItem>
+            {/* <AtListItem
+              className="info-list-item"
+              hasBorder={true}
+              title="Branch"
+              extraText={default_branch}
+            ></AtListItem> */}
+
+            <AtListItem
+              className="info-list-item"
+              hasBorder={false}
+              title="License"
+              extraText={license.name}
+            ></AtListItem>
+          </AtList>
         </View>
       </Block>
     )
   }
 
+  useEffect(() => {
+    if (repoInfo) {
+      setTimeout(() => {
+        setShowReadme(true)
+      })
+    }
+  }, [repoInfo])
+
   return (
-    <View>
+    <View className="wrap">
       <NavBar isGoBackBtn></NavBar>
-      <View>{repoInfo ? renderInfo() : <Empty></Empty>}</View>
-      <View>{showReadme && <Readme full_name={full_name}></Readme>}</View>
-      <View>
-        <Button
-          onClick={() => {
-            setShowReadme(true)
-          }}
-        >
-          more
-        </Button>
-      </View>
+      <View className="repo">{repoInfo ? renderInfo() : <Empty></Empty>}</View>
+      {repoInfo && (
+        <View className="readme">
+          <View className="title">README</View>
+          {showReadme && <Readme full_name={full_name}></Readme>}
+        </View>
+      )}
     </View>
   )
 }
 
-export default RepoDetail
+export default Repo

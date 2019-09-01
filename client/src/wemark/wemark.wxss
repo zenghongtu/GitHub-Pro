@@ -39,12 +39,13 @@
 	width:100%;
 }
 .wemark_block_blockquote_p{
-	margin-top:1em;
-	margin-bottom:1em;
-	padding:10px 0 10px 1em;
-	font-size:28rpx;
-	background:#f0f0f0;
-	border-left:5px solid #e0e0e0;
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 10rpx 0 10rpx 1em;
+  font-size: 28rpx;
+  background: #f6f8fa;
+  border-left: 5rpx solid #e0e0e0;
+
 }
 .wemark_block_ul_li_p::before{
 	content:'• ';
@@ -70,7 +71,7 @@
 	border:1px solid #f0f0f0;
 	white-space: pre;
 	overflow: auto;
-  background-color: #2b2b2b;
+  background-color: #111;
 }
 .wemark_block_table{
 	width: 100%;
@@ -136,12 +137,13 @@
 }
 .wemark_inline_code{
 	background:#edebed;
-	padding:3px 5px;
-	word-wrap:break-word;
-  border-radius:5px;
+  padding: 3rpx 15rpx;
+  word-wrap: break-word;
+  border-radius: 5rpx;
   margin-left:5px;
   margin-right:5px;
 }
+
 .wemark_inline_code_annotation,
 .wemark_inline_code_triple-quoted-string{
   color: slategray;
