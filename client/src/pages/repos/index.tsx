@@ -8,6 +8,7 @@ import NavBar from "../../components/navbar"
 import Readme from "./readme"
 import { AtIcon, AtList, AtListItem } from "taro-ui"
 import { getFormatDate } from "../../utils/date"
+import { bytesToSize } from "../../utils/size"
 
 const full_name = "zenghongtu/Mob"
 const Repo = () => {
@@ -97,7 +98,7 @@ const Repo = () => {
       network_count,
       subscribers_count
     } = repoInfo!
-    const _size = (size / 1024).toFixed(2)
+
     return (
       <Block>
         <View className="header">
@@ -105,7 +106,7 @@ const Repo = () => {
           <View className="desc">{description}</View>
           <View className="meta">
             <Text className="language">Language: {language}</Text>, size:{" "}
-            {_size} MB
+            {bytesToSize(size)}
           </View>
           <View className="meta">
             Created at {getFormatDate(created_at)}, Latest commit{" "}
