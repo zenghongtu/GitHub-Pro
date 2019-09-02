@@ -2,11 +2,35 @@ import Taro, { Component, useState } from "@tarojs/taro"
 import { View, Text, Button, Image } from "@tarojs/components"
 import { AtNavBar, AtDrawer, AtIcon } from "taro-ui"
 import "./index.scss"
-import { TrendingRepo } from "../services"
+import { TrendingRepo } from "@/services/trending"
+import { getGlobalData } from "@/utils/global_data"
+import { IUserInfo } from "@/services/user"
 
 const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
   if (!repo) {
     return null
+  }
+  const curUserInfo = getGlobalData("userInfo") as IUserInfo
+
+  const handleCardClick = () => {
+    const url = `/pages/repos/index?owner=${author}&repo=${name}`
+    Taro.navigateTo({
+      url
+    })
+  }
+
+  const handleAuthorClick = (e: MouseEvent) => {
+    e.stopPropagation()
+    let url: string
+    if (curUserInfo.login === author) {
+      url = `/pages/profile/index`
+    } else {
+      url = `/pages/developer/index?name=${author}`
+    }
+
+    Taro.navigateTo({
+      url
+    })
   }
 
   const {
@@ -24,13 +48,13 @@ const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
   } = repo
 
   return (
-    <View className="card-wrap">
+    <View className="card-wrap" onClick={handleCardClick}>
       <View className="card-top">
         <View className="info">
           <View className="name">{name}</View>
           <View className="description">{description}</View>
         </View>
-        <View className="author">
+        <View className="author" onClick={handleAuthorClick}>
           <Image src={avatar} className="avatar"></Image>
           <View className="author-name">{author}</View>
         </View>

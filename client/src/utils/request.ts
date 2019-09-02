@@ -3,6 +3,8 @@ import { getGlobalData } from "./global_data"
 
 const BASE_URL = "https://api.github.com"
 
+const isDev = process.env.NODE_ENV === "development"
+
 type Method =
   | "OPTIONS"
   | "GET"
@@ -19,6 +21,12 @@ export const request = (
   method: Method = "GET",
   headers = {}
 ) => {
+  if (isDev) {
+    const data = Taro.getStorageSync(url)
+    if (data) {
+      return Promise.resolve(data)
+    }
+  }
   const option = {
     url,
     data,
@@ -32,7 +40,13 @@ export const request = (
   return Taro.request(option)
     .then(({ statusCode, data }) => {
       if (statusCode >= 200 && statusCode < 300) {
+        if (isDev) {
+          Taro.setStorageSync(url, data)
+        }
         return data
+      }
+      if (statusCode === 404 && url.includes("/user/following")) {
+        return null
       }
       const msg = `code ${statusCode}`
       throw new Error(msg)

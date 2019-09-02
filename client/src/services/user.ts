@@ -157,3 +157,30 @@ export interface starredParams {
 export const getStarred = (params: starredParams) => {
   return request.get<IStarred[] | null>("/user/starred", params)
 }
+
+export const follow = {
+  is: async (username: string): Promise<boolean> => {
+    return request.get(`/user/following/${username}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  delete: async (username: string): Promise<boolean> => {
+    return request.delete(`/user/following/${username}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  put: async (username: string): Promise<boolean> => {
+    return request.put(`/user/following/${username}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  }
+}
