@@ -52,4 +52,8 @@ const Content = () => {
   )
 }
 
+Content.config = {
+  enablePullDownRefresh: false
+}
+
 export default Content

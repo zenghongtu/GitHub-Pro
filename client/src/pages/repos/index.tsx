@@ -1,4 +1,10 @@
-import Taro, { Component, Config, useState, useEffect } from "@tarojs/taro"
+import Taro, {
+  Component,
+  Config,
+  useState,
+  useEffect,
+  useRouter
+} from "@tarojs/taro"
 import { View, Text, Block, Button } from "@tarojs/components"
 import "./index.scss"
 import useRequest from "../../hooks/useRequest"
@@ -10,8 +16,12 @@ import { AtIcon, AtList, AtListItem } from "taro-ui"
 import { getFormatDate } from "../../utils/date"
 import { bytesToSize } from "../../utils/size"
 
-const full_name = "zenghongtu/Mob"
 const Repo = () => {
+  const {
+    params: { owner, repo }
+  } = useRouter()
+
+  const full_name = `${owner}/${repo}`
   const [repoInfo, refresh] = useRequest<Repo>(full_name, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
