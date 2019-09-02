@@ -21,7 +21,7 @@ import { getFormatDate } from "@/utils/date"
 const Profile = () => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
 
-  const [userOrgs, setUserOrgs] = useState<IUserOrg[] | null>(null)
+  // const [userOrgs, setUserOrgs] = useState<IUserOrg[] | null>(null)
 
   useEffect(() => {
     getCurrentUser().then(data => {
@@ -32,15 +32,15 @@ const Profile = () => {
     })
   }, [])
 
-  useEffect(() => {
-    if (userInfo) {
-      getUserOrgs(userInfo.login).then(data => {
-        if (data) {
-          setUserOrgs(data)
-        }
-      })
-    }
-  }, [userInfo])
+  // useEffect(() => {
+  //   if (userInfo) {
+  //     getUserOrgs(userInfo.login).then(data => {
+  //       if (data) {
+  //         setUserOrgs(data)
+  //       }
+  //     })
+  //   }
+  // }, [userInfo])
 
   const renderUserInfo = () => {
     const {
@@ -68,11 +68,11 @@ const Profile = () => {
       location = "",
       email = "",
       hireable,
-      bio,
+      bio = "",
       public_repos,
       public_gists,
-      followers,
-      following,
+      followers = 0,
+      following = 0,
       created_at,
       updated_at
     } = userInfo!
