@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from "@tarojs/taro"
+import Taro, { Component, Config, useRouter } from "@tarojs/taro"
 import { View, Text } from "@tarojs/components"
 import "./index.scss"
 import useRequest from "@/hooks/useRequest"
@@ -8,10 +8,10 @@ import Markdown from "@/components/markdown"
 import Empty from "@/components/empty"
 import NavBar from "@/components/navbar"
 
-const url =
-  "https://api.github.com/repos/zenghongtu/Mob/contents/index.html?ref=master"
-
 const Content = () => {
+  const {
+    params: { url }
+  } = useRouter()
   const full_file_path = url.split("repos/")[1]
   const [rawContent, refreshContent] = useRequest<string | null>(
     full_file_path,

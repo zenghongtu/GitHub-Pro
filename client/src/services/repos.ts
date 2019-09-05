@@ -151,9 +151,9 @@ interface Links {
   html: string;
 }
 
-export const getContents =(full_name:string) => {
+export const getContents =(url:string) => {
   return request.get<File[] | null>(
-    `/repos/${full_name}/contents`,
+    url,
   )
 }
 

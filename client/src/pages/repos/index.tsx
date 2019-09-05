@@ -26,6 +26,9 @@ const Repo = () => {
 
   const [showReadme, setShowReadme] = useState(false)
 
+  const handleNavTo = url => e => {
+    Taro.navigateTo({ url })
+  }
   const renderInfo = () => {
     const {
       id,
@@ -108,7 +111,15 @@ const Repo = () => {
       network_count,
       subscribers_count
     } = repoInfo!
+    const login = owner.login
+    const authorUrl = `/pages/developer/index?name=${login}`
+    const filesUrl = `/pages/repos/files/index?owner=${login}&repo=${name}`
 
+    // TODO fix
+    const activityUrl = `/pages/developer/index?name=${owner.login}`
+    const issuesUrl = `/pages/developer/index?name=${owner.login}`
+    const commitsUrl = `/pages/developer/index?name=${owner.login}`
+    const contributorsUrl = `/pages/developer/index?name=${owner.login}`
     return (
       <Block>
         <View className="header">
@@ -166,26 +177,30 @@ const Repo = () => {
         <View className="repo-info">
           <AtList hasBorder={false}>
             <AtListItem
+              onClick={handleNavTo(authorUrl)}
               className="info-list-item"
               hasBorder={true}
               title="Author"
               arrow="right"
-              extraText={owner.login}
+              extraText={login}
             ></AtListItem>
             <AtListItem
               className="info-list-item"
+              onClick={handleNavTo(filesUrl)}
               hasBorder={true}
               title="Files"
               arrow="right"
             ></AtListItem>
             <AtListItem
               className="info-list-item"
+              onClick={handleNavTo(activityUrl)}
               hasBorder={true}
               title="Activity"
               arrow="right"
             ></AtListItem>
             <AtListItem
               className="info-list-item info-issues"
+              onClick={handleNavTo(issuesUrl)}
               hasBorder={true}
               title="Issues"
               arrow="right"
@@ -198,12 +213,14 @@ const Repo = () => {
           <AtList hasBorder={false}>
             <AtListItem
               className="info-list-item"
+              onClick={handleNavTo(commitsUrl)}
               hasBorder={true}
               title="Commits"
               arrow="right"
             ></AtListItem>
             <AtListItem
               className="info-list-item"
+              onClick={handleNavTo(contributorsUrl)}
               hasBorder={true}
               title="Contributors"
               arrow="right"
