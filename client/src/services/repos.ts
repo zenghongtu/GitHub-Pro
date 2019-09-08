@@ -121,7 +121,7 @@ export const getRepo = (full_name: string) => {
   return request.get<Repo | null>(`/repos/${full_name}`)
 }
 export const getReadme = (full_name: string) => {
-  return request.get<Repo | null>(`/repos/${full_name}/readme`,, {})
+  return request.get<Repo | null>(`/repos/${full_name}/readme`, {})
 }
 
 export const getRawReadme = (full_name: string) => {
@@ -133,31 +133,29 @@ export const getRawReadme = (full_name: string) => {
 }
 
 export interface File {
-  name: string;
-  path: string;
-  sha: string;
-  size: number;
-  url: string;
-  html_url: string;
-  git_url: string;
-  download_url?: string;
-  type: string;
-  _links: Links;
+  name: string
+  path: string
+  sha: string
+  size: number
+  url: string
+  html_url: string
+  git_url: string
+  download_url?: string
+  type: string
+  _links: Links
 }
 
 interface Links {
-  self: string;
-  git: string;
-  html: string;
+  self: string
+  git: string
+  html: string
 }
 
-export const getContents =(url:string) => {
-  return request.get<File[] | null>(
-    url,
-  )
+export const getContents = (url: string) => {
+  return request.get<File[] | null>(url)
 }
 
-export const getRawContent =(full_file_path:string) => {
+export const getRawContent = (full_file_path: string) => {
   return request.get<string | null>(
     `/repos/${full_file_path}`,
     {},
