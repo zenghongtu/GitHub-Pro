@@ -114,9 +114,9 @@ const Repo = () => {
     const login = owner.login
     const authorUrl = `/pages/developer/index?name=${login}`
     const filesUrl = `/pages/repos/files/index?owner=${login}&repo=${name}`
+    const activityUrl = `/pages/activity/index?name=${login}`
 
     // TODO fix
-    const activityUrl = `/pages/developer/index?name=${owner.login}`
     const issuesUrl = `/pages/developer/index?name=${owner.login}`
     const commitsUrl = `/pages/developer/index?name=${owner.login}`
     const contributorsUrl = `/pages/developer/index?name=${owner.login}`
