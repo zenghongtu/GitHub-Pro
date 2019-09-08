@@ -3,11 +3,13 @@ import { View, Image, Text } from "@tarojs/components"
 import "./index.scss"
 import { Issue } from "@/services/issues"
 import { getFormatDate } from "../../../utils/date"
+import { setIssueData } from "../shared_data"
 
 interface IssueItemProps {
   issue: Issue
+  full_name: string
 }
-const IssueItem = ({ issue }: IssueItemProps) => {
+const IssueItem = ({ issue, full_name }: IssueItemProps) => {
   const {
     url,
     repository_url,
@@ -49,8 +51,14 @@ const IssueItem = ({ issue }: IssueItemProps) => {
     pull_request
   } = issue
 
+  const handleNavTo = () => {
+    setIssueData(issue)
+    const url = `/pages/issues/issue-detail/index?full_name=${full_name}&number=${number}`
+    Taro.navigateTo({ url })
+  }
+
   return (
-    <View className="wrap">
+    <View className="wrap" onClick={handleNavTo}>
       <View className="avatar">
         <Image className="avatar-img" src={avatar_url}></Image>
       </View>

@@ -3,15 +3,19 @@ import Taro, {
   Config,
   useRouter,
   useState,
-  useEffect
+  useEffect,
+  useReachBottom,
+  usePullDownRefresh
 } from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
+import { View, Text, Block } from "@tarojs/components"
 import "./index.scss"
 import { getIssues, Issue } from "../../services/issues"
 import { defaultParams } from "../../constants"
 import { AtTabs, AtTabsPane } from "taro-ui"
 import IssueItem from "./issue-item"
 import Empty from "@/components/empty"
+import FabButton from "@/components/fab-button"
+import LoadMore from "../../components/load-more/index"
 
 const Issues = () => {
   const {
@@ -19,7 +23,10 @@ const Issues = () => {
   } = useRouter()
   const full_name = `${owner}/${repo}`
 
+  const [count, setCount] = useState(0)
   const [curTab, setTab] = useState(0)
+  const [openHasMore, setOpenHasMore] = useState(true)
+  const [closedHasMore, setClosedHasMore] = useState(true)
   const [openList, setOpenList] = useState<Issue[] | null>(null)
   const [closedList, setClosedtList] = useState<Issue[] | null>(null)
 
@@ -34,23 +41,51 @@ const Issues = () => {
     state: "closed"
   })
 
+  usePullDownRefresh(() => {
+    setOpenParams({ ...openParams, page: 1 })
+    setClosedParams({ ...closedParams, page: 1 })
+    setClosedHasMore(true)
+    setOpenHasMore(true)
+    setCount(count + 1)
+  })
+
+  useReachBottom(() => {
+    if (curTab === 0) {
+      setOpenParams({ ...openParams, page: openParams.page + 1 })
+    } else {
+      setClosedParams({ ...closedParams, page: closedParams.page + 1 })
+    }
+  })
+
   const getClosedIssues = params => {
     getIssues(full_name, params).then(data => {
-      setClosedtList(data)
+      if (data) {
+        setClosedtList(data)
+        if (data.length < params.per_page) {
+          setClosedHasMore(false)
+        }
+      }
     })
   }
 
   useEffect(() => {
-    getIssues(full_name, openParams).then(data => {
-      setOpenList(data)
-    })
-  }, [openParams])
+    if (openHasMore) {
+      getIssues(full_name, openParams).then(data => {
+        if (data) {
+          setOpenList(data)
+          if (data.length < openParams.per_page) {
+            setOpenHasMore(false)
+          }
+        }
+      })
+    }
+  }, [openParams, count])
 
   useEffect(() => {
-    if (openList) {
+    if (openList && closedHasMore) {
       getClosedIssues(closedParams)
     }
-  }, [closedParams])
+  }, [closedParams, count])
 
   useEffect(() => {
     if (!closedList && curTab === 1) {
@@ -59,12 +94,18 @@ const Issues = () => {
   }, [curTab])
 
   const tabList = [
-    { title: "open", data: openList },
-    { title: "closed", data: closedList }
+    { title: "open", data: openList, hasMore: openHasMore },
+    { title: "closed", data: closedList, hasMore: closedHasMore }
   ]
 
   const handleTabClick = val => {
     setTab(val)
+  }
+
+  const handleFaBtnClick = () => {
+    Taro.navigateTo({
+      url: `/pages/issues/create-issue/index?full_name=${full_name}`
+    })
   }
 
   return (
@@ -76,9 +117,18 @@ const Issues = () => {
             <AtTabsPane key={idx} current={curTab} index={idx}>
               <View>
                 {data ? (
-                  data.map(item => {
-                    return <IssueItem key={item.id} issue={item}></IssueItem>
-                  })
+                  <Block>
+                    {data.map(item => {
+                      return (
+                        <IssueItem
+                          key={item.id}
+                          full_name={full_name}
+                          issue={item}
+                        ></IssueItem>
+                      )
+                    })}
+                    <LoadMore hasMore={tab.hasMore}></LoadMore>
+                  </Block>
                 ) : (
                   <Empty></Empty>
                 )}
@@ -87,6 +137,7 @@ const Issues = () => {
           )
         })}
       </AtTabs>
+      <FabButton icon="add" onClick={handleFaBtnClick}></FabButton>
     </View>
   )
 }
