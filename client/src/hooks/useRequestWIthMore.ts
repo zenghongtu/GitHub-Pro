@@ -9,12 +9,12 @@ import {
 import { defaultParams } from "../constants"
 import Taro from "@tarojs/taro"
 
-function useRequestWIthMore<T>(
-  username: string,
-  request: (username: string, params: any | null) => Promise<T[] | null>
+function useRequestWIthMore<T, S = string>(
+  data: S,
+  request: (data: S, params: any | null) => Promise<T[] | null>
 ): [T[] | null, boolean, () => void] | [] {
-  if (!username) {
-    console.error("useRequestWIthMore: no username")
+  if (!data) {
+    console.error("useRequestWIthMore: no data")
     return []
   }
 
@@ -23,18 +23,20 @@ function useRequestWIthMore<T>(
   const [params, setParams] = useState(defaultParams)
 
   useEffect(() => {
-    request(username, params).then(data => {
-      if (data) {
-        if (currData) {
-          setData([...currData, ...data])
-        } else {
-          setData(data)
+    if (hasMore) {
+      request(data, params).then(data => {
+        if (data) {
+          if (currData) {
+            setData([...currData, ...data])
+          } else {
+            setData(data)
+          }
+          if (data.length < params.per_page) {
+            setHasMore(false)
+          }
         }
-        if (data.length < params.per_page) {
-          setHasMore(false)
-        }
-      }
-    })
+      })
+    }
   }, [params])
 
   usePullDownRefresh(() => {
