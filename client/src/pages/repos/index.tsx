@@ -18,7 +18,7 @@ import { bytesToSize } from "../../utils/size"
 
 const Repo = () => {
   const {
-    params: { owner, repo }
+    params: { owner = "zenghongtu", repo = "mob" }
   } = useRouter()
 
   const full_name = `${owner}/${repo}`
@@ -111,14 +111,15 @@ const Repo = () => {
       network_count,
       subscribers_count
     } = repoInfo!
+
     const login = owner.login
     const authorUrl = `/pages/developer/index?name=${login}`
     const filesUrl = `/pages/repos/files/index?owner=${login}&repo=${name}`
     const activityUrl = `/pages/activity/index?name=${login}`
+    const issuesUrl = `/pages/issues/index?owner=${login}&repo=${name}`
+    const commitsUrl = `/pages/commits/index?owner=${login}&repo=${name}`
 
     // TODO fix
-    const issuesUrl = `/pages/developer/index?name=${owner.login}`
-    const commitsUrl = `/pages/developer/index?name=${owner.login}`
     const contributorsUrl = `/pages/developer/index?name=${owner.login}`
     return (
       <Block>
