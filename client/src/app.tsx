@@ -1,6 +1,6 @@
-import "@tarojs/async-await"
-import Taro, { Component, Config } from "@tarojs/taro"
-import Index from "./pages/trending/index"
+import '@tarojs/async-await'
+import Taro, { Component, Config } from '@tarojs/taro'
+import Index from './pages/trending/index'
 
 import '@/assets/iconfont/icon.css'
 import './app.scss'
@@ -21,29 +21,78 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      "pages/trending/index",
-      "pages/activity/index",
-      "pages/repos/content/index",
-      "pages/repos/index",
-      "pages/repos/files/index",
-      "pages/profile/index",
-      "pages/starred/index",
-      "pages/login/index",
-      "pages/my-languages/index"
+      'pages/trending/index',
+      'pages/repos/index',
+      'pages/contributors/index',
+      'pages/commits/index',
+      'pages/repos/content/index',
+      'pages/issues/index',
+      'pages/issues/create-comment/index',
+      'pages/issues/create-issue/index',
+      'pages/issues/issue-detail/index',
+      'pages/developer/index',
+      'pages/profile/index',
+      'pages/repos/files/index',
+      'pages/activity/index',
+      'pages/starred/index',
+      'pages/login/index',
+      'pages/my-languages/index'
     ],
     window: {
-      navigationStyle: "custom",
-      backgroundTextStyle: "light",
-      navigationBarBackgroundColor: "#fff",
-      navigationBarTitleText: "GitHub Pro",
-      navigationBarTextStyle: "black",
+      navigationStyle: 'default',
+      backgroundColor: '#f3f3f3',
+      backgroundTextStyle: 'dark',
+      navigationBarTitleText: 'GitHub Pro',
+      navigationBarBackgroundColor: '#fafafa',
+      navigationBarTextStyle: 'black',
+      backgroundColorTop: '#fafafa',
+      backgroundColorBottom: '#fafafa',
       enablePullDownRefresh: true
+    },
+    tabBar: {
+      backgroundColor: '#fafafa',
+      position: 'bottom',
+      borderStyle: 'white',
+      color: '#8499a5',
+      selectedColor: '#007afb',
+      list: [
+        {
+          pagePath: 'pages/trending/index',
+          iconPath: './assets/icons/trending.png',
+          selectedIconPath: './assets/icons/trending_active.png',
+          text: 'Trending'
+        },
+        {
+          pagePath: 'pages/activity/index',
+          iconPath: './assets/icons/news.png',
+          selectedIconPath: './assets/icons/news_active.png',
+          text: 'News'
+        },
+        {
+          pagePath: 'pages/starred/index',
+          iconPath: './assets/icons/star.png',
+          selectedIconPath: './assets/icons/star_active.png',
+          text: 'Starred'
+        },
+        {
+          pagePath: 'pages/starred/index',
+          iconPath: './assets/icons/search.png',
+          selectedIconPath: './assets/icons/search_active.png',
+          text: 'Search'
+        },
+        {
+          pagePath: 'pages/profile/index',
+          iconPath: './assets/icons/github.png',
+          selectedIconPath: './assets/icons/github_active.png',
+          text: 'Profile'
+        }
+      ]
     },
     cloud: true
   }
 
   componentDidMount() {
-    if (process.env.TARO_ENV === "weapp") {
+    if (process.env.TARO_ENV === 'weapp') {
       const env = process.env.ClOUD_ENV
       Taro.cloud.init({ env, traceUser: true })
     }
@@ -62,4 +111,4 @@ class App extends Component {
   }
 }
 
-Taro.render(<App />, document.getElementById("app"))
+Taro.render(<App />, document.getElementById('app'))
