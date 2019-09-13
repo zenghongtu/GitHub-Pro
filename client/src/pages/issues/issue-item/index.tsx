@@ -12,6 +12,9 @@ interface IssueItemProps {
   full_name: string
 }
 const IssueItem = ({ issue, full_name }: IssueItemProps) => {
+  if (!issue) {
+    return null
+  }
   const {
     url,
     repository_url,

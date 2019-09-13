@@ -11,8 +11,10 @@ const Content = () => {
   const {
     params: { url }
   } = useRouter()
+  if (!url) {
+    return null
+  }
   const full_file_path = url.split('repos/')[1]
-  console.log('url: ', url)
 
   const [rawContent, refreshContent] = useRequest<string | null>(
     full_file_path,

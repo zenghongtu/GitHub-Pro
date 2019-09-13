@@ -12,7 +12,7 @@ const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
   if (!repo) {
     return null
   }
-  const curUserInfo = getGlobalData('userInfo') as IUserInfo
+  const username = getGlobalData('username') as string
 
   const handleCardClick = () => {
     const url = `/pages/repos/index?owner=${author}&repo=${name}`
@@ -24,7 +24,7 @@ const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
   const handleAuthorClick = (e: ITouchEvent) => {
     e.stopPropagation()
     let url: string
-    if (curUserInfo.login === author) {
+    if (username === author) {
       url = `/pages/profile/index`
     } else {
       url = `/pages/developer/index?name=${author}`

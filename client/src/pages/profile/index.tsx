@@ -4,21 +4,26 @@ import Taro, {
   useState,
   useEffect,
   useReachBottom
-} from "@tarojs/taro"
-import { View, Image } from "@tarojs/components"
+} from '@tarojs/taro'
+import { View, Image } from '@tarojs/components'
 
-import "./index.scss"
-import NavBar from "../../components/navbar"
-import { getGlobalData, setGlobalData } from "../../utils/global_data"
-import { IUserOrg, getUserOrgs } from "../../services/users"
-import { getCurrentUser, IUserInfo } from "../../services/user"
-import Empty from "../../components/empty"
+import './index.scss'
+import NavBar from '../../components/navbar'
+import { getGlobalData, setGlobalData } from '../../utils/global_data'
+import { IUserOrg, getUserOrgs } from '../../services/users'
+import { getCurrentUser, IUserInfo } from '../../services/user'
+import Empty from '../../components/empty'
 
-import { AtList, AtListItem } from "taro-ui"
-import useRequest from "@/hooks/useRequest"
-import { getFormatDate } from "@/utils/date"
+import { AtList, AtListItem } from 'taro-ui'
+import useRequest from '@/hooks/useRequest'
+import { getFormatDate } from '@/utils/date'
+import { showLoginTips } from '@/utils/common'
 
 const Profile = () => {
+  const username = getGlobalData('username') as string
+  if (!username) {
+    showLoginTips()
+  }
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
 
   // const [userOrgs, setUserOrgs] = useState<IUserOrg[] | null>(null)
@@ -27,7 +32,7 @@ const Profile = () => {
     getCurrentUser().then(data => {
       if (data) {
         setUserInfo(data)
-        setGlobalData("userInfo", data)
+        setGlobalData('username', data.login)
       }
     })
   }, [])
@@ -63,12 +68,12 @@ const Profile = () => {
       type,
       site_admin,
       name,
-      company = "",
-      blog = "",
-      location = "",
-      email = "",
+      company = '',
+      blog = '',
+      location = '',
+      email = '',
       hireable,
-      bio = "",
+      bio = '',
       public_repos,
       public_gists,
       followers = 0,
@@ -158,12 +163,7 @@ const Profile = () => {
     )
   }
 
-  return (
-    <View>
-      <NavBar isGoBackBtn></NavBar>
-      {userInfo ? renderUserInfo() : <Empty></Empty>}
-    </View>
-  )
+  return <View>{userInfo ? renderUserInfo() : <Empty></Empty>}</View>
 }
 
 export default Profile

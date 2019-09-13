@@ -1,11 +1,14 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Text, Image } from "@tarojs/components"
-import Markdown from "@/components/markdown"
-import "./index.scss"
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Text, Image } from '@tarojs/components'
+import Markdown from '@/components/markdown'
+import './index.scss'
 
-import Author from "@/components/author"
+import Author from '@/components/author'
 
 const CommentItem = ({ comment, full_name }) => {
+  if (!comment) {
+    return null
+  }
   const {
     url,
     html_url,
