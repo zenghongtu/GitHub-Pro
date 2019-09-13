@@ -4,21 +4,24 @@ import Taro, {
   useState,
   useEffect,
   useRouter
-} from "@tarojs/taro"
-import { View, Text, Block, Button } from "@tarojs/components"
-import "./index.scss"
-import useRequest from "../../hooks/useRequest"
-import { getRepo, Repo, getReadme } from "../../services/repos"
-import Empty from "../../components/empty"
-import NavBar from "../../components/navbar"
-import Readme from "./readme"
-import { AtIcon, AtList, AtListItem } from "taro-ui"
-import { getFormatDate } from "../../utils/date"
-import { bytesToSize } from "../../utils/size"
+} from '@tarojs/taro'
+import { View, Text, Block, Button } from '@tarojs/components'
+import './index.scss'
+import useRequest from '../../hooks/useRequest'
+import { getRepo, getReadme } from '../../services/repos'
+import Empty from '../../components/empty'
+import Readme from './readme'
+import { AtList, AtListItem, AtAvatar, AtDivider } from 'taro-ui'
+import { getFormatDate, getTimeAgo } from '../../utils/date'
+import { bytesToSize } from '../../utils/size'
+import Avatar from '@/components/avatar'
+import FontIcon from '@/components/font-icon'
+import ListItem from './list-item'
+import { LANGUAGE_COLOR_MAP } from '../my-languages/languages'
 
 const Repo = () => {
   const {
-    params: { owner = "zenghongtu", repo = "mob" }
+    params: { owner = 'zenghongtu', repo = 'mob' }
   } = useRouter()
 
   const full_name = `${owner}/${repo}`
@@ -26,10 +29,26 @@ const Repo = () => {
 
   const [showReadme, setShowReadme] = useState(false)
 
+  useEffect(() => {
+    if (repoInfo) {
+      setTimeout(() => {
+        setShowReadme(true)
+      })
+    }
+  }, [repoInfo])
+
   const handleNavTo = url => e => {
     Taro.navigateTo({ url })
   }
-  const renderInfo = () => {
+
+  const handleReloadIconClick = () => {
+    setShowReadme(false)
+    setTimeout(() => {
+      setShowReadme(true)
+    }, 100)
+  }
+
+  const renderInfo = repoInfo => {
     const {
       id,
       node_id,
@@ -112,7 +131,22 @@ const Repo = () => {
       subscribers_count
     } = repoInfo!
 
-    const login = owner.login
+    const {
+      login,
+      avatar_url,
+      gravatar_id,
+      followers_url,
+      following_url,
+      gists_url,
+      starred_url,
+      subscriptions_url,
+      organizations_url,
+      repos_url,
+      received_events_url,
+      type,
+      site_admin
+    } = owner
+
     const authorUrl = `/pages/developer/index?name=${login}`
     const filesUrl = `/pages/repos/files/index?owner=${login}&repo=${name}`
     const activityUrl = `/pages/activity/index?name=${login}`
@@ -121,150 +155,138 @@ const Repo = () => {
 
     // TODO fix
     const contributorsUrl = `/pages/developer/index?name=${owner.login}`
+
     return (
       <Block>
         <View className="header">
-          <View className="name">{name}</View>
-          <View className="desc">{description}</View>
-          <View className="meta">
-            <Text className="language">Language: {language}</Text>, size:{" "}
-            {bytesToSize(size)}
-          </View>
-          <View className="meta">
-            Created at {getFormatDate(created_at)}, Latest commit{" "}
-            {getFormatDate(pushed_at)}
+          <Avatar
+            className="avatar-img"
+            username={login}
+            size={28}
+            circle={false}
+            url={avatar_url}
+          ></Avatar>
+          <View>
+            <View className="full-name">
+              <Text className="login" onClick={handleNavTo(authorUrl)}>
+                {login}{' '}
+              </Text>
+              /<Text className="name"> {name}</Text>
+            </View>
+            <View className="desc">{description}</View>
+            {/* <View className="meta">
+              <Text className="language">Language: {language}</Text>, size:{' '}
+              {bytesToSize(size)}
+            </View> */}
+            {/* <View className="meta">Created {getTimeAgo(created_at)}</View> */}
+            <View className="meta">Updated {getTimeAgo(pushed_at)}</View>
           </View>
         </View>
-        <View className="repo-action">
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            {stargazers_count}
-          </View>
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            {forks_count}
-          </View>
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            {subscribers_count}
-          </View>
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            share
-          </View>
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            save
-          </View>
 
-          <View className="action-item">
-            <View className="action-icon">
-              <AtIcon value="star"></AtIcon>
-            </View>
-            copy
+        <View className="divider"></View>
+        <View className="repo-num">
+          <View className="num-item">
+            <View className="num">{subscribers_count.toLocaleString()}</View>
+            <View className="label">watchs</View>
+          </View>
+          <View className="num-item">
+            <View className="num">{stargazers_count.toLocaleString()}</View>
+            <View className="label">stars</View>
+          </View>
+          <View className="num-item">
+            <View className="num">{forks_count.toLocaleString()}</View>
+            <View className="label">forks</View>
           </View>
         </View>
 
         <View className="repo-info">
           <AtList hasBorder={false}>
-            <AtListItem
-              onClick={handleNavTo(authorUrl)}
-              className="info-list-item"
-              hasBorder={true}
-              title="Author"
-              arrow="right"
-              extraText={login}
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item"
+            <ListItem
               onClick={handleNavTo(filesUrl)}
-              hasBorder={true}
-              title="Files"
-              arrow="right"
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item"
+              title={language}
+              icon="code"
+              color={LANGUAGE_COLOR_MAP[language]}
+              extraText={`${bytesToSize(size)}`}
+            ></ListItem>
+            <ListItem
               onClick={handleNavTo(activityUrl)}
-              hasBorder={true}
               title="Activity"
-              arrow="right"
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item info-issues"
+              icon="activity"
+              color="#F44337"
+            ></ListItem>
+            <ListItem
               onClick={handleNavTo(issuesUrl)}
-              hasBorder={true}
               title="Issues"
-              arrow="right"
+              icon="info"
+              color="#EC407A"
               extraText={`${open_issues_count}`}
-            ></AtListItem>
+            ></ListItem>
+            <ListItem
+              hasBorder={false}
+              title="License"
+              arrow={null}
+              icon="book"
+              color="#26ca7e"
+              extraText={license.name || 'null'}
+            ></ListItem>
+            {/* <AtListItem
+              hasBorder={true}
+              title="Pull requests"
+              extraText={default_branch}
+            ></AtListItem> */}
           </AtList>
         </View>
 
         <View className="repo-info">
           <AtList hasBorder={false}>
-            <AtListItem
-              className="info-list-item"
+            <ListItem
               onClick={handleNavTo(commitsUrl)}
-              hasBorder={true}
               title="Commits"
-              arrow="right"
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item"
+              icon="git-commit"
+              color="#3D76FF"
+            ></ListItem>
+            <ListItem
               onClick={handleNavTo(contributorsUrl)}
-              hasBorder={true}
+              icon="people"
+              color="#F99501"
               title="Contributors"
-              arrow="right"
-            ></AtListItem>
-            {/* <AtListItem
-              className="info-list-item"
+            ></ListItem>
+            <ListItem
+              hasBorder={false}
+              title="Readme"
+              arrow={null}
+              icon="book-open"
+              color="#3D76FF"
+              rightIcon={'reload'}
+              onRightClick={handleReloadIconClick}
+            ></ListItem>
+            {/* <ListItem
               hasBorder={true}
               title="Branch"
               extraText={default_branch}
-            ></AtListItem> */}
-
-            <AtListItem
-              className="info-list-item"
-              hasBorder={false}
-              title="License"
-              extraText={license.name}
-            ></AtListItem>
+            ></ListItem> */}
           </AtList>
         </View>
       </Block>
     )
   }
 
-  useEffect(() => {
-    if (repoInfo) {
-      setTimeout(() => {
-        setShowReadme(true)
-      })
-    }
-  }, [repoInfo])
-
   return (
     <View className="wrap">
-      <NavBar isGoBackBtn></NavBar>
-      <View className="repo">{repoInfo ? renderInfo() : <Empty></Empty>}</View>
+      <View className="repo">
+        {repoInfo ? renderInfo(repoInfo) : <Empty></Empty>}
+      </View>
       {repoInfo && (
         <View className="readme">
-          <View className="title">README</View>
           {showReadme && <Readme full_name={full_name}></Readme>}
         </View>
       )}
     </View>
   )
+}
+
+Repo.config = {
+  navigationBarTitleText: 'Repository'
 }
 
 export default Repo

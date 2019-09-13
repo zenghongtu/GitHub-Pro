@@ -1,18 +1,31 @@
 .wrap {
-  padding: 20px;
   font-size: 28px;
+  background: $bg;
+  min-height: 100vh;
 }
 .header {
-  padding: 0 20px 10px;
+  display: flex;
+  padding: 30px 20px 10px;
+  background: white;
 }
 
+.avatar-img {
+}
+
+.full-name {
+  font-size: 32px;
+  font-weight: 600;
+  color: $primary;
+}
 .name {
-  font-size: 35px;
-  font-weight: 800;
 }
 
 .desc {
+  margin-top: 10px;
+  font-size: 25px;
   font-weight: 500;
+  line-height: 1.3em;
+  color: #828282;
 }
 
 .language {
@@ -21,45 +34,46 @@
 .meta {
   margin-top: 5px;
   font-size: 25px;
+  font-weight: 400;
+  color: $text-color;
+}
+.divider {
+  height: 1px;
 }
 
-.repo-action {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  padding: 10px 0;
-  margin-top: 20px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-  box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.95);
+.repo-num {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 25px 20px 20px;
+  background-color: #fff;
+  line-height: 1.2em;
 }
 
-.action-item {
+.num-item {
   text-align: center;
-  padding-top: 20px;
+}
+
+.num {
+  font-size: 33px;
+  font-weight: 600;
+}
+.label {
+  font-size: 28px;
+  text-transform: capitalize;
 }
 
 .repo-info {
-  padding: 0 20px;
   margin-top: 30px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
   box-sizing: border-box;
   background: rgba(255, 255, 255, 0.95);
 }
 
 .info-issues {
-  .item-extra__info {
-    color: #0080f8;
-  }
 }
 
 .readme {
+  margin-top: 0px;
+  padding: 0 20px;
   @extend .repo-info;
-}
-.title {
-  padding: 20px 0 20px;
-  font-style: 38px;
-  font-weight: 600;
-  color: #0080f8;
 }

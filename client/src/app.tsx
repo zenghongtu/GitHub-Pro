@@ -21,8 +21,9 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/trending/index',
       'pages/repos/index',
+      'pages/trending/index',
+      'pages/my-languages/index',
       'pages/contributors/index',
       'pages/commits/index',
       'pages/repos/content/index',
@@ -35,8 +36,7 @@ class App extends Component {
       'pages/repos/files/index',
       'pages/activity/index',
       'pages/starred/index',
-      'pages/login/index',
-      'pages/my-languages/index'
+      'pages/login/index'
     ],
     window: {
       navigationStyle: 'default',
