@@ -1,5 +1,6 @@
 .author {
   display: flex;
+  justify-items: center;
   width: 100%;
 }
 
@@ -10,5 +11,7 @@
 }
 .create-at {
   margin-left: auto;
-  font-size: 23px;
+  align-self: flex-start;
+  font-size: 25px;
+  color: rgb(151, 151, 151);
 }

@@ -147,14 +147,13 @@ const Repo = () => {
       site_admin
     } = owner
 
+    const params = `owner=${login}&repo=${name}`
     const authorUrl = `/pages/developer/index?name=${login}`
-    const filesUrl = `/pages/repos/files/index?owner=${login}&repo=${name}`
-    const activityUrl = `/pages/activity/index?name=${login}`
-    const issuesUrl = `/pages/issues/index?owner=${login}&repo=${name}`
-    const commitsUrl = `/pages/commits/index?owner=${login}&repo=${name}`
-
-    // TODO fix
-    const contributorsUrl = `/pages/developer/index?name=${owner.login}`
+    const filesUrl = `/pages/repos/files/index?${params}`
+    const activityUrl = `/pages/activity/repo?${params}`
+    const issuesUrl = `/pages/issues/index?${params}`
+    const commitsUrl = `/pages/commits/index?${params}`
+    const contributorsUrl = `/pages/contributors/index?${params}`
 
     return (
       <Block>

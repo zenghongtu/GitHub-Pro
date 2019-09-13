@@ -1,5 +1,5 @@
-import request from "../utils/request"
-import { starredParams, IStarred } from "./user"
+import request from '../utils/request'
+import { starredParams, IStarred } from './user'
 
 export interface IUserOrg {
   login: string
@@ -59,9 +59,9 @@ interface Payload {
   number?: number
   pull_request?: Pullrequest
   sender?: User
-  member: Member
-  pages: Page[]
-  release: Release
+  member?: Member
+  pages?: Page[]
+  release?: Release
 }
 
 interface Comment {

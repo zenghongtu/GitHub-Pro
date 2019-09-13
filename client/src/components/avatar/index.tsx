@@ -4,7 +4,7 @@ import './index.scss'
 
 interface AvatarProps {
   url: string
-  className: string
+  className?: string
   username?: string
   circle?: boolean
   size?: string | number

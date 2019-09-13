@@ -1,19 +1,20 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Text, Image } from "@tarojs/components"
-import "./index.scss"
-import { IUserReceivedEvent } from "../../../services/users"
-import { getTimeAgo } from "@/utils/date"
-import Avatar from "@/components/avatar"
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Text, Image } from '@tarojs/components'
+import './index.scss'
+import { IUserReceivedEvent } from '../../../services/users'
+import { getTimeAgo } from '@/utils/date'
+import Avatar from '@/components/avatar'
+import Author from '@/components/author'
 
-const spacesRegExp = new RegExp("[\r\n\t]+", "g")
-const refsHeadsRegExp = new RegExp("refs/heads/")
+const spacesRegExp = new RegExp('[\r\n\t]+', 'g')
+const refsHeadsRegExp = new RegExp('refs/heads/')
 
 const maxTextLength = 100
 
-const truncateText = (text = "") => {
+const truncateText = (text = '') => {
   let truncated = text.slice(0, maxTextLength)
   if (text.length >= maxTextLength) {
-    truncated += "..."
+    truncated += '...'
   }
   return truncated
 }
@@ -36,9 +37,9 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
     } = item
 
     switch (type) {
-      case "PushEvent": {
+      case 'PushEvent': {
         const { ref, commits } = payload
-        const _ref = ref!.replace(refsHeadsRegExp, "")
+        const _ref = ref!.replace(refsHeadsRegExp, '')
         const len = commits!.length
 
         return (
@@ -49,7 +50,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
             <View className="event-desc">
               {commits!.slice(0, 3).map(item => {
                 const { message, sha } = item
-                const commit = truncateText(message.replace(spacesRegExp, ""))
+                const commit = truncateText(message.replace(spacesRegExp, ''))
                 const _sha = sha.substr(0, 8)
                 return (
                   <View key={sha} className="commit">
@@ -67,18 +68,18 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "IssuesEvent": {
+      case 'IssuesEvent': {
         return (
           <View>
             <View>
-              <Text className="event-action">{payload.action}</Text> issue{" "}
+              <Text className="event-action">{payload.action}</Text> issue{' '}
               <Text className="repo-name">{name}</Text>
             </View>
             <View className="event-desc">{payload.issue!.title}</View>
           </View>
         )
       }
-      case "PullRequestEvent": {
+      case 'PullRequestEvent': {
         const { pull_request, action } = payload
         const { title } = pull_request!
         return (
@@ -90,10 +91,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "IssueCommentEvent": {
+      case 'IssueCommentEvent': {
         const { comment, issue } = payload
         const { body } = comment!
-        const detail = body.replace(spacesRegExp, " ")
+        const detail = body.replace(spacesRegExp, ' ')
         const text = truncateText(detail)
         const number = issue!.number
         return (
@@ -106,7 +107,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "WatchEvent": {
+      case 'WatchEvent': {
         return (
           <View>
             <View>
@@ -115,7 +116,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "PublicEvent": {
+      case 'PublicEvent': {
         return (
           <View>
             <View>
@@ -124,29 +125,29 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "ForkEvent": {
+      case 'ForkEvent': {
         const { forkee } = payload
         return (
           <View>
             <View>
-              Forked {forkee!.full_name} from{" "}
+              Forked {forkee!.full_name} from{' '}
               <Text className="repo-name">{name}</Text>
             </View>
           </View>
         )
       }
-      case "CreateEvent": {
+      case 'CreateEvent': {
         return (
           <View>
             <View>
-              Created {payload.ref_type} {payload.ref || ""} at
+              Created {payload.ref_type} {payload.ref || ''} at
               <Text className="repo-name"> {name}</Text>
             </View>
             <View className="event-desc">{payload.description}</View>
           </View>
         )
       }
-      case "DeleteEvent": {
+      case 'DeleteEvent': {
         return (
           <View>
             <View>
@@ -157,7 +158,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "MemberEvent": {
+      case 'MemberEvent': {
         return (
           <View>
             <View>
@@ -167,10 +168,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "PullRequestReviewCommentEvent": {
+      case 'PullRequestReviewCommentEvent': {
         const comment = payload.comment
         const body = comment!.body
-        const detail = body.replace(spacesRegExp, " ")
+        const detail = body.replace(spacesRegExp, ' ')
         const text = truncateText(detail)
         return (
           <View>
@@ -181,7 +182,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "GollumEvent": {
+      case 'GollumEvent': {
         const page = payload.pages[0]
         const { action, page_name } = page
         return (
@@ -192,23 +193,23 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           </View>
         )
       }
-      case "ReleaseEvent": {
+      case 'ReleaseEvent': {
         return (
           <View>
             <View>
-              Released {payload.release.name || payload.release.tag_name} at{" "}
+              Released {payload.release.name || payload.release.tag_name} at{' '}
               <Text className="repo-name">{name}</Text>
             </View>
           </View>
         )
       }
-      case "CommitCommentEvent": {
+      case 'CommitCommentEvent': {
         const comment = payload.comment
 
         return (
           <View>
             <View>
-              Commented on commit <Text className="repo-name">{name}</Text> @{" "}
+              Commented on commit <Text className="repo-name">{name}</Text> @{' '}
               {comment!.commit_id.substring(0, 8)}
             </View>
           </View>
@@ -224,19 +225,19 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
   }
 
   const {
-    actor: { avatar_url, display_login },
+    actor: { avatar_url, display_login, login },
     created_at
   } = item
 
-  const timeAgo = getTimeAgo(created_at)
-
   return (
     <View className="item-wrap">
-      <View className="info">
-        <Avatar url={avatar_url} size="30"></Avatar>
-        <Text className="login">{display_login}</Text>
-        <Text className="time-ago">{timeAgo}</Text>
-      </View>
+      <Author
+        login={login}
+        size="28"
+        url={avatar_url}
+        created_at={created_at}
+      ></Author>
+
       <View className="event-wrap">{renderEvent()}</View>
     </View>
   )
