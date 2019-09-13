@@ -6,7 +6,7 @@
   font-size: 25px;
   border-radius: 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-  background: rgba(255, 255, 255, 0.7);
+  background: $itemBg;
 }
 
 .avatar {
@@ -19,8 +19,15 @@
   flex: 1;
 }
 
+.lang-color {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  margin-left: 8px;
+}
 .top {
   display: flex;
+  align-items: center;
 }
 .name {
   color: #40a0fa;

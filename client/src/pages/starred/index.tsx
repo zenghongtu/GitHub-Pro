@@ -1,26 +1,28 @@
-import Taro from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
-import "./index.scss"
-import NavBar from "../../components/navbar"
+import Taro from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
+import './index.scss'
 
-import { IStarred, IUserInfo } from "../../services/user"
-import Empty from "../../components/empty"
-import RepoItem from "../../components/repo-item"
-import useRequestWIthMore from "../../hooks/useRequestWIthMore"
-import { getUserStarred } from "../../services/users"
-import { getGlobalData } from "../../utils/global_data"
-import LoadMore from "@/components/load-more"
+import { IStarred, IUserInfo } from '../../services/user'
+import Empty from '../../components/empty'
+import RepoItem from '../../components/repo-item'
+import useRequestWIthMore from '../../hooks/useRequestWIthMore'
+import { getUserStarred } from '../../services/users'
+import { getGlobalData } from '../../utils/global_data'
+import LoadMore from '@/components/load-more'
+import { showLoginTips } from '@/utils/common'
 
 const StarredRepos = () => {
-  const userInfo = getGlobalData("userInfo") as IUserInfo
+  const username = getGlobalData('username') as string
+  if (!username) {
+    showLoginTips()
+  }
   const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(
-    userInfo.login,
+    username,
     getUserStarred
   )
 
   return (
     <View>
-      <NavBar title="Starred repos" path="starred"></NavBar>
       <View>
         {starredRepos ? (
           starredRepos.map((item, idx) => {

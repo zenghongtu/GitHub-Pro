@@ -1,8 +1,10 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Text, Image } from "@tarojs/components"
-import "./index.scss"
-import { IStarred } from "../../services/user"
-import { AtIcon } from "taro-ui"
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Text, Image } from '@tarojs/components'
+import './index.scss'
+import { IStarred } from '../../services/user'
+import { AtIcon } from 'taro-ui'
+import Avatar from '../avatar'
+import { LANGUAGE_COLOR_MAP } from '../../pages/my-languages/languages'
 
 interface RepoItemProps {
   repo: IStarred
@@ -88,16 +90,24 @@ const RepoItem = ({ repo }: RepoItemProps) => {
     permissions
   } = repo
 
+  const handleNavTo = () => {
+    const url = `/pages/developer/index?name=${login}`
+    Taro.navigateTo({ url })
+  }
+
   return (
     <View className="repo-wrap">
-      <View>
-        <Image className="avatar" src={avatar_url}></Image>
-      </View>
+      <Avatar url={avatar_url} size="40" username={login}></Avatar>
       <View className="info">
         <View className="top">
-          <Text className="name">{name}</Text>
-          <Text className="language">{language || ""}</Text>
-          {/* // TODO language color */}
+          <Text className="name" onClick={handleNavTo}>
+            {name}
+          </Text>
+          <Text className="language">{language || ''}</Text>
+          <Text
+            className="lang-color"
+            style={{ background: LANGUAGE_COLOR_MAP[language!] }}
+          ></Text>
         </View>
         <View className="desc">{description}</View>
         <View className="bottom">
