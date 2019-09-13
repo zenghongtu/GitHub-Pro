@@ -1,8 +1,4 @@
-/* Custom Theme */
-$color-brand: #007afb;
-$color-brand-light: #409bfc;
-$color-brand-dark: #0062c9;
-
+@import './style/variables.scss';
 @import '~taro-ui/dist/style/index.scss';
 
 page {
