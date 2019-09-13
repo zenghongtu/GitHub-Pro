@@ -28,10 +28,10 @@ const ListItem = ({
   extraText,
   icon,
   rightIcon,
-  onClick,
   renderTitle,
   renderExtraText,
-  onRightClick=()=>{},
+  onClick =function(){},
+  onRightClick= function () { },
   arrow = 'right',
   hasBorder = true,
   color = 'none'
@@ -51,8 +51,9 @@ const ListItem = ({
     background: color
   }
 
+
   return (
-    <View className={`item ${className}`} onClick={onClick} style={styleProps}>
+    <View className={`item ${className}`} onClick={onClick || undefined} style={styleProps}>
       <View className="left">
         {icon && <FontIcon styleProps={iconStyleProps} value={icon}></FontIcon>}
         {title || (renderTitle && renderTitle())}
@@ -60,7 +61,7 @@ const ListItem = ({
       <View className="right">
         {extraText && <Text className="extra-text">{extraText}</Text>}
         {rightIcon && <AtIcon
-          onClick={onRightClick}
+          onClick={onRightClick || undefined}
           size="20"
           customStyle={{ color: '#409bfc', fontWeight: 500 }}
           value={rightIcon}

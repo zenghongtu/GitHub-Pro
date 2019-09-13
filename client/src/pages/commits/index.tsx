@@ -1,11 +1,11 @@
-import Taro, { Component, Config, useRouter } from "@tarojs/taro"
-import { View, Text, Block } from "@tarojs/components"
-import "./index.scss"
-import useRequestWIthMore from "@/hooks/useRequestWIthMore"
-import { getCommits, CommitItemData } from "@/services/commits"
-import Empty from "@/components/empty"
-import CommitItem from "./commit-item"
-import LoadMore from "@/components/load-more"
+import Taro, { Component, Config, useRouter, useEffect } from '@tarojs/taro'
+import { View, Text, Block } from '@tarojs/components'
+import './index.scss'
+import useRequestWIthMore from '@/hooks/useRequestWIthMore'
+import { getCommits, CommitItemData } from '@/services/commits'
+import Empty from '@/components/empty'
+import CommitItem from './commit-item'
+import LoadMore from '@/components/load-more'
 
 const Commits = () => {
   const {
@@ -16,6 +16,11 @@ const Commits = () => {
     CommitItemData,
     any
   >({ full_name }, getCommits)
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
 
   return (
     <View>
