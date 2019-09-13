@@ -1,15 +1,15 @@
-import Taro, { Component, Config, useRouter, useEffect } from "@tarojs/taro"
-import { View, Image, Text, Block } from "@tarojs/components"
-import "./index.scss"
-import useRequestWIthMore from "@/hooks/useRequestWIthMore"
-import { getIssueComments, Issue, IssueComment } from "@/services/issues"
-import Empty from "@/components/empty"
-import CommentItem from "../comment-item"
-import Markdown from "@/components/markdown"
-import { getIssueData, setIssueData } from "../shared_data"
-import Author from "@/components/author"
-import LoadMore from "@/components/load-more"
-import FabButton from "@/components/fab-button"
+import Taro, { Component, Config, useRouter, useEffect } from '@tarojs/taro'
+import { View, Image, Text, Block } from '@tarojs/components'
+import './index.scss'
+import useRequestWIthMore from '@/hooks/useRequestWIthMore'
+import { getIssueComments, Issue, IssueComment } from '@/services/issues'
+import Empty from '@/components/empty'
+import CommentItem from '../comment-item'
+import Markdown from '@/components/markdown'
+import { getIssueData, setIssueData } from '../shared_data'
+import Author from '@/components/author'
+import LoadMore from '@/components/load-more'
+import FabButton from '@/components/fab-button'
 
 const IssueDetail = () => {
   const {
@@ -21,6 +21,11 @@ const IssueDetail = () => {
   if (!data) {
     return null
   }
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
 
   useEffect(() => {
     return () => {

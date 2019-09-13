@@ -1,9 +1,11 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Image, Text } from "@tarojs/components"
-import "./index.scss"
-import { Issue } from "@/services/issues"
-import { getFormatDate } from "../../../utils/date"
-import { setIssueData } from "../shared_data"
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Image, Text } from '@tarojs/components'
+import './index.scss'
+import { Issue } from '@/services/issues'
+import { getFormatDate, getTimeAgo } from '../../../utils/date'
+import { setIssueData } from '../shared_data'
+import FontIcon from '@/components/font-icon'
+import Avatar from '@/components/avatar'
 
 interface IssueItemProps {
   issue: Issue
@@ -59,18 +61,22 @@ const IssueItem = ({ issue, full_name }: IssueItemProps) => {
 
   return (
     <View className="wrap" onClick={handleNavTo}>
-      <View className="avatar">
-        <Image className="avatar-img" src={avatar_url}></Image>
-      </View>
+      <Avatar url={avatar_url} size="28"></Avatar>
       <View className="info">
         <View className="top">
           <Text className="login">{login}</Text>
-          <Text className="create">{getFormatDate(created_at)}</Text>
+          <Text className="create">{getTimeAgo(created_at)}</Text>
         </View>
         <View className="title">{title}</View>
         <View className="bottom">
-          <Text className="number">#{number}</Text>
-          <Text className="comments">{comments}</Text>
+          <View className="number">#{number}</View>
+          <View className="comments">
+            <FontIcon
+              value="comment"
+              styleProps={{ fontSize: '15px', marginRight: '5px' }}
+            ></FontIcon>
+            <Text>{comments}</Text>
+          </View>
         </View>
       </View>
     </View>

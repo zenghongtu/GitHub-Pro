@@ -40,10 +40,14 @@
 }
 
 .bottom {
+  align-items: center;
   @extend .top;
 }
 
 .number {
+  display: inline-block;
 }
 .comments {
+  display: flex;
+  align-items: center;
 }

@@ -6,16 +6,16 @@ import Taro, {
   useEffect,
   useReachBottom,
   usePullDownRefresh
-} from "@tarojs/taro"
-import { View, Text, Block } from "@tarojs/components"
-import "./index.scss"
-import { getIssues, Issue } from "../../services/issues"
-import { defaultParams } from "../../constants"
-import { AtTabs, AtTabsPane } from "taro-ui"
-import IssueItem from "./issue-item"
-import Empty from "@/components/empty"
-import FabButton from "@/components/fab-button"
-import LoadMore from "../../components/load-more/index"
+} from '@tarojs/taro'
+import { View, Text, Block } from '@tarojs/components'
+import './index.scss'
+import { getIssues, Issue } from '../../services/issues'
+import { defaultParams } from '../../constants'
+import { AtTabs, AtTabsPane } from 'taro-ui'
+import IssueItem from './issue-item'
+import Empty from '@/components/empty'
+import FabButton from '@/components/fab-button'
+import LoadMore from '../../components/load-more/index'
 
 const Issues = () => {
   const {
@@ -30,15 +30,20 @@ const Issues = () => {
   const [openList, setOpenList] = useState<Issue[] | null>(null)
   const [closedList, setClosedtList] = useState<Issue[] | null>(null)
 
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
+
   const [openParams, setOpenParams] = useState({
     ...defaultParams,
-    filter: "all",
-    state: "open"
+    filter: 'all',
+    state: 'open'
   })
   const [closedParams, setClosedParams] = useState({
     ...defaultParams,
-    filter: "all",
-    state: "closed"
+    filter: 'all',
+    state: 'closed'
   })
 
   usePullDownRefresh(() => {
@@ -94,8 +99,8 @@ const Issues = () => {
   }, [curTab])
 
   const tabList = [
-    { title: "open", data: openList, hasMore: openHasMore },
-    { title: "closed", data: closedList, hasMore: closedHasMore }
+    { title: 'open', data: openList, hasMore: openHasMore },
+    { title: 'closed', data: closedList, hasMore: closedHasMore }
   ]
 
   const handleTabClick = val => {
