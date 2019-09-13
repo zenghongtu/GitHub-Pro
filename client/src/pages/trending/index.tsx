@@ -6,23 +6,22 @@ import Taro, {
   usePullDownRefresh,
   useDidShow,
   useRef
-} from "@tarojs/taro"
-import { View, Text, Block } from "@tarojs/components"
-import { AtTabs, AtTabsPane, AtIcon, AtFab, AtDrawer, AtDivider } from "taro-ui"
+} from '@tarojs/taro'
+import { View, Text, Block } from '@tarojs/components'
+import { AtTabs, AtTabsPane, AtIcon, AtFab, AtDrawer, AtDivider } from 'taro-ui'
 
-import NavBar from "../../components/navbar"
-import "./index.scss"
+import './index.scss'
 import {
   getTrendingRepos,
   TrendingRepo,
   TrendingUser,
   getTrendingUsers,
   TrendingRequestParams
-} from "../../services/trending"
-import RepoCard from "./repo_card"
-import MyLanguage from "./language"
-import FabButton from "../../components/fab-button"
-import Empty from "@/components/empty"
+} from '../../services/trending'
+import RepoItem from './repo-item'
+import MyLanguage, { defaultLang } from './language'
+import FabButton from '../../components/fab-button'
+import Empty from '@/components/empty'
 
 export interface LanguageParams {
   language: string
@@ -34,21 +33,24 @@ interface TrendingRepoState {
 }
 
 const tabList = [
-  { title: "Today", value: "daily" },
-  { title: "Week", value: "weekly" },
-  { title: "Month", value: "monthly" }
+  { title: 'daily', value: 'daily' },
+  { title: 'weekly', value: 'weekly' },
+  { title: 'monthly', value: 'monthly' }
 ]
-const defaultTitle = "All languages"
 
 const Trending = () => {
   const [repos, setRepos] = useState<TrendingRepoState>({})
   // const [users, setUsers] = useState<TrendingUser[] | null>(null)
-  const [title, setTitle] = useState<string>(defaultTitle)
+  const [title, setTitle] = useState<string>(defaultLang)
   const [currTab, setCurrTab] = useState<number>(0)
   const [params, setParams] = useState<TrendingRequestParams>({})
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false)
   const [refresh, setRefresh] = useState<number>(0)
   const countRef = useRef(0)
+
+  useEffect(() => {
+    Taro.setNavigationBarTitle({ title })
+  }, [title])
 
   usePullDownRefresh(() => {
     setRepos({ [currTab]: null })
@@ -58,8 +60,8 @@ const Trending = () => {
     }, 100)
   })
 
-  useEffect(() => {
-    Taro.showLoading({ title: "loading.." })
+  const getRepos = (params: TrendingRequestParams) => {
+    Taro.showLoading({ title: 'loading..' })
     getTrendingRepos(params)
       .then(data => {
         if (data) {
@@ -69,18 +71,22 @@ const Trending = () => {
             setRepos({ ...repos, [currTab]: data })
           }
         } else {
-          throw new Error(data || "")
+          throw new Error(data || '')
         }
       })
       .catch(err => {
         Taro.showToast({
-          title: "Something error, Try later",
-          icon: "none"
+          title: 'Something error, Try later',
+          icon: 'none'
         })
       })
       .finally(() => {
         Taro.hideLoading()
       })
+  }
+
+  useEffect(() => {
+    getRepos(params)
 
     // getTrendingUsers(params).then(data => {
     //   if (!data) {
@@ -93,6 +99,7 @@ const Trending = () => {
 
   const handleClickTab = val => {
     setCurrTab(val)
+
     if (!repos[val]) {
       setParams({ ...params, since: tabList[val].value })
     }
@@ -110,7 +117,6 @@ const Trending = () => {
 
   return (
     <Block>
-      <NavBar path="trending" title={title}></NavBar>
       <View>
         <View>
           <AtTabs current={currTab} tabList={tabList} onClick={handleClickTab}>
@@ -119,10 +125,10 @@ const Trending = () => {
                 <AtTabsPane key={idx} current={currTab} index={idx}>
                   <View>
                     {repos[idx] ? (
-                      repos[idx]!.map(repo => {
+                      repos[idx]!.map((repo, index) => {
                         return (
                           <Block key={repo.url}>
-                            <RepoCard repo={repo}></RepoCard>
+                            <RepoItem repo={repo} index={index}></RepoItem>
                           </Block>
                         )
                       })
@@ -144,7 +150,10 @@ const Trending = () => {
           onClose={handleToggleLangDrawer(false)}
         >
           <View>
-            <MyLanguage onChangeLang={handleChangeParams}></MyLanguage>
+            <MyLanguage
+              curTitle={title}
+              onChangeLang={handleChangeParams}
+            ></MyLanguage>
           </View>
         </AtDrawer>
       </View>

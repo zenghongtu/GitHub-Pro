@@ -1,16 +1,18 @@
-import Taro, { Component, useState } from "@tarojs/taro"
-import { View, Text, Button, Image } from "@tarojs/components"
-import { AtNavBar, AtDrawer, AtIcon } from "taro-ui"
-import "./index.scss"
-import { TrendingRepo } from "@/services/trending"
-import { getGlobalData } from "@/utils/global_data"
-import { IUserInfo } from "@/services/user"
+import Taro, { Component, useState } from '@tarojs/taro'
+import { View, Text, Button, Image } from '@tarojs/components'
+import { AtNavBar, AtDrawer, AtIcon } from 'taro-ui'
+import './index.scss'
+import { TrendingRepo } from '@/services/trending'
+import { getGlobalData } from '@/utils/global_data'
+import { IUserInfo } from '@/services/user'
+import { ITouchEvent } from '@tarojs/components/types/common'
+import FontIcon from '@/components/font-icon'
 
-const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
+const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
   if (!repo) {
     return null
   }
-  const curUserInfo = getGlobalData("userInfo") as IUserInfo
+  const curUserInfo = getGlobalData('userInfo') as IUserInfo
 
   const handleCardClick = () => {
     const url = `/pages/repos/index?owner=${author}&repo=${name}`
@@ -19,7 +21,7 @@ const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
     })
   }
 
-  const handleAuthorClick = (e: MouseEvent) => {
+  const handleAuthorClick = (e: ITouchEvent) => {
     e.stopPropagation()
     let url: string
     if (curUserInfo.login === author) {
@@ -51,7 +53,10 @@ const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
     <View className="card-wrap" onClick={handleCardClick}>
       <View className="card-top">
         <View className="info">
-          <View className="name">{name}</View>
+          <View className="name">
+            <View className="index"> {index + 1}</View>
+            {name}
+          </View>
           <View className="description">{description}</View>
         </View>
         <View className="author" onClick={handleAuthorClick}>
@@ -63,16 +68,16 @@ const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
         <View className="meta-item">
           <Text
             className="language-color"
-            style={{ background: languageColor || "#000000" }}
+            style={{ background: languageColor || '#000000' }}
           ></Text>
-          {language || "null"}
+          {language || 'null'}
         </View>
         <View className="meta-item">
-          <AtIcon customStyle={{ fontSize: "14px" }} value="star"></AtIcon>
+          <FontIcon value="star"></FontIcon>
           {stars}
         </View>
         <View className="meta-item">
-          <AtIcon customStyle={{ fontSize: "14px" }} value="star"></AtIcon>
+          <FontIcon value="git-repo-forked"></FontIcon>
           {forks}
         </View>
         <View className="meta-item">{currentPeriodStars} stars today</View>
@@ -81,4 +86,4 @@ const RepoCard = ({ repo }: { repo: TrendingRepo }) => {
   )
 }
 
-export default RepoCard
+export default RepoItem
