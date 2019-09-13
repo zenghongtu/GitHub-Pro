@@ -3,7 +3,8 @@ import Taro, {
   Config,
   useState,
   useEffect,
-  useRouter
+  useRouter,
+  useShareAppMessage
 } from '@tarojs/taro'
 import { View, Text, Block, Button } from '@tarojs/components'
 import './index.scss'
@@ -11,23 +12,55 @@ import useRequest from '../../hooks/useRequest'
 import { getRepo, getReadme, Repo } from '../../services/repos'
 import Empty from '../../components/empty'
 import Readme from './readme'
-import { AtList, AtListItem, AtAvatar, AtDivider } from 'taro-ui'
+import {
+  AtList,
+  AtListItem,
+  AtAvatar,
+  AtDivider,
+  AtActionSheet,
+  AtActionSheetItem,
+  AtFloatLayout
+} from 'taro-ui'
 import { getFormatDate, getTimeAgo } from '../../utils/date'
 import { bytesToSize } from '../../utils/size'
 import Avatar from '@/components/avatar'
 import FontIcon from '@/components/font-icon'
 import ListItem from './list-item'
 import { LANGUAGE_COLOR_MAP } from '../my-languages/languages'
+import FabButton from '@/components/fab-button'
+import { ITouchEvent } from '@tarojs/components/types/common'
+import { starred } from '@/services/user'
+import { githubHttpsUrl } from '@/utils/repo'
 
 const Repository = () => {
   const {
-    params: { owner = '', repo = '' }
+    params: { owner = 'zenghongtu', repo = 'Remu' }
   } = useRouter()
 
   const full_name = `${owner}/${repo}`
   const [repoInfo, refresh] = useRequest<Repo>(full_name, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
+  const [showActions, setShowAction] = useState(false)
+  const [isStarred, setIsStarred] = useState(false)
+
+  useShareAppMessage(res => {
+    handleClose()
+
+    const title = `[${repo}] ${repoInfo!.description}`
+    setTimeout(() => {
+      return {
+        title,
+        path: `/pages/repos/index?owner=${owner}&repo=${repo}`
+      }
+    }, 1000)
+  })
+
+  useEffect(() => {
+    starred.is(full_name).then(res => {
+      setIsStarred(res)
+    })
+  }, [])
 
   useEffect(() => {
     if (repoInfo) {
@@ -36,6 +69,14 @@ const Repository = () => {
       })
     }
   }, [repoInfo])
+
+  const exeFunc = (func, cb) => {
+    handleClose()
+    func(full_name).then(res => {
+      cb()
+      Taro.showToast({ title: 'Success', icon: 'success' })
+    })
+  }
 
   const handleNavTo = url => e => {
     Taro.navigateTo({ url })
@@ -270,6 +311,75 @@ const Repository = () => {
     )
   }
 
+  const handleClose = () => {
+    setShowAction(false)
+  }
+
+  const handleFabClick = (e: ITouchEvent) => {
+    e.stopPropagation()
+    setShowAction(true)
+  }
+
+  const handleActionClick = (label: string) => (e: ITouchEvent) => {
+    if (!repoInfo) {
+      return
+    }
+
+    switch (label) {
+      case 'star':
+        if (isStarred) {
+          exeFunc(starred.delete, () => {
+            setIsStarred(false)
+          })
+        } else {
+          exeFunc(starred.put, () => {
+            setIsStarred(true)
+          })
+        }
+        return
+      case 'save':
+        Taro.showToast({ title: 'developing...', icon: 'none' })
+        return
+      case 'copy':
+        const data = `${githubHttpsUrl}/${full_name}`
+        handleClose()
+
+        setTimeout(() => {
+          Taro.setClipboardData({
+            data,
+            // @ts-ignore
+            success: function(res) {
+              Taro.showToast({
+                title: `Copy Success`,
+                icon: 'success'
+              })
+            }
+          })
+        }, 500)
+
+        return
+      case 'share':
+        return
+      // case 'fork':
+      //   const { fork } = repoInfo
+      //   if (fork) {
+      //     Taro.showToast({ title: 'It has been Forked', icon: 'none' })
+      //   }
+      //   return
+
+      default:
+        return
+    }
+  }
+
+  const IconStyleProps: React.CSSProperties = {
+    borderRadius: '50%',
+    padding: '5px',
+    color: 'white',
+    background: '#fb4d28',
+    boxShadow: '0 0 10px 0 rgba(0, 0, 0, 0.05)'
+  }
+
   return (
     <View className="wrap">
       <View className="repo">
@@ -280,6 +390,91 @@ const Repository = () => {
           {showReadme && <Readme full_name={full_name}></Readme>}
         </View>
       )}
+      <FabButton
+        prefixClass="icon"
+        icon="events"
+        onClick={handleFabClick}
+      ></FabButton>
+      <AtFloatLayout isOpened={showActions} title="" onClose={handleClose}>
+        <View className="actions">
+          <View className="action-item" onClick={handleActionClick('star')}>
+            <View className="icon-wrap">
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#4c5bd3'
+                }}
+                value="star"
+              ></FontIcon>
+            </View>
+            <View className="action-label">
+              {isStarred ? 'unstar' : 'star'}
+            </View>
+          </View>
+          {/* // TODO */}
+          {/* <View className="action-item" onClick={handleActionClick('fork')}>
+            <View>
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#007dfb'
+                }}
+                value="git-repo-forked"
+              ></FontIcon>
+            </View>
+            <View className="action-label">Fork</View>
+          </View> */}
+          {/* <View className="action-item" onClick={handleActionClick('watch')}>
+            <View>
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#fb4d28'
+                }}
+                value="eye"
+              ></FontIcon>
+            </View>
+            <View className="action-label">Watch</View>
+          </View> */}
+          <View className="action-item" onClick={handleActionClick('save')}>
+            <View className="icon-wrap">
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#007dfb'
+                }}
+                value="baocuntupian"
+              ></FontIcon>
+            </View>
+            <View className="action-label">save</View>
+          </View>
+          <View className="action-item" onClick={handleActionClick('copy')}>
+            <View className="icon-wrap">
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#EC407A'
+                }}
+                value="copy"
+              ></FontIcon>
+            </View>
+            <View className="action-label">Copy</View>
+          </View>
+          <View className="action-item" onClick={handleActionClick('share')}>
+            <Button className="share-btn" openType="share"></Button>
+            <View className="icon-wrap">
+              <FontIcon
+                styleProps={{
+                  ...IconStyleProps,
+                  background: '#3F9FFF'
+                }}
+                value="link-external"
+              ></FontIcon>
+            </View>
+            <View className="action-label">Share</View>
+          </View>
+        </View>
+      </AtFloatLayout>
     </View>
   )
 }

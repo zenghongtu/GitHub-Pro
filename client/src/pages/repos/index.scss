@@ -13,7 +13,7 @@
 }
 
 .full-name {
-  font-size: 32px;
+  font-size: 34px;
   font-weight: 600;
   color: $primary;
 }
@@ -34,8 +34,8 @@
 .meta {
   margin-top: 5px;
   font-size: 25px;
-  font-weight: 400;
-  color: $text-color;
+  font-weight: 450;
+  color: $primary-text-color;
 }
 .divider {
   height: 1px;
@@ -76,4 +76,58 @@
   margin-top: 0px;
   padding: 0 20px;
   @extend .repo-info;
+}
+
+.actions-wrap {
+  position: fixed;
+  right: 26px;
+  bottom: 26px;
+  z-index: 1;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.action-item {
+  position: relative;
+  margin: 10px;
+  border-radius: 50%;
+  text-align: center;
+}
+
+.action-label {
+  padding-top: 10px;
+  font-weight: 400;
+  text-transform: capitalize;
+}
+
+.at-float-layout__container,
+.at-float-layout,
+.at-float-layout .layout-body__content,
+.at-float-layout .layout-body {
+  min-height: auto;
+}
+
+.at-float-layout .layout-body__content {
+  padding: 30px 18px;
+}
+
+.share-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: green;
+  z-index: 900;
+  border: none;
+  background: none;
+  padding: 0;
+
+  &::after {
+    border: none;
+  }
 }

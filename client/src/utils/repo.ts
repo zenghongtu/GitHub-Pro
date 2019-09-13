@@ -100,11 +100,11 @@ export function mdLink(text, link) {
   return '[' + text + '](' + link + ')'
 }
 
+export const githubHttpUrl = `http://github.com`
+export const githubHttpsUrl = `https://github.com`
+
 export function isGitHubPage(url) {
-  return (
-    url.startsWith('https://github.com/') ||
-    url.startsWith('http://github.com/')
-  )
+  return url.startsWith(githubHttpUrl) || url.startsWith(githubHttpsUrl)
 }
 
 type owner = 'owner' | ''
@@ -124,7 +124,7 @@ export function parseGitHub(url: string): parseGitHubReturn {
     }
     return [arr[3] as owner, repo as repo, '']
   } else if (arr.length > 5) {
-    const len = ('http://github.com/' + arr[3] + '/' + arr[4] + '/').length
+    const len = (githubHttpsUrl + '/' + arr[3] + '/' + arr[4] + '/').length
     let file = url.slice(len)
     return [arr[3] as owner, arr[4] as repo, file as filePath]
   }

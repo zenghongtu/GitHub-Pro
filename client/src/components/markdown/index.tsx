@@ -1,7 +1,14 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
-import { mdLink, isGitHubPage, parseGitHub, getNavPath } from '@/utils/repo'
+import {
+  mdLink,
+  isGitHubPage,
+  parseGitHub,
+  getNavPath,
+  githubHttpUrl,
+  githubHttpsUrl
+} from '@/utils/repo'
 import { ITouchEvent } from '@tarojs/components/types/common'
 
 interface MarkDownProps {
@@ -92,7 +99,7 @@ const Markdown = ({ md: rawMD, full_name }: MarkDownProps) => {
     const isRelativeFile =
       clickurl && (clickurl.startsWith('./') || !clickurl.startsWith('http'))
     if (isRelativeFile) {
-      clickurl = `http://github.com/${full_name}/` + clickurl
+      clickurl = githubHttpsUrl + '/' + clickurl
     }
 
     const isGitHubUrl = isRelativeFile || isGitHubPage(clickurl)

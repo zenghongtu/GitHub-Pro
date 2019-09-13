@@ -6,8 +6,8 @@
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
   color: $primary-text-color;
-  font-size: 31px;
-  font-weight: 450;
+  font-size: 29px;
+  font-weight: 500;
   line-height: 1.5;
   transition: background-color 0.3s;
   position: relative;
@@ -29,6 +29,7 @@
 }
 
 .extra-text {
-  font-size: 29px;
-  color: $primary-text-color;
+  font-size: 28px;
+  font-weight: 400;
+  color: $text-color;
 }

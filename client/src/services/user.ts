@@ -1,4 +1,4 @@
-import request from "../utils/request"
+import request from '../utils/request'
 
 export interface IUserInfo {
   login: string
@@ -35,7 +35,7 @@ export interface IUserInfo {
 }
 
 export const getCurrentUser = () => {
-  return request.get<IUserInfo | null>("/user")
+  return request.get<IUserInfo | null>('/user')
 }
 
 export interface IStarred {
@@ -155,7 +155,7 @@ export interface starredParams {
   page: number
 }
 export const getStarred = (params: starredParams) => {
-  return request.get<IStarred[] | null>("/user/starred", params)
+  return request.get<IStarred[] | null>('/user/starred', params)
 }
 
 export const follow = {
@@ -177,6 +177,60 @@ export const follow = {
   },
   put: async (username: string): Promise<boolean> => {
     return request.put(`/user/following/${username}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  }
+}
+
+export const starred = {
+  is: async (full_name: string): Promise<boolean> => {
+    return request.get(`/user/starred/${full_name}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  delete: async (full_name: string): Promise<boolean> => {
+    return request.delete(`/user/starred/${full_name}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  put: async (full_name: string): Promise<boolean> => {
+    return request.put(`/user/starred/${full_name}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  }
+}
+
+export const forks = {
+  is: async (full_name: string): Promise<boolean> => {
+    return request.get(`/user/starred/${full_name}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  delete: async (full_name: string): Promise<boolean> => {
+    return request.delete(`/user/starred/${full_name}`).then(data => {
+      if (!data && data !== null) {
+        return true
+      }
+      return false
+    })
+  },
+  put: async (full_name: string): Promise<boolean> => {
+    return request.put(`/user/starred/${full_name}`).then(data => {
       if (!data && data !== null) {
         return true
       }
