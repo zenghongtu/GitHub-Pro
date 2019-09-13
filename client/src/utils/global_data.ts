@@ -1,6 +1,6 @@
-import { LanguageParams } from "../pages/trending/index"
-import Taro from "@tarojs/taro"
-import { IUserInfo } from "../services/user"
+import { LanguageParams } from '../pages/trending/index'
+import Taro from '@tarojs/taro'
+import { IUserInfo } from '../services/user'
 
 interface GlobalData {
   myLangs: LanguageParams[]
@@ -11,23 +11,27 @@ type globalDataKey = keyof GlobalData
 
 const defaultLangs = [
   {
-    language: "java",
-    title: "Java"
+    language: '',
+    title: 'All Languages'
   },
   {
-    language: "javascript",
-    title: "JavaScript"
+    language: 'java',
+    title: 'Java'
   },
   {
-    language: "typescript",
-    title: "TypeScript"
+    language: 'javascript',
+    title: 'JavaScript'
+  },
+  {
+    language: 'typescript',
+    title: 'TypeScript'
   }
 ]
 
 const globalData: GlobalData = {
-  myLangs: Taro.getStorageSync("myLangs") || defaultLangs,
-  authorization: Taro.getStorageSync("authorization") || "",
-  userInfo: Taro.getStorageSync("userInfo") || null
+  myLangs: Taro.getStorageSync('myLangs') || defaultLangs,
+  authorization: Taro.getStorageSync('authorization') || '',
+  userInfo: Taro.getStorageSync('userInfo') || null
 }
 
 export const setGlobalData = (key: globalDataKey, val: any) => {

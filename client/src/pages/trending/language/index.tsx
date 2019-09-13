@@ -34,19 +34,9 @@ const Language = ({ onChangeLang, curTitle }: LanguageProps) => {
     <View className="wrap">
       <View className="title">
         <Text>My languages</Text>
-        <AtIcon value="edit" onClick={handleIconClick}></AtIcon>
+        <AtIcon size={18} value="edit" onClick={handleIconClick}></AtIcon>
       </View>
       <View className="lang-list">
-        <View
-          data-title={defaultLang}
-          data-language={''}
-          onClick={handleLangClick}
-          className={`lang-item ${
-            curTitle === defaultLang ? activeClassName : ''
-          }`}
-        >
-          {defaultLang}
-        </View>
         {langs.map(lang => {
           const { title, language } = lang
           return (

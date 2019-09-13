@@ -121,11 +121,13 @@ const Trending = () => {
         <View>
           <AtTabs current={currTab} tabList={tabList} onClick={handleClickTab}>
             {tabList.map((tab, idx) => {
+              const _repos = repos[idx]
+              const data = _repos && _repos!.length > 0 ? _repos : null
               return (
                 <AtTabsPane key={idx} current={currTab} index={idx}>
                   <View>
-                    {repos[idx] ? (
-                      repos[idx]!.map((repo, index) => {
+                    {data ? (
+                      data.map((repo, index) => {
                         return (
                           <Block key={repo.url}>
                             <RepoItem repo={repo} index={index}></RepoItem>

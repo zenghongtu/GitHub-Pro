@@ -2,12 +2,13 @@ import Taro, { Component, Config } from '@tarojs/taro'
 import './index.scss'
 import { AtIcon } from 'taro-ui'
 
-const FontIcon = ({ value, fontSize = '14px', styleProps = {} }) => {
+const FontIcon = ({ value, styleProps = {}, ...otherProps }) => {
   return (
     <AtIcon
       prefixClass={'icon'}
-      customStyle={{ fontSize, ...styleProps }}
+      customStyle={{ ...styleProps }}
       value={value}
+      {...otherProps}
     ></AtIcon>
   )
 }

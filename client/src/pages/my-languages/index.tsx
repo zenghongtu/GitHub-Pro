@@ -1,12 +1,11 @@
-import Taro, { Component, Config, useState } from "@tarojs/taro"
-import { View, Text, Input } from "@tarojs/components"
-import "./index.scss"
-import NavBar from "../../components/navbar/index"
-import { AtCheckbox, AtIndexes, AtSearchBar } from "taro-ui"
-import LANGUAGE_LIST from "./languages"
-import FabButton from "../../components/fab-button"
-import { LanguageParams } from "../trending"
-import { setGlobalData, getGlobalData } from "../../utils/global_data"
+import Taro, { Component, Config, useState } from '@tarojs/taro'
+import { View, Text, Input } from '@tarojs/components'
+import './index.scss'
+import { AtCheckbox, AtIndexes, AtSearchBar } from 'taro-ui'
+import LANGUAGE_LIST from './languages'
+import FabButton from '../../components/fab-button'
+import { LanguageParams } from '../trending'
+import { setGlobalData, getGlobalData } from '../../utils/global_data'
 
 interface OptionsLang {
   value: string
@@ -14,12 +13,12 @@ interface OptionsLang {
 }
 
 const MyLanguages = () => {
-  const myLangs = getGlobalData("myLangs")
+  const myLangs = getGlobalData('myLangs') as LanguageParams[]
   const initSelectedList = myLangs.map(lang => lang.language)
 
   const [optionsLangs, setOptionsLangs] = useState<OptionsLang[]>(LANGUAGE_LIST)
   const [selectedList, setSelectedList] = useState<string[]>(initSelectedList)
-  const [fiterVal, setFilterVal] = useState<string>("")
+  const [fiterVal, setFilterVal] = useState<string>('')
 
   const handleSeletedChange = val => {
     setSelectedList(val)
@@ -44,32 +43,33 @@ const MyLanguages = () => {
       },
       []
     )
-    setGlobalData("myLangs", languages)
+    setGlobalData('myLangs', languages)
     Taro.navigateBack()
   }
 
   return (
-    <View>
-      <NavBar isGoBackBtn></NavBar>
+    <View className="wrap">
       <View>
-        <View>
-          <Input
-            autoFocus
-            placeholder="Search"
-            className="filter-bar"
-            value={fiterVal}
-            onInput={handleChangeInput}
-          ></Input>
-        </View>
+        <Input
+          autoFocus
+          placeholder="Search"
+          className="filter-input"
+          value={fiterVal}
+          onInput={handleChangeInput}
+        ></Input>
+      </View>
+      <View>
         <AtCheckbox
           options={optionsLangs}
           selectedList={selectedList}
           onChange={handleSeletedChange}
         ></AtCheckbox>
-        <FabButton icon="check" onClick={handleFabClick}></FabButton>
       </View>
+      <FabButton icon="check" onClick={handleFabClick}></FabButton>
     </View>
   )
 }
-
+MyLanguages.config = {
+  navigationBarTitleText: 'My Languages'
+}
 export default MyLanguages
