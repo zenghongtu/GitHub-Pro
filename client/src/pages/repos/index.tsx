@@ -161,7 +161,7 @@ const Repo = () => {
           <Avatar
             className="avatar-img"
             username={login}
-            size={28}
+            size={45}
             circle={false}
             url={avatar_url}
           ></Avatar>
