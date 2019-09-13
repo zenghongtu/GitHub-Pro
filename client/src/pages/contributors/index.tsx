@@ -1,11 +1,11 @@
-import Taro, { Component, Config, useRouter } from "@tarojs/taro"
-import { View, Text, Block } from "@tarojs/components"
-import "./index.scss"
-import useRequestWIthMore from "@/hooks/useRequestWIthMore"
-import { getContributors, Contributor } from "@/services/repos"
-import Author from "@/components/author"
-import Empty from "@/components/empty"
-import LoadMore from "@/components/load-more"
+import Taro, { Component, Config, useRouter, useEffect } from '@tarojs/taro'
+import { View, Text, Block } from '@tarojs/components'
+import './index.scss'
+import useRequestWIthMore from '@/hooks/useRequestWIthMore'
+import { getContributors, Contributor } from '@/services/repos'
+import Author from '@/components/author'
+import Empty from '@/components/empty'
+import LoadMore from '@/components/load-more'
 
 const Contributors = () => {
   const {
@@ -17,6 +17,11 @@ const Contributors = () => {
     { full_name },
     getContributors
   )
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
 
   const handleNavTo = (name: string) => {
     Taro.navigateTo({ url: `/pages/developer/index?name=${name}` })

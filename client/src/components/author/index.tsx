@@ -19,7 +19,9 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
   return (
     <View
       className="author"
-      style={!!created_at ? undefined : { alignItems: 'center' }}
+      style={
+        !!created_at ? undefined : { alignItems: 'center', paddingLeft: '20px' }
+      }
     >
       <Avatar size={size} username={login} url={url}></Avatar>
       <Text className="login" onClick={handleLoginClick}>
