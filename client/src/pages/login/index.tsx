@@ -1,17 +1,17 @@
-import Taro, { Component, useState, useEffect, useDidShow } from "@tarojs/taro"
-import { View, Text, Input, Button, Image } from "@tarojs/components"
-import { AtTabs, AtTabsPane, AtInput, AtButton } from "taro-ui"
-import NavBar from "../../components/navbar"
-import logo from "../../assets/logo.png"
-import "./index.scss"
-import Base64 from "../../utils/base64"
-import { getCurrentUser } from "../../services/user"
-import { setGlobalData, getGlobalData } from "../../utils/global_data"
+import Taro, { Component, useState, useEffect, useDidShow } from '@tarojs/taro'
+import { View, Text, Input, Button, Image } from '@tarojs/components'
+import { AtTabs, AtTabsPane, AtInput, AtButton } from 'taro-ui'
+
+import logo from '../../assets/logo.png'
+import './index.scss'
+import Base64 from '../../utils/base64'
+import { getCurrentUser } from '../../services/user'
+import { setGlobalData, getGlobalData } from '../../utils/global_data'
 
 const ACCOUNT_INDEX = 0
 const TOKEN_INDEX = 1
 
-const tabList = [{ title: "Account" }, { title: "Token" }]
+const tabList = [{ title: 'Account' }, { title: 'Token' }]
 
 interface AuthInfoState {
   username?: string
@@ -27,7 +27,7 @@ const Login = () => {
   }
 
   useDidShow(() => {
-    if (getGlobalData("userInfo")) {
+    if (getGlobalData('userInfo')) {
       Taro.navigateBack()
     }
   })
@@ -44,25 +44,25 @@ const Login = () => {
     if (currTab === ACCOUNT_INDEX) {
       if (!username || !password) {
         Taro.showToast({
-          title: "Username or Password is empty",
-          icon: "none"
+          title: 'Username or Password is empty',
+          icon: 'none'
         })
         return
       }
-      authorization = "Basic " + Base64.encode(`${username}:${password}`)
+      authorization = 'Basic ' + Base64.encode(`${username}:${password}`)
     } else {
       if (!token) {
-        Taro.showToast({ title: "Token is empty", icon: "none" })
+        Taro.showToast({ title: 'Token is empty', icon: 'none' })
         return
       }
-      authorization = "token " + token
+      authorization = 'token ' + token
     }
 
-    setGlobalData("authorization", authorization)
+    setGlobalData('authorization', authorization)
     getCurrentUser().then(data => {
       if (data) {
-        Taro.showToast({ title: "login success!", icon: "success" })
-        setGlobalData("userInfo", data)
+        Taro.showToast({ title: 'login success!', icon: 'success' })
+        setGlobalData('username', data.login)
         setTimeout(() => {
           Taro.navigateBack()
         })
@@ -72,7 +72,6 @@ const Login = () => {
 
   return (
     <View className="layout-container">
-      <NavBar isGoBackBtn></NavBar>
       <View className="login-container">
         <View className="login-header">
           <Image className="logo-img" mode="widthFix" src={logo}></Image>
@@ -89,7 +88,7 @@ const Login = () => {
                     // title="Username"
                     type="text"
                     placeholder="Username"
-                    value={authInfo["username"]}
+                    value={authInfo['username']}
                     onChange={handleInputChange}
                   />
                   <AtInput
@@ -97,7 +96,7 @@ const Login = () => {
                     // title="Password"
                     type="password"
                     placeholder="Password"
-                    value={authInfo["password"]}
+                    value={authInfo['password']}
                     onChange={handleInputChange}
                   />
                 </View>
@@ -109,7 +108,7 @@ const Login = () => {
                     // title="Token"
                     type="text"
                     placeholder="Token"
-                    value={authInfo["token"]}
+                    value={authInfo['token']}
                     onChange={handleInputChange}
                   />
                 </View>

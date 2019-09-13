@@ -1,12 +1,10 @@
+page {
+  background: #fff;
+}
 .at-input {
-  background: rgba(221, 221, 221, 0.1);
   margin-left: 0;
   margin-bottom: 20px;
   padding-left: 32px;
-  border: none;
-}
-.at-tabs__underline {
-  display: none;
 }
 
 .layout-container {
@@ -20,6 +18,7 @@
 .login-header {
   margin-bottom: 40px;
   text-align: center;
+  background: #fff;
 }
 
 .logo-img {
@@ -28,6 +27,9 @@
 }
 
 .login-body {
+  padding: 0 40px;
+  margin-top: 30px;
+  box-shadow: $boxShadow;
 }
 
 .tabs-body {
