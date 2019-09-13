@@ -1,16 +1,26 @@
-import Taro, { Component, Config, useState, useRouter } from "@tarojs/taro"
-import { View, Text, Button } from "@tarojs/components"
-import "./index.scss"
-import { AtInput, AtTextarea, AtButton } from "taro-ui"
-import { createIssueComment } from "../../../services/issues"
+import Taro, {
+  Component,
+  Config,
+  useState,
+  useRouter,
+  useEffect
+} from '@tarojs/taro'
+import { View, Text, Button } from '@tarojs/components'
+import './index.scss'
+import { AtInput, AtTextarea, AtButton } from 'taro-ui'
+import { createIssueComment } from '../../../services/issues'
 
 const CreateComment = () => {
   const {
     params: { full_name, number }
   } = useRouter()
 
-  const [content, setContent] = useState("")
+  const [content, setContent] = useState('')
 
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
   const handleTextareaChange = ev => {
     setContent(ev.target.value)
   }
@@ -21,7 +31,7 @@ const CreateComment = () => {
 
     createIssueComment({ full_name, number }, data).then(res => {
       if (res && res.body === content) {
-        Taro.showToast({ title: "Success", icon: "success" })
+        Taro.showToast({ title: 'Success', icon: 'success' })
         setTimeout(() => {
           Taro.navigateBack()
         }, 1000)

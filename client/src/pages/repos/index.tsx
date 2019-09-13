@@ -8,7 +8,7 @@ import Taro, {
 import { View, Text, Block, Button } from '@tarojs/components'
 import './index.scss'
 import useRequest from '../../hooks/useRequest'
-import { getRepo, getReadme } from '../../services/repos'
+import { getRepo, getReadme, Repo } from '../../services/repos'
 import Empty from '../../components/empty'
 import Readme from './readme'
 import { AtList, AtListItem, AtAvatar, AtDivider } from 'taro-ui'
@@ -19,9 +19,9 @@ import FontIcon from '@/components/font-icon'
 import ListItem from './list-item'
 import { LANGUAGE_COLOR_MAP } from '../my-languages/languages'
 
-const Repo = () => {
+const Repository = () => {
   const {
-    params: { owner = 'zenghongtu', repo = 'mob' }
+    params: { owner = '', repo = '' }
   } = useRouter()
 
   const full_name = `${owner}/${repo}`
@@ -226,7 +226,7 @@ const Repo = () => {
               arrow={null}
               icon="book"
               color="#26ca7e"
-              extraText={license.name || 'null'}
+              extraText={(license && license.name) || ''}
             ></ListItem>
             {/* <AtListItem
               hasBorder={true}
@@ -242,7 +242,7 @@ const Repo = () => {
               onClick={handleNavTo(commitsUrl)}
               title="Commits"
               icon="git-commit"
-              color="#3D76FF"
+              color="#2AB09D"
             ></ListItem>
             <ListItem
               onClick={handleNavTo(contributorsUrl)}
@@ -284,8 +284,8 @@ const Repo = () => {
   )
 }
 
-Repo.config = {
+Repository.config = {
   navigationBarTitleText: 'Repository'
 }
 
-export default Repo
+export default Repository

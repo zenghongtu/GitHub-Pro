@@ -48,14 +48,14 @@ export const request = (
       if (statusCode === 404 && url.includes('/user/following')) {
         return null
       }
-      const msg = `code ${statusCode}`
+      const msg = `Error: code ${statusCode}`
       throw new Error(msg)
     })
     .catch(({ message }) => {
       Taro.showToast({
         title: message,
         icon: 'none',
-        duration: 3000,
+        duration: 1500,
         mask: true
       })
       return null

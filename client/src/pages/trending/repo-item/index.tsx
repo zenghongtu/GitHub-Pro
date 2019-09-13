@@ -73,11 +73,14 @@ const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
           {language || 'null'}
         </View>
         <View className="meta-item">
-          <FontIcon value="star"></FontIcon>
+          <FontIcon styleProps={{ fontSize: '16px' }} value="star"></FontIcon>
           {stars}
         </View>
         <View className="meta-item">
-          <FontIcon value="git-repo-forked"></FontIcon>
+          <FontIcon
+            styleProps={{ fontSize: '16px' }}
+            value="git-repo-forked"
+          ></FontIcon>
           {forks}
         </View>
         <View className="meta-item">{currentPeriodStars} stars today</View>

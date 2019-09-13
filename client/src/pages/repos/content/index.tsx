@@ -12,6 +12,7 @@ const Content = () => {
     params: { url }
   } = useRouter()
   const full_file_path = url.split('repos/')[1]
+  console.log('url: ', url)
 
   const [rawContent, refreshContent] = useRequest<string | null>(
     full_file_path,
@@ -48,9 +49,7 @@ const Content = () => {
   }
 
   return (
-    <View>
-      {<Markdown md={content} full_name={'zenghongtu/Mob'}></Markdown>}
-    </View>
+    <View>{<Markdown md={content} full_name={full_file_path}></Markdown>}</View>
   )
 }
 

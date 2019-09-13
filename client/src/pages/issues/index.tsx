@@ -19,9 +19,9 @@ import LoadMore from '../../components/load-more/index'
 
 const Issues = () => {
   const {
-    params: { owner, repo }
+    params: { full_name: _full_name, owner, repo }
   } = useRouter()
-  const full_name = `${owner}/${repo}`
+  const full_name = _full_name || `${owner}/${repo}`
 
   const [count, setCount] = useState(0)
   const [curTab, setTab] = useState(0)

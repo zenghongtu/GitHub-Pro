@@ -1,16 +1,27 @@
-import Taro, { Component, Config, useState, useRouter } from "@tarojs/taro"
-import { View, Text, Button } from "@tarojs/components"
-import "./index.scss"
-import { AtInput, AtTextarea, AtButton } from "taro-ui"
-import { createIssue } from "../../../services/issues"
+import Taro, {
+  Component,
+  Config,
+  useState,
+  useRouter,
+  useEffect
+} from '@tarojs/taro'
+import { View, Text, Button } from '@tarojs/components'
+import './index.scss'
+import { AtInput, AtTextarea, AtButton } from 'taro-ui'
+import { createIssue } from '../../../services/issues'
 
 const CreateIssue = () => {
   const {
     params: { full_name }
   } = useRouter()
 
-  const [title, setTitle] = useState("")
-  const [content, setContent] = useState("")
+  const [title, setTitle] = useState('')
+  const [content, setContent] = useState('')
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
 
   const handleChange = (val: string) => {
     setTitle(val)
@@ -25,7 +36,7 @@ const CreateIssue = () => {
     }
     createIssue({ full_name }, data).then(data => {
       if (data && data.title === title) {
-        Taro.showToast({ title: "Success", icon: "success" })
+        Taro.showToast({ title: 'Success', icon: 'success' })
         setTimeout(() => {
           Taro.navigateBack()
         }, 1000)
