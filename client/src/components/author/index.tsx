@@ -4,12 +4,17 @@ import "./index.scss"
 import Avatar from "../avatar"
 import { getFormatDate } from "@/utils/date"
 
-const Author = ({ login, created_at, url }) => {
+const Author = ({ login, url, created_at = "" }) => {
   return (
-    <View className="author">
+    <View
+      className="author"
+      style={!!created_at ? undefined : { alignItems: "center" }}
+    >
       <Avatar url={url}></Avatar>
       <Text className="login">{login}</Text>
-      <Text className="create-at">{getFormatDate(created_at)}</Text>
+      {!!created_at && (
+        <Text className="create-at">{getFormatDate(created_at)}</Text>
+      )}
     </View>
   )
 }
