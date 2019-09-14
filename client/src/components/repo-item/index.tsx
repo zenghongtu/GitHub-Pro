@@ -6,6 +6,7 @@ import { AtIcon } from 'taro-ui'
 import Avatar from '../avatar'
 import { LANGUAGE_COLOR_MAP } from '../../pages/my-languages/languages'
 import FontIcon from '../font-icon'
+import { ITouchEvent } from '@tarojs/components/types/common'
 
 interface RepoItemProps {
   repo: IStarred
@@ -91,13 +92,15 @@ const RepoItem = ({ repo }: RepoItemProps) => {
     permissions
   } = repo
 
-  const handleNameClick = () => {
+  const handleNameClick = (e: ITouchEvent) => {
+    e.stopPropagation()
     const url = `/pages/developer/index?name=${login}`
     Taro.navigateTo({ url })
   }
 
   const handleCardClick = () => {
-    const url = `/pages/developer/index?owner=${login}&repo=${name}`
+    const url = `/pages/repos/index?owner=${login}&repo=${name}`
+
     Taro.navigateTo({ url })
   }
 
