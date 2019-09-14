@@ -37,7 +37,9 @@ export const request = (
       ...headers
     }
   }
-  Taro.showLoading({ title: 'loading..' })
+  if (!url.endsWith('/readme')) {
+    Taro.showLoading({ title: 'loading..' })
+  }
   return Taro.request(option)
     .then(({ statusCode, data }) => {
       if (statusCode >= 200 && statusCode < 300) {
@@ -46,12 +48,22 @@ export const request = (
         }
         return data
       }
-      if (statusCode === 404 && url.includes('/user/following')) {
+      // TODO refactor
+      if (
+        (statusCode === 404 && url.includes('/user/following')) ||
+        url.includes('/user/starred')
+      ) {
         return null
       }
       if (statusCode === 401) {
-        showLoginTips()
-        return null
+        // TODO
+        if (url.includes('/user/starred') && method === 'GET') {
+          return null
+        }
+        throw new Error(`Error 401: Required Login!`)
+      }
+      if (statusCode === 403) {
+        throw new Error(`Error 403: API rate limit exceeded, required login!`)
       }
       const msg = `Error: code ${statusCode}`
       throw new Error(msg)

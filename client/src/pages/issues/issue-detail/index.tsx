@@ -1,4 +1,10 @@
-import Taro, { Component, Config, useRouter, useEffect } from '@tarojs/taro'
+import Taro, {
+  Component,
+  Config,
+  useRouter,
+  useEffect,
+  usePullDownRefresh
+} from '@tarojs/taro'
 import { View, Image, Text, Block } from '@tarojs/components'
 import './index.scss'
 import useRequestWIthMore from '@/hooks/useRequestWIthMore'
@@ -83,6 +89,14 @@ const IssueDetail = () => {
       url: `/pages/issues/create-comment/index?full_name=${full_name}&number=${number}`
     })
   }
+
+  usePullDownRefresh(() => {
+    console.log('pull down')
+    refresh!()
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    }, 100)
+  })
 
   return (
     <View className="wrap">

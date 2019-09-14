@@ -372,3 +372,17 @@ interface Actor {
 export const getRepoEvents = ({ full_name }, params) => {
   return request.get<RepoEvent[] | null>(`/repos/${full_name}/events`, params)
 }
+export const getRepoWatchs = ({ full_name }, params) => {
+  return request.get<any[] | null>(`/repos/${full_name}/subscribers`, params)
+}
+export const getRepoForks = ({ full_name }, params) => {
+  return request
+    .get<any[] | null>(`/repos/${full_name}/forks`, params)
+    .then(data => {
+      // TODO 目前只显示 fork 用户
+      return data && data.map(item => item.owner)
+    })
+}
+export const getRepoStars = ({ full_name }, params) => {
+  return request.get<any[] | null>(`/repos/${full_name}/stargazers`, params)
+}

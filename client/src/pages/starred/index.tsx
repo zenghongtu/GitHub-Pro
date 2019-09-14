@@ -9,12 +9,12 @@ import useRequestWIthMore from '../../hooks/useRequestWIthMore'
 import { getUserStarred } from '../../services/users'
 import { getGlobalData } from '../../utils/global_data'
 import LoadMore from '@/components/load-more'
-import { showLoginTips } from '@/utils/common'
+import NoAuthority from '@/components/no-authority'
 
 const StarredRepos = () => {
   const username = getGlobalData('username') as string
   if (!username) {
-    showLoginTips()
+    return <NoAuthority></NoAuthority>
   }
   const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(
     username,

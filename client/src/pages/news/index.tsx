@@ -7,12 +7,12 @@ import Empty from '@/components/empty'
 import ActivityItem from '../activity/activity-item'
 import LoadMore from '@/components/load-more'
 import { getGlobalData } from '@/utils/global_data'
-import { showLoginTips } from '@/utils/common'
+import NoAuthority from '@/components/no-authority'
 
 const News = () => {
   const username = getGlobalData('username') as string
   if (!username) {
-    showLoginTips()
+    return <NoAuthority></NoAuthority>
   }
 
   const [eventsData, hasMore, refresh] = useRequestWIthMore<

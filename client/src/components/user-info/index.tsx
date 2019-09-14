@@ -45,7 +45,7 @@ const UserInfo = ({
         if (res.confirm) {
           setGlobalData('username', '')
           setGlobalData('authorization', '')
-          Taro.navigateBack()
+          Taro.switchTab({ url: 'pages/trending/index' })
         } else if (res.cancel) {
         }
       }

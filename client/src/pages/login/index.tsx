@@ -64,8 +64,8 @@ const Login = () => {
         Taro.showToast({ title: 'login success!', icon: 'success' })
         setGlobalData('username', data.login)
         setTimeout(() => {
-          Taro.navigateBack()
-        })
+          Taro.switchTab({ url: '/pages/profile/index?refresh=true' })
+        }, 2000)
       }
     })
   }
