@@ -5,6 +5,7 @@ import { IStarred } from '../../services/user'
 import { AtIcon } from 'taro-ui'
 import Avatar from '../avatar'
 import { LANGUAGE_COLOR_MAP } from '../../pages/my-languages/languages'
+import FontIcon from '../font-icon'
 
 interface RepoItemProps {
   repo: IStarred
@@ -90,19 +91,22 @@ const RepoItem = ({ repo }: RepoItemProps) => {
     permissions
   } = repo
 
-  const handleNavTo = () => {
+  const handleNameClick = () => {
     const url = `/pages/developer/index?name=${login}`
     Taro.navigateTo({ url })
   }
 
+  const handleCardClick = () => {
+    const url = `/pages/developer/index?owner=${login}&repo=${name}`
+    Taro.navigateTo({ url })
+  }
+
   return (
-    <View className="repo-wrap">
+    <View className="repo-wrap" onClick={handleCardClick}>
       <Avatar url={avatar_url} size="40" username={login}></Avatar>
       <View className="info">
         <View className="top">
-          <Text className="name" onClick={handleNavTo}>
-            {name}
-          </Text>
+          <Text className="name">{name}</Text>
           <Text className="language">{language || ''}</Text>
           <Text
             className="lang-color"
@@ -112,16 +116,14 @@ const RepoItem = ({ repo }: RepoItemProps) => {
         <View className="desc">{description}</View>
         <View className="bottom">
           <View className="meta-item">
-            <AtIcon size="10" value="star"></AtIcon>
-            {stargazers_count}
+            <FontIcon size="14" value="star"></FontIcon> {stargazers_count}
           </View>
           <View className="meta-item">
-            <AtIcon size="10" value="star"></AtIcon>
+            <FontIcon size="14" value="git-repo-forked"></FontIcon>
             {forks_count}
           </View>
-          <View className="meta-item">
-            <AtIcon size="10" value="star"></AtIcon>
-            {login}
+          <View className="meta-item" onClick={handleNameClick}>
+            <FontIcon size="14" value="author"></FontIcon> {login}
           </View>
         </View>
       </View>
