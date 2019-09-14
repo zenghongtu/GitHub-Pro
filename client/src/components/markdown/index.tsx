@@ -100,7 +100,7 @@ const Markdown = ({ md: rawMD, full_name }: MarkDownProps) => {
     const isRelativeFile =
       clickurl && (clickurl.startsWith('./') || !clickurl.startsWith('http'))
     if (isRelativeFile) {
-      clickurl = githubHttpsUrl + '/' + clickurl
+      clickurl = `${githubHttpsUrl}/${full_name}/${clickurl}`
     }
 
     const isGitHubUrl = isRelativeFile || isGitHubPage(clickurl)
@@ -109,7 +109,11 @@ const Markdown = ({ md: rawMD, full_name }: MarkDownProps) => {
     if (isGitHubUrl) {
       const [owner, repo, filePath] = parseGitHub(clickurl)
       const path = getNavPath({ owner, repo, filePath })
-      Taro.navigateTo({ url: path })
+      console.log('path: ', path)
+
+      if (path) {
+        Taro.navigateTo({ url: path })
+      }
       return
     } else {
       copyText(clickurl)

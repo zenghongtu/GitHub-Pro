@@ -132,16 +132,16 @@ export function parseGitHub(url: string): parseGitHubReturn {
 }
 
 export const getNavPath = ({ owner, filePath, repo }): string => {
-  let url: string
+  let url = ''
   if (filePath) {
     const full_name = `${owner}/${repo}`
-    if (filePath.startsWith('/issues/new')) {
+    if (filePath.endsWith('issues/new')) {
       url = `/pages/issues/create-issue?full_name=${full_name}`
-    } else if (filePath.startsWith('/issues')) {
+    } else if (filePath.endsWith('issues')) {
       url = `/pages/issues/index?full_name=${full_name}`
-    } else if (filePath.startsWith('pull/')) {
+    } else if (filePath.endsWith('pulls?q=')) {
       // TODO
-    } else if (filePath.startsWith('/pulls?q=')) {
+    } else if (filePath.endsWith('pull')) {
       // TODO
     } else {
       const isFile = /.*\.\w{1,10}$/.test(filePath)
