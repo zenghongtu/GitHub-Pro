@@ -15,7 +15,12 @@ import { AtButton, AtList } from 'taro-ui'
 import ListItem from '../list-item'
 import { setGlobalData } from '@/utils/global_data'
 
-const UserInfo = ({ userInfo, isCurrent = true }: any) => {
+const UserInfo = ({
+  userInfo,
+  isFollowing,
+  onFollowClick,
+  isCurrent = true
+}: any) => {
   if (!userInfo) {
     return <Empty></Empty>
   }
@@ -90,7 +95,6 @@ const UserInfo = ({ userInfo, isCurrent = true }: any) => {
           <View className="name">
             {name || login} ({login})
           </View>
-
           <View className="bio">{bio}</View>
           <View className="Joined">Joined at {getTimeAgo(created_at)}</View>
         </View>
@@ -138,6 +142,31 @@ const UserInfo = ({ userInfo, isCurrent = true }: any) => {
             </View> */}
         </View>
       </View>
+      {!isCurrent && (
+        <View className="action-btns">
+          <AtButton
+            className="btn"
+            type="primary"
+            full={false}
+            size="small"
+            circle
+            onClick={onFollowClick}
+          >
+            {isFollowing ? 'unfollow' : 'follow'}
+          </AtButton>
+          <AtButton
+            className="btn"
+            openType="share"
+            type="primary"
+            full={false}
+            size="small"
+            circle
+          >
+            share
+          </AtButton>
+        </View>
+      )}
+
       <View className="info">
         <ListItem
           hasBorder={true}

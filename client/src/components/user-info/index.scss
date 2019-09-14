@@ -20,12 +20,14 @@
   font-size: 25px;
 }
 .name {
+  width: 100%;
   font-size: 32px;
   font-weight: 600;
   color: $primary;
 }
 
 .bio {
+  width: 100%;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 2;
@@ -37,6 +39,7 @@
 }
 
 .Joined {
+  width: 100%;
   font-size: 25px;
   font-weight: 400;
 }
@@ -78,4 +81,14 @@
 
 .logout {
   padding: 30px;
+}
+
+.action-btns {
+  display: flex;
+  justify-content: space-around;
+  padding: 0 30px 20px;
+
+  background-color: $itemBg;
+}
+.btn {
 }
