@@ -50,9 +50,6 @@ const Profile = () => {
   const handleNavTo = (url: string) => () => {
     Taro.navigateTo({ url })
   }
-  const handleSwitchTo = (url: string) => () => {
-    Taro.switchTab({ url })
-  }
 
   const handleCopy = (text: string) => () => {
     copyText(text)
@@ -63,7 +60,7 @@ const Profile = () => {
       content: 'Are you sure?',
       cancelText: 'No',
       cancelColor: '#fb3e3b',
-      confirmText: 'Yeah',
+      confirmText: 'Sure',
       confirmColor: '#007afb',
 
       success(res) {
@@ -129,17 +126,32 @@ const Profile = () => {
         <View className="divide"></View>
         <View className="info meta">
           <View className="nav">
-            <View className="nav-item">
+            <View
+              className="nav-item"
+              onClick={handleNavTo(
+                `/pages/developer/repos/index?isCurrent=true&name=${login}`
+              )}
+            >
               <View className="item-count">
                 {public_repos.toLocaleString()}
               </View>
               <View className="item-label">repositories</View>
             </View>
-            <View className="nav-item">
+            <View
+              className="nav-item"
+              onClick={handleNavTo(
+                `/pages/developer/followers/index?name=${login}`
+              )}
+            >
               <View className="item-count">{followers.toLocaleString()}</View>
               <View className="item-label">followers</View>
             </View>
-            <View className="nav-item">
+            <View
+              className="nav-item"
+              onClick={handleNavTo(
+                `/pages/developer/following/index?name=${login}`
+              )}
+            >
               <View className="item-count">{following.toLocaleString()}</View>
               <View className="item-label">following</View>
             </View>

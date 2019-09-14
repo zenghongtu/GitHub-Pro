@@ -1,5 +1,6 @@
 import request from '../utils/request'
 import { starredParams, IStarred } from './user'
+import { IDefaultParams } from '@/constants'
 
 export interface IUserOrg {
   login: string
@@ -593,4 +594,14 @@ export const getUser = (username: string) => {
 
 export const getUserStarred = (username, params: starredParams) => {
   return request.get<IStarred[] | null>(`/users/${username}/starred`, params)
+}
+
+export const getUserRepos = (username: string, params: IDefaultParams) => {
+  return request.get<any | null>(`/users/${username}/repos`, params)
+}
+export const getUserFollowers = (username: string, params: IDefaultParams) => {
+  return request.get<any | null>(`/users/${username}/followers`, params)
+}
+export const getUserFollowing = (username: string, params: IDefaultParams) => {
+  return request.get<any | null>(`/users/${username}/following`, params)
 }

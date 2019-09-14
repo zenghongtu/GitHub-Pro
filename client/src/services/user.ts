@@ -1,5 +1,6 @@
 import request from '../utils/request'
 import { Issue } from '@/services/issues'
+import { IDefaultParams } from '@/constants'
 
 export interface IUserInfo {
   login: string
@@ -242,4 +243,8 @@ export const forks = {
 
 export const getUserIssues = (params: any) => {
   return request.get<Issue[] | null>('/user/issues', params)
+}
+
+export const getCurrentUserRepos = (name, params: IDefaultParams) => {
+  return request.get<any | null>('/user/repos', params)
 }
