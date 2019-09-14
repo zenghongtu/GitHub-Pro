@@ -2,33 +2,24 @@ import Taro, { useRouter, useReachBottom, useEffect } from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
 
-import { IStarred, IUserInfo, getCurrentUserRepos } from '@/services/user'
+import { IStarred, IUserInfo } from '@/services/user'
 import Empty from '@/components/empty'
 import RepoItem from '@/components/repo-item'
 import useRequestWIthMore from '@/hooks/useRequestWIthMore'
-import { getUserStarred, getUserRepos } from '@/services/users'
+import { getUserStarred } from '@/services/users'
 import LoadMore from '@/components/load-more'
 
-const RepoList = () => {
+const StarredRepoList = () => {
   const {
-    params: { name, isCurrent }
+    params: { name }
   } = useRouter()
 
-  // can't use if..else..
-  const funcMap = {
-    true: getCurrentUserRepos,
-    false: getUserRepos
-  }
-
-  let func = funcMap[isCurrent]
-
-  const [repoList, hasMore, refresh, getMoreData] = useRequestWIthMore<any>(
-    name,
-    func
-  )
+  const [starredRepos, hasMore, refresh, getMoreData] = useRequestWIthMore<
+    IStarred
+  >(name, getUserStarred)
 
   useEffect(() => {
-    const title = `${name} - Repositories`
+    const title = `${name} - Starred`
     Taro.setNavigationBarTitle({ title })
   }, [])
 
@@ -39,17 +30,17 @@ const RepoList = () => {
   return (
     <View>
       <View>
-        {repoList ? (
-          repoList.map((item, idx) => {
+        {starredRepos ? (
+          starredRepos.map((item, idx) => {
             return <RepoItem key={idx} repo={item}></RepoItem>
           })
         ) : (
           <Empty></Empty>
         )}
       </View>
-      {repoList && <LoadMore hasMore={hasMore!}></LoadMore>}
+      {starredRepos && <LoadMore hasMore={hasMore!}></LoadMore>}
     </View>
   )
 }
 
-export default RepoList
+export default StarredRepoList

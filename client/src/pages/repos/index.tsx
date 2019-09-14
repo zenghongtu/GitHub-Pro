@@ -227,15 +227,19 @@ const Repository = () => {
         <View className="divider"></View>
         <View className="repo-num">
           <View className="num-item">
-            <View className="num">{subscribers_count.toLocaleString()}</View>
+            <View className="num">
+              {Number(subscribers_count).toLocaleString()}
+            </View>
             <View className="label">watchs</View>
           </View>
           <View className="num-item">
-            <View className="num">{stargazers_count.toLocaleString()}</View>
+            <View className="num">
+              {Number(stargazers_count).toLocaleString()}
+            </View>
             <View className="label">stars</View>
           </View>
           <View className="num-item">
-            <View className="num">{forks_count.toLocaleString()}</View>
+            <View className="num">{Number(forks_count).toLocaleString()}</View>
             <View className="label">forks</View>
           </View>
         </View>

@@ -1,8 +1,7 @@
-import Taro, { Component, Config } from "@tarojs/taro"
-import { View, Image, Button } from "@tarojs/components"
-import "./index.scss"
-import img from "@/assets/spidertocat.png"
-import { AtButton } from "taro-ui"
+import Taro, { Component, Config } from '@tarojs/taro'
+import { View, Image, Button } from '@tarojs/components'
+import './index.scss'
+import img from '@/assets/spidertocat.png'
 
 const Empty = () => {
   return (
