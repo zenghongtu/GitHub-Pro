@@ -1,5 +1,6 @@
 import Taro from '@tarojs/taro'
 import { getGlobalData } from './global_data'
+import { showLoginTips } from './common'
 
 const BASE_URL = 'https://api.github.com'
 
@@ -32,8 +33,8 @@ export const request = (
     data,
     method,
     header: {
-      ...headers,
-      Authorization: getGlobalData('authorization')
+      Authorization: getGlobalData('authorization'),
+      ...headers
     }
   }
   Taro.showLoading({ title: 'loading..' })
@@ -46,6 +47,10 @@ export const request = (
         return data
       }
       if (statusCode === 404 && url.includes('/user/following')) {
+        return null
+      }
+      if (statusCode === 401) {
+        showLoginTips()
         return null
       }
       const msg = `Error: code ${statusCode}`

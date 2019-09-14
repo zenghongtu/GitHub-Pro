@@ -9,9 +9,9 @@ import Avatar from '@/components/avatar'
 
 interface IssueItemProps {
   issue: Issue
-  full_name: string
+  full_name?: string
 }
-const IssueItem = ({ issue, full_name }: IssueItemProps) => {
+const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
   if (!issue) {
     return null
   }
@@ -53,9 +53,10 @@ const IssueItem = ({ issue, full_name }: IssueItemProps) => {
     closed_at,
     author_association,
     body,
-    pull_request
+    pull_request,
+    repository
   } = issue
-
+  const full_name = _full_name || repository!.full_name
   const handleNavTo = () => {
     setIssueData(issue)
     const url = `/pages/issues/issue-detail/index?full_name=${full_name}&number=${number}`

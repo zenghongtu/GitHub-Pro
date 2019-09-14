@@ -1,4 +1,4 @@
-import request from "../utils/request"
+import request from '../utils/request'
 
 export interface Issue {
   url: string
@@ -25,6 +25,9 @@ export interface Issue {
   author_association: string
   body: string
   pull_request?: Pullrequest
+  repository?: {
+    full_name: string
+  }
 }
 
 interface Pullrequest {
@@ -66,7 +69,7 @@ interface User {
 
 export const getIssues = (full_name: string, params) => {
   return request.get<Issue[] | null>(`/repos/${full_name}/issues`, params, {
-    Accept: "application/vnd.github.VERSION.raw+json"
+    Accept: 'application/vnd.github.VERSION.raw+json'
   })
 }
 
@@ -74,7 +77,7 @@ export const getIssueDetail = ({ full_name, number }, params = {}) => {
   return request.get<Issue | null>(
     `/repos/${full_name}/issues/${number}`,
     params,
-    { Accept: "application/vnd.github.VERSION.raw+json" }
+    { Accept: 'application/vnd.github.VERSION.raw+json' }
   )
 }
 
@@ -95,7 +98,7 @@ export const getIssueComments = ({ full_name, number }, params = {}) => {
   return request.get<IssueComment[] | null>(
     `/repos/${full_name}/issues/${number}/comments`,
     params,
-    { Accept: "application/vnd.github.VERSION.raw+json" }
+    { Accept: 'application/vnd.github.VERSION.raw+json' }
   )
 }
 

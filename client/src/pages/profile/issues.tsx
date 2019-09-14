@@ -12,16 +12,16 @@ import './index.scss'
 import { getIssues, Issue } from '../../services/issues'
 import { defaultParams } from '../../constants'
 import { AtTabs, AtTabsPane } from 'taro-ui'
-import IssueItem from './issue-item'
+import IssueItem from '../issues/issue-item'
 import Empty from '@/components/empty'
 import FabButton from '@/components/fab-button'
 import LoadMore from '../../components/load-more/index'
+import { getUserIssues } from '@/services/user'
 
-const Issues = () => {
+const UserIssues = () => {
   const {
-    params: { full_name: _full_name, owner, repo }
+    params: { owner }
   } = useRouter()
-  const full_name = _full_name || `${owner}/${repo}`
 
   const [count, setCount] = useState(0)
   const [curTab, setTab] = useState(0)
@@ -29,11 +29,6 @@ const Issues = () => {
   const [closedHasMore, setClosedHasMore] = useState(true)
   const [openList, setOpenList] = useState<Issue[] | null>(null)
   const [closedList, setClosedtList] = useState<Issue[] | null>(null)
-
-  useEffect(() => {
-    const title = full_name
-    Taro.setNavigationBarTitle({ title })
-  }, [])
 
   const [openParams, setOpenParams] = useState({
     ...defaultParams,
@@ -63,7 +58,7 @@ const Issues = () => {
   })
 
   const getClosedIssues = params => {
-    getIssues(full_name, params).then(data => {
+    getUserIssues(params).then(data => {
       if (data) {
         setClosedtList(data)
         if (data.length < params.per_page) {
@@ -75,7 +70,7 @@ const Issues = () => {
 
   useEffect(() => {
     if (openHasMore) {
-      getIssues(full_name, openParams).then(data => {
+      getUserIssues(openParams).then(data => {
         if (data) {
           setOpenList(data)
           if (data.length < openParams.per_page!) {
@@ -107,12 +102,6 @@ const Issues = () => {
     setTab(val)
   }
 
-  const handleFaBtnClick = () => {
-    Taro.navigateTo({
-      url: `/pages/issues/create-issue/index?full_name=${full_name}`
-    })
-  }
-
   return (
     <View>
       <AtTabs current={curTab} tabList={tabList} onClick={handleTabClick}>
@@ -124,13 +113,7 @@ const Issues = () => {
                 {data ? (
                   <Block>
                     {data.map(item => {
-                      return (
-                        <IssueItem
-                          key={item.id}
-                          full_name={full_name}
-                          issue={item}
-                        ></IssueItem>
-                      )
+                      return <IssueItem key={item.id} issue={item}></IssueItem>
                     })}
                     <LoadMore hasMore={tab.hasMore}></LoadMore>
                   </Block>
@@ -142,9 +125,12 @@ const Issues = () => {
           )
         })}
       </AtTabs>
-      <FabButton icon="add" onClick={handleFaBtnClick}></FabButton>
     </View>
   )
 }
 
-export default Issues
+UserIssues.config = {
+  navigationBarTitleText: 'Issues'
+}
+
+export default UserIssues

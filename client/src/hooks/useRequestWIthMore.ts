@@ -4,17 +4,17 @@ import {
   useRef,
   useReachBottom,
   usePullDownRefresh
-} from "@tarojs/taro"
+} from '@tarojs/taro'
 
-import { defaultParams } from "../constants"
-import Taro from "@tarojs/taro"
+import { defaultParams } from '../constants'
+import Taro from '@tarojs/taro'
 
 function useRequestWIthMore<T, S = string>(
   data: S,
   request: (data: S, params: any | null) => Promise<T[] | null>
 ): [T[] | null, boolean, () => void] | [] {
   if (!data) {
-    console.error("useRequestWIthMore: no data")
+    console.warn('useRequestWIthMore: no data')
     return []
   }
 

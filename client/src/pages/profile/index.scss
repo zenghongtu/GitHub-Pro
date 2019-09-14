@@ -1,43 +1,56 @@
 .wrap {
-  padding: 10px 20px 80px;
 }
 
 .header {
-  padding: 20px 10px 10px;
+  padding: 20px;
   display: flex;
-  align-items: center;
+  align-items: space-between;
+  background: $itemBg;
 }
 
-.avatar {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  margin-right: 20px;
+.divide {
+  height: 1px;
+  width: 100vw;
 }
 
 .basic {
+  display: flex;
+  flex-wrap: wrap;
   margin-right: auto;
   font-size: 25px;
 }
 .name {
-  font-size: 30px;
+  font-size: 32px;
   font-weight: 600;
+  color: $primary;
 }
 
 .bio {
-  margin: 10px 10px 10px 15px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: $text-color;
+}
+
+.Joined {
+  font-size: 25px;
+  font-weight: 400;
 }
 
 .info {
   margin-top: 30px;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  padding: 20px;
   border-radius: 10px;
   box-sizing: border-box;
-  background: rgba(255, 255, 255, 0.9);
+  background: $itemBg;
 }
 
 .meta {
-  padding: 20px 10px;
+  margin: 0;
 }
 
 .nav {
@@ -63,14 +76,6 @@
   text-transform: capitalize;
 }
 
-.info-list-item {
-  .at-list__item-extra {
-    width: auto;
-  }
-  .item-extra__info {
-    color: rgb(43, 43, 43);
-  }
-  .item-extra__icon-arrow {
-    color: rgb(43, 43, 43);
-  }
+.logout {
+  padding: 30px;
 }

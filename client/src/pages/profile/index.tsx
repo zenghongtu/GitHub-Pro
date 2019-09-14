@@ -8,16 +8,16 @@ import Taro, {
 import { View, Image } from '@tarojs/components'
 
 import './index.scss'
-import NavBar from '../../components/navbar'
 import { getGlobalData, setGlobalData } from '../../utils/global_data'
 import { IUserOrg, getUserOrgs } from '../../services/users'
 import { getCurrentUser, IUserInfo } from '../../services/user'
 import Empty from '../../components/empty'
 
-import { AtList, AtListItem } from 'taro-ui'
-import useRequest from '@/hooks/useRequest'
-import { getFormatDate } from '@/utils/date'
-import { showLoginTips } from '@/utils/common'
+import { AtList, AtButton } from 'taro-ui'
+import { getFormatDate, getTimeAgo } from '@/utils/date'
+import { showLoginTips, copyText } from '@/utils/common'
+import Avatar from '@/components/avatar'
+import ListItem from '@/components/list-item'
 
 const Profile = () => {
   const username = getGlobalData('username') as string
@@ -46,6 +46,36 @@ const Profile = () => {
   //     })
   //   }
   // }, [userInfo])
+
+  const handleNavTo = (url: string) => () => {
+    Taro.navigateTo({ url })
+  }
+  const handleSwitchTo = (url: string) => () => {
+    Taro.switchTab({ url })
+  }
+
+  const handleCopy = (text: string) => () => {
+    copyText(text)
+  }
+
+  const handleLogout = () => {
+    Taro.showModal({
+      content: 'Are you sure?',
+      cancelText: 'No',
+      cancelColor: '#fb3e3b',
+      confirmText: 'Yeah',
+      confirmColor: '#007afb',
+
+      success(res) {
+        if (res.confirm) {
+          setGlobalData('username', '')
+          setGlobalData('authorization', '')
+          Taro.navigateBack()
+        } else if (res.cancel) {
+        }
+      }
+    })
+  }
 
   const renderUserInfo = () => {
     const {
@@ -81,33 +111,39 @@ const Profile = () => {
       created_at,
       updated_at
     } = userInfo!
+    const style: React.CSSProperties = { padding: '6px', fontSize: '16px' }
+
     return (
       <View className="wrap">
         <View className="header">
-          <Image className="avatar" src={avatar_url}></Image>
+          <Avatar circle={false} size="70" url={avatar_url}></Avatar>
           <View className="basic">
-            <View className="name">{name}</View>
-            <View className="login">@{login}</View>
-            <View className="Joined">
-              Joined at {getFormatDate(created_at)}
+            <View className="name">
+              {name || login} ({login})
             </View>
+
+            <View className="bio">{bio}</View>
+            <View className="Joined">Joined at {getTimeAgo(created_at)}</View>
           </View>
         </View>
-        <View className="bio">{bio}</View>
+        <View className="divide"></View>
         <View className="info meta">
           <View className="nav">
             <View className="nav-item">
-              <View className="item-count">{followers}</View>
+              <View className="item-count">
+                {public_repos.toLocaleString()}
+              </View>
+              <View className="item-label">repositories</View>
+            </View>
+            <View className="nav-item">
+              <View className="item-count">{followers.toLocaleString()}</View>
               <View className="item-label">followers</View>
             </View>
             <View className="nav-item">
-              <View className="item-count">{following}</View>
+              <View className="item-count">{following.toLocaleString()}</View>
               <View className="item-label">following</View>
             </View>
-            <View className="nav-item">
-              <View className="item-count">{public_repos}</View>
-              <View className="item-label">repos</View>
-            </View>
+
             {/* <View className="nav-item">
               <View className="item-count">{public_gists}</View>
               <View className="item-label">Gists</View>
@@ -115,49 +151,104 @@ const Profile = () => {
           </View>
         </View>
         <View className="info">
-          <AtList hasBorder={false}>
-            <AtListItem hasBorder={true} arrow="right" title="Activity" />
-            <AtListItem hasBorder={false} arrow="right" title="Starred" />
-          </AtList>
+          <ListItem
+            hasBorder={true}
+            icon="activity"
+            arrow="right"
+            title="Activity"
+            style={style}
+            color="#3B85F6"
+            onClick={handleNavTo(`/pages/activity/index?name=${login}`)}
+          />
+          <ListItem
+            hasBorder={false}
+            arrow="right"
+            title="Issues"
+            icon="info"
+            // @ts-ignore
+            style={{ ...style, fontWeight: '800' }}
+            color="#EC407A"
+            onClick={handleNavTo(`/pages/profile/issues`)}
+          />
         </View>
 
         <View className="info">
-          <AtList hasBorder={false}>
-            <AtListItem
-              className="info-list-item"
-              hasBorder={true}
-              title="Email"
-              extraText={email}
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item"
-              hasBorder={true}
-              title="Blog"
-              extraText={blog}
-            ></AtListItem>
-            <AtListItem
-              className="info-list-item"
-              hasBorder={true}
-              title="Company"
-              extraText={company}
-            >
-              >
-            </AtListItem>
-            <AtListItem
-              className="info-list-item"
-              hasBorder={false}
-              title="Location"
-              extraText={location}
-            >
-              >
-            </AtListItem>
-          </AtList>
+          <ListItem
+            arrow={null}
+            hasBorder={true}
+            title="Email"
+            icon="email"
+            color="#F99501"
+            style={style}
+            extraText={email}
+            onClick={handleCopy(email)}
+          ></ListItem>
+          <ListItem
+            arrow={null}
+            hasBorder={true}
+            title="Blog"
+            icon="link"
+            color="#3F9FFF"
+            style={style}
+            extraText={blog}
+            onClick={handleCopy(blog)}
+          ></ListItem>
+          <ListItem
+            arrow={null}
+            icon="people"
+            hasBorder={true}
+            title="Company"
+            color="#F44337"
+            style={style}
+            extraText={company}
+            onClick={handleCopy(company)}
+          ></ListItem>
+          <ListItem
+            icon="location"
+            arrow={null}
+            hasBorder={false}
+            title="Location"
+            color="#2F63CD"
+            style={style}
+            extraText={location}
+            onClick={handleCopy(location)}
+          ></ListItem>
         </View>
         <View className="info">
           <AtList hasBorder={false}>
-            <AtListItem hasBorder={true} arrow="right" title="Feedback" />
-            <AtListItem hasBorder={false} arrow="right" title="About" />
+            <ListItem
+              icon="fankui"
+              color="#ff9324"
+              // @ts-ignore
+              style={{ ...style, fontWeight: '800' }}
+              hasBorder={true}
+              arrow="right"
+              title="Feedback"
+              onClick={handleNavTo(
+                `/pages/repos/index?owner=zenghongtu&repo=GitHub-Pro`
+              )}
+            />
+            <ListItem
+              icon="guanyu"
+              color="#f23d7a"
+              style={style}
+              hasBorder={false}
+              arrow="right"
+              title="About"
+              onClick={handleNavTo(
+                `/pages/repos/index?owner=zenghongtu&repo=GitHub-Pro`
+              )}
+            />
           </AtList>
+        </View>
+        <View className="logout">
+          <AtButton
+            onClick={handleLogout}
+            customStyle={{ background: '#fb3e3b', border: 'none' }}
+            type="primary"
+          >
+            Logout
+          </AtButton>
         </View>
       </View>
     )

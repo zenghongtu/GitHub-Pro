@@ -1,4 +1,5 @@
 import request from '../utils/request'
+import { Issue } from '@/services/issues'
 
 export interface IUserInfo {
   login: string
@@ -237,4 +238,8 @@ export const forks = {
       return false
     })
   }
+}
+
+export const getUserIssues = (params: any) => {
+  return request.get<Issue[] | null>('/user/issues', params)
 }
