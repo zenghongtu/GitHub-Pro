@@ -31,10 +31,11 @@ import FabButton from '@/components/fab-button'
 import { ITouchEvent } from '@tarojs/components/types/common'
 import { starred } from '@/services/user'
 import { githubHttpsUrl } from '@/utils/repo'
+import { copyText } from '@/utils/common'
 
 const Repository = () => {
   const {
-    params: { owner = 'zenghongtu', repo = 'Remu' }
+    params: { owner, repo }
   } = useRouter()
 
   const full_name = `${owner}/${repo}`
@@ -345,16 +346,7 @@ const Repository = () => {
         handleClose()
 
         setTimeout(() => {
-          Taro.setClipboardData({
-            data,
-            // @ts-ignore
-            success: function(res) {
-              Taro.showToast({
-                title: `Copy Success`,
-                icon: 'success'
-              })
-            }
-          })
+          copyText(data)
         }, 500)
 
         return

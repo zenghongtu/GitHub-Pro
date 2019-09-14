@@ -10,6 +10,7 @@ import {
   githubHttpsUrl
 } from '@/utils/repo'
 import { ITouchEvent } from '@tarojs/components/types/common'
+import { copyText } from '@/utils/common'
 
 interface MarkDownProps {
   md: string | undefined | null
@@ -111,16 +112,7 @@ const Markdown = ({ md: rawMD, full_name }: MarkDownProps) => {
       Taro.navigateTo({ url: path })
       return
     } else {
-      Taro.setClipboardData({
-        data: `${clickurl}`,
-        // @ts-ignore
-        success: function(res) {
-          Taro.showToast({
-            title: `Copy Success`,
-            icon: 'success'
-          })
-        }
-      })
+      copyText(clickurl)
     }
   }
 
