@@ -1,0 +1,30 @@
+page {
+  background: $itemBg;
+}
+
+.wrap {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  min-height: 800px;
+}
+.inner {
+  margin: auto;
+  text-align: center;
+}
+
+.img {
+  width: 400px;
+  height: 400px;
+}
+
+.desc {
+  text-align: center;
+  font-size: 35px;
+  color: rgb(88, 88, 88);
+}
+
+.login {
+  margin-top: 20px;
+  text-align: center;
+}
