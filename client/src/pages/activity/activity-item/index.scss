@@ -9,6 +9,7 @@
 
 .repo-name {
   font-weight: 800;
+  color: $color-brand-light;
 }
 
 .event-wrap {
@@ -16,7 +17,7 @@
 }
 
 .commit-sha {
-  color: #40a0fa;
+  color: $color-brand-dark;
 }
 
 .event-desc {

@@ -162,7 +162,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              {payload.action} permissions of {payload.member.login} to
+              {payload.action} permissions of {payload.member!.login} to
               {payload.repository!.full_name}
             </View>
           </View>
@@ -183,7 +183,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         )
       }
       case 'GollumEvent': {
-        const page = payload.pages[0]
+        const page = payload.pages![0]
         const { action, page_name } = page
         return (
           <View>
@@ -197,7 +197,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Released {payload.release.name || payload.release.tag_name} at{' '}
+              Released {payload.release.name || payload.release!.tag_name} at{' '}
               <Text className="repo-name">{name}</Text>
             </View>
           </View>
@@ -226,11 +226,15 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
 
   const {
     actor: { avatar_url, display_login, login },
+    repo: { name },
     created_at
   } = item
 
+  const handleCardClick = () => {
+    Taro.navigateTo({ url: `/pages/repos/index?full_name=${name}` })
+  }
   return (
-    <View className="item-wrap">
+    <View className="item-wrap" onClick={handleCardClick}>
       <Author
         login={login}
         size="28"

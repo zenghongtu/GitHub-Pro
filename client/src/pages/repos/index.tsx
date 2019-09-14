@@ -35,10 +35,10 @@ import { copyText } from '@/utils/common'
 
 const Repository = () => {
   const {
-    params: { owner, repo }
+    params: { owner, repo, full_name: _full_name }
   } = useRouter()
 
-  const full_name = `${owner}/${repo}`
+  const full_name = _full_name || `${owner}/${repo}`
   const [repoInfo, refresh] = useRequest<Repo>(full_name, getRepo)
 
   const [showReadme, setShowReadme] = useState(false)
@@ -48,11 +48,11 @@ const Repository = () => {
   useShareAppMessage(res => {
     handleClose()
 
-    const title = `[${repo}] ${repoInfo!.description}`
+    const title = `[${full_name}] ${repoInfo!.description}`
     setTimeout(() => {
       return {
         title,
-        path: `/pages/repos/index?owner=${owner}&repo=${repo}`
+        path: `/pages/repos/index?full_name=${full_name}`
       }
     }, 1000)
   })
@@ -250,7 +250,7 @@ const Repository = () => {
               onClick={handleNavTo(filesUrl)}
               title={language}
               icon="code"
-              color={LANGUAGE_COLOR_MAP[language]}
+              color={LANGUAGE_COLOR_MAP[language] || '#002eb0'}
               extraText={`${bytesToSize(size)}`}
             ></ListItem>
             <ListItem
