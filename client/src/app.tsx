@@ -21,10 +21,15 @@ class App extends Component {
    */
   config: Config = {
     pages: [
-      'pages/repos/index',
+      'pages/profile/index',
+      'pages/profile/issues',
       'pages/trending/index',
+      'pages/repos/search/index',
+      'pages/login/index',
+      'pages/news/index',
+      'pages/repos/index',
       'pages/my-languages/index',
-      'pages/contributors/index',
+      'pages/repos/contributors/index',
       'pages/commits/index',
       'pages/repos/content/index',
       'pages/issues/index',
@@ -32,11 +37,14 @@ class App extends Component {
       'pages/issues/create-issue/index',
       'pages/issues/issue-detail/index',
       'pages/developer/index',
-      'pages/profile/index',
+      'pages/developer/followers/index',
+      'pages/developer/following/index',
+      'pages/developer/repos/index',
+      'pages/developer/starred/index',
       'pages/repos/files/index',
       'pages/activity/index',
-      'pages/starred/index',
-      'pages/login/index'
+      'pages/activity/repo',
+      'pages/starred/index'
     ],
     window: {
       navigationStyle: 'default',
@@ -63,7 +71,7 @@ class App extends Component {
           text: 'Trending'
         },
         {
-          pagePath: 'pages/activity/index',
+          pagePath: 'pages/news/index',
           iconPath: './assets/icons/news.png',
           selectedIconPath: './assets/icons/news_active.png',
           text: 'News'
@@ -75,7 +83,7 @@ class App extends Component {
           text: 'Starred'
         },
         {
-          pagePath: 'pages/starred/index',
+          pagePath: 'pages/repos/search/index',
           iconPath: './assets/icons/search.png',
           selectedIconPath: './assets/icons/search_active.png',
           text: 'Search'

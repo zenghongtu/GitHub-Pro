@@ -195,7 +195,7 @@ const Repository = () => {
     const activityUrl = `/pages/activity/repo?${params}`
     const issuesUrl = `/pages/issues/index?${params}`
     const commitsUrl = `/pages/commits/index?${params}`
-    const contributorsUrl = `/pages/contributors/index?${params}`
+    const contributorsUrl = `/pages/repos/contributors/index?${params}`
 
     return (
       <Block>

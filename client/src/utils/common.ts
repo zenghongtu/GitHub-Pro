@@ -6,7 +6,7 @@ export const showLoginTips = () => {
     content: 'This page requires login to view, Do you want to login?',
     cancelText: 'No',
     cancelColor: '#fb3e3b',
-    confirmText: 'Yeah',
+    confirmText: 'Ok',
     confirmColor: '#007afb',
     success(res) {
       if (res.confirm) {

@@ -1,13 +1,13 @@
-import Taro, { Component, Config, useEffect, useRouter } from "@tarojs/taro"
-import { View, Text } from "@tarojs/components"
-import "./index.scss"
-import { IUserReceivedEvent, getUserEvents } from "../../services/users"
-import Empty from "../../components/empty"
-import ActivityItem from "./activity-item"
-import NavBar from "../../components/navbar"
+import Taro, { Component, Config, useEffect, useRouter } from '@tarojs/taro'
+import { View, Text } from '@tarojs/components'
+import './index.scss'
+import { IUserReceivedEvent, getUserEvents } from '../../services/users'
+import Empty from '../../components/empty'
+import ActivityItem from './activity-item'
+import NavBar from '../../components/navbar'
 
-import useRequestWIthMore from "../../hooks/useRequestWIthMore"
-import LoadMore from "@/components/load-more"
+import useRequestWIthMore from '../../hooks/useRequestWIthMore'
+import LoadMore from '@/components/load-more'
 
 const Activity = () => {
   const {
@@ -21,7 +21,6 @@ const Activity = () => {
 
   return (
     <View className="wrap">
-      <NavBar title="Activity"></NavBar>
       {eventsData ? (
         eventsData.map(item => {
           return <ActivityItem item={item} key={item.id}></ActivityItem>
@@ -32,6 +31,10 @@ const Activity = () => {
       {eventsData && <LoadMore hasMore={hasMore!}></LoadMore>}
     </View>
   )
+}
+
+Activity.config = {
+  navigationBarTitleText: 'Activity'
 }
 
 export default Activity

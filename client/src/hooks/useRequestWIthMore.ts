@@ -12,7 +12,7 @@ import Taro from '@tarojs/taro'
 function useRequestWIthMore<T, S = string>(
   data: S,
   request: (data: S, params: any | null) => Promise<T[] | null>
-): [T[] | null, boolean, () => void] | [] {
+): [T[] | null, boolean, () => void, () => void] | [] {
   if (!data) {
     console.warn('useRequestWIthMore: no data')
     return []
@@ -31,7 +31,7 @@ function useRequestWIthMore<T, S = string>(
           } else {
             setData(data)
           }
-          if (data.length < params.per_page) {
+          if (data.length < params.per_page!) {
             setHasMore(false)
           }
         }
@@ -47,11 +47,12 @@ function useRequestWIthMore<T, S = string>(
   })
 
   useReachBottom(() => {
+    console.log('reach')
     getMoreData()
   })
 
   const getMoreData = () => {
-    setParams(params => ({ ...params, page: params.page + 1 }))
+    setParams(params => ({ ...params, page: params.page! + 1 }))
   }
 
   const refresh = () => {
@@ -60,7 +61,7 @@ function useRequestWIthMore<T, S = string>(
     setParams({ ...params, page: 1 })
   }
 
-  return [currData, hasMore, refresh]
+  return [currData, hasMore, refresh, getMoreData]
 }
 
 export default useRequestWIthMore
