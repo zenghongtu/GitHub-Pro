@@ -61,11 +61,15 @@ const Login = () => {
     setGlobalData('authorization', authorization)
     getCurrentUser().then(data => {
       if (data) {
-        Taro.showToast({ title: 'login success!', icon: 'success' })
+        Taro.showToast({
+          title: 'login success!',
+          icon: 'success',
+          duration: 1500
+        })
         setGlobalData('username', data.login)
         setTimeout(() => {
           Taro.switchTab({ url: '/pages/profile/index?refresh=true' })
-        }, 2000)
+        }, 1500)
       }
     })
   }

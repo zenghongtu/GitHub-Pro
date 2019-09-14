@@ -19,6 +19,7 @@ const UserInfo = ({
   userInfo,
   isFollowing,
   onFollowClick,
+  onLogout,
   isCurrent = true
 }: any) => {
   if (!userInfo) {
@@ -31,25 +32,6 @@ const UserInfo = ({
 
   const handleCopy = (text: string) => () => {
     copyText(text)
-  }
-
-  const handleLogout = () => {
-    Taro.showModal({
-      content: 'Are you sure?',
-      cancelText: 'No',
-      cancelColor: '#fb3e3b',
-      confirmText: 'Sure',
-      confirmColor: '#007afb',
-
-      success(res) {
-        if (res.confirm) {
-          setGlobalData('username', '')
-          setGlobalData('authorization', '')
-          Taro.switchTab({ url: 'pages/trending/index' })
-        } else if (res.cancel) {
-        }
-      }
-    })
   }
 
   const {
@@ -276,7 +258,7 @@ const UserInfo = ({
           </View>
           <View className="logout">
             <AtButton
-              onClick={handleLogout}
+              onClick={onLogout}
               customStyle={{ background: '#fb3e3b', border: 'none' }}
               type="primary"
             >

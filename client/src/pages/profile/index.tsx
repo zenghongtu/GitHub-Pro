@@ -5,7 +5,8 @@ import Taro, {
   useEffect,
   useReachBottom,
   useShareAppMessage,
-  useRouter
+  useRouter,
+  useDidShow
 } from '@tarojs/taro'
 import { View, Image, Block } from '@tarojs/components'
 
@@ -16,37 +17,66 @@ import UserInfo from '@/components/user-info'
 import NoAuthority from '@/components/no-authority'
 
 const Profile = () => {
-  const {
-    params: { refresh = false }
-  } = useRouter()
-
-  const username = getGlobalData('username') as string
-  if (!username && !refresh) {
-    return <NoAuthority></NoAuthority>
-  }
+  let username = getGlobalData('username') as string
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
 
-  useEffect(() => {
+  const getUser = () => {
     getCurrentUser().then(data => {
       if (data) {
         setUserInfo(data)
         setGlobalData('username', data.login)
+        username = data.login
       }
     })
+  }
+  useEffect(() => {
+    if (username) {
+      getUser()
+    }
   }, [])
+
+  useDidShow(() => {
+    if (!userInfo) {
+      getUser()
+    }
+  })
 
   useShareAppMessage(res => {
     const title = `[${userInfo!.login}] ${userInfo!.bio}`
 
     return {
       title,
-      path: `/pages/developer/index?name=${username}`
+      path: `/pages/developer/index?name=${userInfo!.login}`
     }
   })
 
+  const handleLogout = () => {
+    Taro.showModal({
+      content: 'Are you sure?',
+      cancelText: 'No',
+      cancelColor: '#fb3e3b',
+      confirmText: 'Sure',
+      confirmColor: '#007afb',
+
+      success(res) {
+        if (res.confirm) {
+          setGlobalData('username', '')
+          setGlobalData('authorization', '')
+          setUserInfo(null)
+          Taro.switchTab({ url: '/pages/trending/index' })
+        } else if (res.cancel) {
+        }
+      }
+    })
+  }
+
   return (
     <Block>
-      <UserInfo userInfo={userInfo}></UserInfo>
+      {username ? (
+        <UserInfo userInfo={userInfo} onLogout={handleLogout}></UserInfo>
+      ) : (
+        <NoAuthority></NoAuthority>
+      )}
     </Block>
   )
 }

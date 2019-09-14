@@ -57,7 +57,10 @@ export const request = (
       }
       if (statusCode === 401) {
         // TODO
-        if (url.includes('/user/starred') && method === 'GET') {
+        if (
+          url.includes('/user/starred') ||
+          (url.endsWith('/user') && method === 'GET')
+        ) {
           return null
         }
         throw new Error(`Error 401: Required Login!`)
