@@ -7,6 +7,7 @@ interface GlobalData {
   authorization: string
   userInfo: IUserInfo
   username: string
+  search_history: string[]
 }
 type globalDataKey = keyof GlobalData
 
@@ -33,7 +34,8 @@ const globalData: GlobalData = {
   myLangs: Taro.getStorageSync('myLangs') || defaultLangs,
   authorization: Taro.getStorageSync('authorization') || '',
   userInfo: Taro.getStorageSync('userInfo') || null,
-  username: Taro.getStorageSync('username') || ''
+  username: Taro.getStorageSync('username') || '',
+  search_history: Taro.getStorageSync('search_history') || []
 }
 
 export const setGlobalData = (key: globalDataKey, val: any) => {

@@ -1,0 +1,39 @@
+.wrap {
+  padding: 20px 0;
+  min-height: 100vh;
+  background: $bg;
+}
+
+.search-wrap {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+}
+
+.sc {
+  margin-top: 55px;
+  padding: 20px 100px 10px;
+}
+.user-item {
+  display: flex;
+  align-items: center;
+  margin: 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: $itemBg;
+}
+
+.history-tags {
+  display: flex;
+  padding: 20px;
+
+  flex-wrap: wrap;
+}
+
+.tag {
+  margin-bottom: 15px;
+  margin-left: 15px;
+}
