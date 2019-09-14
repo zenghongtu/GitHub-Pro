@@ -19,6 +19,8 @@ interface ListItemProps {
   color?: string
   renderExtraText?: () => JSX.Element
   arrow?: 'right' | 'left' | 'up' | 'down' | null
+  size?: string | number
+  style?: React.CSSProperties
 }
 
 const ListItem = ({
@@ -30,11 +32,13 @@ const ListItem = ({
   rightIcon,
   renderTitle,
   renderExtraText,
-  onClick =function(){},
-  onRightClick= function () { },
+  onClick = function() {},
+  onRightClick = function() {},
   arrow = 'right',
   hasBorder = true,
-  color = 'none'
+  color = 'none',
+  size = 25,
+  style = {}
 }: ListItemProps) => {
   const styleProps: any = {}
 
@@ -43,29 +47,35 @@ const ListItem = ({
   }
 
   const iconStyleProps: React.CSSProperties = {
-    fontSize: '25px',
-    padding: '1px';
+    fontSize: size + 'px',
+    padding: '1px',
     marginRight: '10px',
     borderRadius: '50%',
     color: '#fff',
-    background: color
+    background: color,
+    ...style
   }
 
-
   return (
-    <View className={`item ${className}`} onClick={onClick || undefined} style={styleProps}>
+    <View
+      className={`item ${className}`}
+      onClick={onClick || undefined}
+      style={styleProps}
+    >
       <View className="left">
         {icon && <FontIcon styleProps={iconStyleProps} value={icon}></FontIcon>}
         {title || (renderTitle && renderTitle())}
       </View>
       <View className="right">
         {extraText && <Text className="extra-text">{extraText}</Text>}
-        {rightIcon && <AtIcon
-          onClick={onRightClick || undefined}
-          size="20"
-          customStyle={{ color: '#409bfc', fontWeight: 500 }}
-          value={rightIcon}
-        ></AtIcon>}
+        {rightIcon && (
+          <AtIcon
+            onClick={onRightClick || undefined}
+            size="20"
+            customStyle={{ color: '#409bfc', fontWeight: 500 }}
+            value={rightIcon}
+          ></AtIcon>
+        )}
         {arrow && (
           <AtIcon
             size="20"

@@ -57,7 +57,6 @@ const Search = () => {
 
   useEffect(() => {
     const history = getGlobalData('search_history') as string[]
-    console.log('history: ', history)
     setHistory(history)
   }, [])
 
@@ -137,7 +136,6 @@ const Search = () => {
       })
     } else {
       setSearchUsersParams(searchUsersParams => {
-        console.log('searchUsersParams: ', searchUsersParams)
         return {
           ...searchUsersParams,
           page: searchUsersParams.page! + 1
