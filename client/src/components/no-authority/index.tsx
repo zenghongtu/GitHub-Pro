@@ -9,7 +9,7 @@ const NoAuthority = () => {
     <View className="wrap">
       <View className="inner">
         <Image src={img} className="img"></Image>
-        <View className="desc">This page require login!</View>
+        <View className="desc">This page required login to view!</View>
         <View className="login">
           <AtButton
             size="small"
