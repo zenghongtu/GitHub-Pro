@@ -1,7 +1,8 @@
-import Taro from "@tarojs/taro"
-import { request } from "@/utils/request"
+import Taro from '@tarojs/taro'
+import { request } from '@/utils/request'
 
-const TRENDING_URL = "https://github-trending-api.now.sh/"
+// build by https://github.com/huchenme/github-trending-api
+const TRENDING_URL = 'https://trending.stayin.cn/'
 
 export interface TrendingRepo {
   author: string
@@ -29,8 +30,8 @@ export interface TrendingRequestParams {
 }
 
 export async function getTrendingRepos({
-  language = "",
-  since = ""
+  language = '',
+  since = ''
 }: TrendingRequestParams): Promise<TrendingRepo[] | null> {
   try {
     // const res = await Taro.cloud.callFunction({
@@ -44,13 +45,13 @@ export async function getTrendingRepos({
     // return res.result.data
 
     const data = await request(TRENDING_URL, {
-      type: "repo",
+      type: 'repo',
       language,
       since
     })
     return data
   } catch (e) {
-    console.log("get trending repos error : ", e)
+    console.log('get trending repos error : ', e)
     return null
   }
 }
@@ -76,8 +77,8 @@ interface BuiltBy {
 }
 
 export async function getTrendingUsers({
-  language = "",
-  since = ""
+  language = '',
+  since = ''
 }: TrendingRequestParams): Promise<TrendingUser[] | null> {
   try {
     // const res = await Taro.cloud.callFunction({
@@ -91,13 +92,13 @@ export async function getTrendingUsers({
     // return res.result.data
 
     const data = await request(TRENDING_URL, {
-      type: "user",
+      type: 'user',
       language,
       since
     })
     return data
   } catch (e) {
-    console.log("get trending users error : ", e)
+    console.log('get trending users error : ', e)
     return null
   }
 }

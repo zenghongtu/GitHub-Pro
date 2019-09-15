@@ -1,8 +1,11 @@
 import Taro from '@tarojs/taro'
 import { getGlobalData } from './global_data'
-import { showLoginTips } from './common'
 
-const BASE_URL = 'https://api.github.com'
+let BASE_URL = 'https://api.github.com'
+
+if (process.env.TARO_ENV === 'weapp') {
+  BASE_URL = 'https://api.stayin.cn'
+}
 
 const isDev = process.env.NODE_ENV === 'development'
 
