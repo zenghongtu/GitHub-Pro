@@ -5,7 +5,8 @@ import Taro, {
   useState,
   usePullDownRefresh,
   useDidShow,
-  useRef
+  useRef,
+  useShareAppMessage
 } from '@tarojs/taro'
 import { View, Text, Block } from '@tarojs/components'
 import { AtTabs, AtTabsPane, AtIcon, AtFab, AtDrawer, AtDivider } from 'taro-ui'
@@ -62,7 +63,14 @@ const Trending = () => {
     setRefresh(++countRef.current)
     setTimeout(() => {
       Taro.stopPullDownRefresh()
-    }, 100)
+    }, 0)
+  })
+
+  useShareAppMessage(res => {
+    return {
+      title: `GitHub Trending`,
+      path: `/pages/trending/index`
+    }
   })
 
   const getRepos = (params: TrendingRequestParams) => {
