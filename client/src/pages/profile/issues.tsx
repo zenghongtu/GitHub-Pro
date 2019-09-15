@@ -117,7 +117,7 @@ const UserIssues = () => {
         {tabList.map((tab, idx) => {
           const data = tab.data
           return (
-            <AtTabsPane key={idx} current={curTab} index={idx}>
+            <AtTabsPane key={tab.title} current={curTab} index={idx}>
               <View>
                 {data ? (
                   <Block>

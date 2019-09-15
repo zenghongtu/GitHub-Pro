@@ -137,7 +137,7 @@ const Trending = () => {
               const _repos = repos[idx]
               const data = _repos && _repos!.length > 0 ? _repos : null
               return (
-                <AtTabsPane key={idx} current={currTab} index={idx}>
+                <AtTabsPane key={tab.title} current={currTab} index={idx}>
                   <View>
                     {data ? (
                       data.map((repo, index) => {

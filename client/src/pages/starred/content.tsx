@@ -23,7 +23,7 @@ const StarredContent = ({ username }) => {
         {starredRepos ? (
           <View className="content-wrap">
             {starredRepos.map((item, idx) => {
-              return <RepoItem key={idx} repo={item}></RepoItem>
+              return <RepoItem key={item.id} repo={item}></RepoItem>
             })}
           </View>
         ) : (

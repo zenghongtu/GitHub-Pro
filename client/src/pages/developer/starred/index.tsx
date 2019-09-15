@@ -32,7 +32,7 @@ const StarredRepoList = () => {
       <View>
         {starredRepos ? (
           starredRepos.map((item, idx) => {
-            return <RepoItem key={idx} repo={item}></RepoItem>
+            return <RepoItem key={item.id} repo={item}></RepoItem>
           })
         ) : (
           <Empty></Empty>
