@@ -135,13 +135,13 @@ export const getNavPath = ({ owner, filePath, repo }): string => {
   let url = ''
   if (filePath) {
     const full_name = `${owner}/${repo}`
-    if (filePath.endsWith('issues/new')) {
+    if (filePath.startsWith('issues/new')) {
       url = `/pages/issues/create-issue?full_name=${full_name}`
-    } else if (filePath.endsWith('issues')) {
+    } else if (filePath.startsWith('issues')) {
       url = `/pages/issues/index?full_name=${full_name}`
-    } else if (filePath.endsWith('pulls?q=')) {
+    } else if (filePath.startsWith('pulls?q=')) {
       // TODO
-    } else if (filePath.endsWith('pull')) {
+    } else if (filePath.startsWith('pull')) {
       // TODO
     } else {
       const isFile = /.*\.\w{1,10}$/.test(filePath)

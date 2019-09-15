@@ -4,6 +4,7 @@ import Index from './pages/trending/index'
 
 import '@/assets/iconfont/icon.css'
 import './app.scss'
+import { githubHttpsUrl, parseGitHub, getNavPath } from './utils/repo'
 
 // 如果需要在 h5 环境中开启 React Devtools
 // 取消以下注释：
@@ -102,11 +103,30 @@ class App extends Component {
     cloud: true
   }
 
+  componentWillMount() {
+    // TODO by path
+    // const { path, query, scene } = this.$router.params
+  }
+
   componentDidMount() {
-    if (process.env.TARO_ENV === 'weapp') {
-      const env = process.env.ClOUD_ENV
-      Taro.cloud.init({ env, traceUser: true })
-    }
+    Taro.getClipboardData({
+      success(res) {
+        const data = res.data as string
+        if (data && data.startsWith(githubHttpsUrl)) {
+          const [owner, repo, filePath] = parseGitHub(data)
+          const url = getNavPath({ owner, filePath, repo })
+          if (url) {
+            Taro.navigateTo({ url })
+          }
+        }
+      }
+    })
+
+    // no use
+    // if (process.env.TARO_ENV === 'weapp') {
+    //   const env = process.env.ClOUD_ENV
+    //   Taro.cloud.init({ env, traceUser: true })
+    // }
   }
 
   componentDidShow() {}
