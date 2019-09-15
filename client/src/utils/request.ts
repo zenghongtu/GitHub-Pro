@@ -7,7 +7,8 @@ if (process.env.TARO_ENV === 'weapp') {
   BASE_URL = 'https://api.stayin.cn'
 }
 
-const isDev = process.env.NODE_ENV === 'development'
+// TODO 效果不行，不缓存
+const isDev = process.env.NODE_ENV === 'development' && false
 
 type Method =
   | 'OPTIONS'
