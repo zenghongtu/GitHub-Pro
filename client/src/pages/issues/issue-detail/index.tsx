@@ -3,12 +3,18 @@ import Taro, {
   Config,
   useRouter,
   useEffect,
-  usePullDownRefresh
+  usePullDownRefresh,
+  useState
 } from '@tarojs/taro'
 import { View, Image, Text, Block } from '@tarojs/components'
 import './index.scss'
 import useRequestWIthMore from '@/hooks/useRequestWIthMore'
-import { getIssueComments, Issue, IssueComment } from '@/services/issues'
+import {
+  getIssueComments,
+  Issue,
+  IssueComment,
+  getIssueDetail
+} from '@/services/issues'
 import Empty from '@/components/empty'
 import CommentItem from '../comment-item'
 import Markdown from '@/components/markdown'
@@ -22,22 +28,12 @@ const IssueDetail = () => {
     params: { full_name, number }
   } = useRouter()
 
-  const data = getIssueData()
+  const [commentList, hasMore, refresh] = useRequestWIthMore<
+    IssueComment | null,
+    any
+  >({ full_name, number }, getIssueComments)
 
-  if (!data) {
-    return null
-  }
-
-  useEffect(() => {
-    const title = full_name
-    Taro.setNavigationBarTitle({ title })
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      setIssueData(null)
-    }
-  }, [])
+  const [issueData, setIssue] = useState({})
 
   const {
     url,
@@ -49,21 +45,7 @@ const IssueDetail = () => {
     id,
     node_id,
     title,
-    user: {
-      login,
-      avatar_url,
-      gravatar_id,
-      followers_url,
-      following_url,
-      gists_url,
-      starred_url,
-      subscriptions_url,
-      organizations_url,
-      repos_url,
-      received_events_url,
-      type,
-      site_admin
-    },
+    user,
     labels,
     state,
     locked,
@@ -77,12 +59,33 @@ const IssueDetail = () => {
     author_association,
     body,
     pull_request
-  } = data as Issue
+  } = (issueData as Issue) || {}
 
-  const [commentList, hasMore, refresh] = useRequestWIthMore<
-    IssueComment | null,
-    any
-  >({ full_name, number }, getIssueComments)
+  const { login, avatar_url, gravatar_id, type, site_admin } = user || {}
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      setIssueData(null)
+    }
+  }, [])
+
+  useEffect(() => {
+    const data = getIssueData() || null
+    if (data) {
+      setIssue(data)
+    } else {
+      getIssueDetail({ full_name, number }).then(resData => {
+        if (resData) {
+          setIssue(resData)
+        }
+      })
+    }
+  }, [])
 
   const handleFabBtnClick = () => {
     Taro.navigateTo({
@@ -97,6 +100,10 @@ const IssueDetail = () => {
       Taro.stopPullDownRefresh()
     }, 100)
   })
+
+  if (!login) {
+    return <Empty></Empty>
+  }
 
   return (
     <View className="wrap">
