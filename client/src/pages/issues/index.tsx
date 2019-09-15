@@ -65,7 +65,11 @@ const Issues = () => {
   const getClosedIssues = params => {
     getIssues(full_name, params).then(data => {
       if (data) {
-        setClosedtList(data)
+        if (closedList) {
+          setClosedtList([...closedList, ...data])
+        } else {
+          setClosedtList(data)
+        }
         if (data.length < params.per_page) {
           setClosedHasMore(false)
         }
@@ -77,7 +81,13 @@ const Issues = () => {
     if (openHasMore) {
       getIssues(full_name, openParams).then(data => {
         if (data) {
-          setOpenList(data)
+          if (openList) {
+            debugger
+            setOpenList([...openList, ...data])
+          } else {
+            setOpenList(data)
+          }
+
           if (data.length < openParams.per_page!) {
             setOpenHasMore(false)
           }
@@ -112,6 +122,7 @@ const Issues = () => {
       url: `/pages/issues/create-issue/index?full_name=${full_name}`
     })
   }
+  // TODO use scrollView
 
   return (
     <View>
