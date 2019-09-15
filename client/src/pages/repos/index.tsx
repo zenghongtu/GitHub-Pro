@@ -178,11 +178,7 @@ const Repository = () => {
               </Text>
               /<Text className="name"> {name}</Text>
             </View>
-            <View className="desc">{description}</View>
-            {/* <View className="meta">
-              <Text className="language">Language: {language}</Text>, size:{' '}
-              {bytesToSize(size)}
-            </View> */}
+            <View className="desc">{description || ''}</View>
             {/* <View className="meta">Created {getTimeAgo(created_at)}</View> */}
             <View className="meta">Updated {getTimeAgo(pushed_at)}</View>
           </View>
