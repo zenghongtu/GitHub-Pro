@@ -11,11 +11,7 @@ const News = () => {
   useReachBottomEvent()
   return (
     <View className="wrap">
-      {name ? (
-        <NewContent username={name}></NewContent>
-      ) : (
-        <NoAuthority></NoAuthority>
-      )}
+      <NewContent username={name}></NewContent>
     </View>
   )
 }
