@@ -3,9 +3,11 @@ export interface IDefaultParams {
   page?: number
 }
 export const defaultParams: IDefaultParams = {
-  per_page: 15,
+  per_page: 20,
   page: 1
 }
 
 export const REACH_BOTTOM_EVENT = 'reach_bottom_event'
 export const PULL_DOWN_REFRESH_EVENT = 'pull_down_refresh_event'
+
+export const THROTTLE_DELAY = 2500
