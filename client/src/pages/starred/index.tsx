@@ -5,10 +5,12 @@ import NoAuthority from '@/components/no-authority'
 import StarredContent from './content'
 import useName from '@/hooks/useName'
 import useReachBottomEvent from '@/hooks/useReachBottomEvent'
+import usePullDownRefreshEvent from '@/hooks/usePullDownRefreshEvent'
 
 const StarredRepos = () => {
   const [name] = useName()
   useReachBottomEvent()
+  usePullDownRefreshEvent()
 
   return (
     <View>

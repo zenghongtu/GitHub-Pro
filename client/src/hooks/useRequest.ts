@@ -1,5 +1,7 @@
-import { useState, useEffect, useRef, usePullDownRefresh } from "@tarojs/taro"
-import Taro from "@tarojs/taro"
+import { useState, useEffect, useRef, usePullDownRefresh } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
+import events from '@/utils/event_bus'
+import { PULL_DOWN_REFRESH_EVENT } from '@/constants'
 
 function useRequest<T>(
   params: any,
@@ -7,6 +9,7 @@ function useRequest<T>(
 ): [T | null, () => void] | [] {
   const [currData, setData] = useState<T | null>(null)
   const [count, setCount] = useState(0)
+  const pagePullDownRef = useRef('')
 
   useEffect(() => {
     request(params).then(data => {
@@ -20,8 +23,22 @@ function useRequest<T>(
     refresh()
     setTimeout(() => {
       Taro.stopPullDownRefresh()
-    }, 100)
+    }, 0)
   })
+
+  useEffect(() => {
+    events.on(PULL_DOWN_REFRESH_EVENT, (page: string) => {
+      if (!pagePullDownRef.current) {
+        pagePullDownRef.current = page
+      } else if (pagePullDownRef.current !== page) {
+        return
+      }
+      refresh()
+    })
+    return () => {
+      events.off(PULL_DOWN_REFRESH_EVENT)
+    }
+  }, [])
 
   const refresh = () => {
     setCount(count + 1)

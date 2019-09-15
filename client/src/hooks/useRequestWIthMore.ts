@@ -6,7 +6,11 @@ import {
   usePullDownRefresh
 } from '@tarojs/taro'
 
-import { defaultParams, REACH_BOTTOM_EVENT } from '../constants'
+import {
+  defaultParams,
+  REACH_BOTTOM_EVENT,
+  PULL_DOWN_REFRESH_EVENT
+} from '../constants'
 import Taro from '@tarojs/taro'
 import events from '@/utils/event_bus'
 
@@ -23,7 +27,8 @@ function useRequestWIthMore<T, S = string>(
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [params, setParams] = useState(defaultParams)
   // 存储唯一 id 用于比对，防止消息乱窜
-  const pageRef = useRef('')
+  const pageReachBottomRef = useRef('')
+  const pagePullDownRef = useRef('')
 
   useEffect(() => {
     if (hasMore) {
@@ -46,20 +51,34 @@ function useRequestWIthMore<T, S = string>(
     refresh()
     setTimeout(() => {
       Taro.stopPullDownRefresh()
-    }, 100)
+    }, 0)
   })
 
   useEffect(() => {
     events.on(REACH_BOTTOM_EVENT, (page: string) => {
-      if (!pageRef.current) {
-        pageRef.current = page
-      } else if (pageRef.current !== page) {
+      if (!pageReachBottomRef.current) {
+        pageReachBottomRef.current = page
+      } else if (pageReachBottomRef.current !== page) {
         return
       }
       getMoreData()
     })
     return () => {
       events.off(REACH_BOTTOM_EVENT)
+    }
+  }, [])
+
+  useEffect(() => {
+    events.on(PULL_DOWN_REFRESH_EVENT, (page: string) => {
+      if (!pagePullDownRef.current) {
+        pagePullDownRef.current = page
+      } else if (pagePullDownRef.current !== page) {
+        return
+      }
+      refresh()
+    })
+    return () => {
+      events.off(PULL_DOWN_REFRESH_EVENT)
     }
   }, [])
 
