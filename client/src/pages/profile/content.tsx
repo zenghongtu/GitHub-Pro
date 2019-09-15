@@ -16,7 +16,7 @@ import { getCurrentUser, IUserInfo } from '@/services/user'
 import UserInfo from '@/components/user-info'
 import Empty from '@/components/empty'
 
-const ProfileContent = ({ username }) => {
+const ProfileContent = ({ username, refreshCount }) => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
 
   const getUser = () => {
@@ -31,7 +31,7 @@ const ProfileContent = ({ username }) => {
     if (username) {
       getUser()
     }
-  }, [])
+  }, [refreshCount])
 
   useShareAppMessage(res => {
     const title = `[${userInfo!.login}] ${userInfo!.bio}`

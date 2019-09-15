@@ -6,7 +6,8 @@ import Taro, {
   useReachBottom,
   useShareAppMessage,
   useRouter,
-  useDidShow
+  useDidShow,
+  usePullDownRefresh
 } from '@tarojs/taro'
 import { View, Image, Block } from '@tarojs/components'
 
@@ -18,11 +19,22 @@ import useName from '@/hooks/useName'
 
 const Profile = () => {
   const [name] = useName()
+  const [refreshCount, setRefreshCount] = useState(0)
+
+  usePullDownRefresh(() => {
+    setRefreshCount(refreshCount => refreshCount + 1)
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    })
+  })
 
   return (
     <Block>
       {name ? (
-        <ProfileContent username={name}></ProfileContent>
+        <ProfileContent
+          username={name}
+          refreshCount={refreshCount}
+        ></ProfileContent>
       ) : (
         <NoAuthority></NoAuthority>
       )}
