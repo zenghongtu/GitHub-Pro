@@ -1,38 +1,20 @@
-import Taro from '@tarojs/taro'
-import { View, Text } from '@tarojs/components'
+import Taro, { useDidShow, useState } from '@tarojs/taro'
+import { View, Text, Block } from '@tarojs/components'
 import './index.scss'
-
-import { IStarred, IUserInfo } from '../../services/user'
-import Empty from '../../components/empty'
-import RepoItem from '../../components/repo-item'
-import useRequestWIthMore from '../../hooks/useRequestWIthMore'
-import { getUserStarred } from '../../services/users'
-import { getGlobalData } from '../../utils/global_data'
-import LoadMore from '@/components/load-more'
 import NoAuthority from '@/components/no-authority'
+import StarredContent from './content'
+import useName from '@/hooks/useName'
 
 const StarredRepos = () => {
-  const username = getGlobalData('username') as string
-  if (!username) {
-    return <NoAuthority></NoAuthority>
-  }
-  const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(
-    username,
-    getUserStarred
-  )
+  const [name] = useName()
 
   return (
     <View>
-      <View>
-        {starredRepos ? (
-          starredRepos.map((item, idx) => {
-            return <RepoItem key={idx} repo={item}></RepoItem>
-          })
-        ) : (
-          <Empty></Empty>
-        )}
-      </View>
-      {starredRepos && <LoadMore hasMore={hasMore!}></LoadMore>}
+      {name ? (
+        <StarredContent username={name}></StarredContent>
+      ) : (
+        <NoAuthority></NoAuthority>
+      )}
     </View>
   )
 }

@@ -1,5 +1,11 @@
 .wrap {
+}
+
+.content-wrap {
   padding: 20px;
-  min-height: 100vh;
+  height: 100vh;
   background: $bg;
+}
+page {
+  background: $itemBg;
 }
