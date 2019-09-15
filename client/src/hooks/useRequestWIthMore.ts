@@ -6,8 +6,9 @@ import {
   usePullDownRefresh
 } from '@tarojs/taro'
 
-import { defaultParams } from '../constants'
+import { defaultParams, REACH_BOTTOM_EVENT } from '../constants'
 import Taro from '@tarojs/taro'
+import events from '@/utils/event_bus'
 
 function useRequestWIthMore<T, S = string>(
   data: S,
@@ -21,6 +22,8 @@ function useRequestWIthMore<T, S = string>(
   const [currData, setData] = useState<T[] | null>(null)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [params, setParams] = useState(defaultParams)
+  // 存储唯一 id 用于比对，防止消息乱窜
+  const pageRef = useRef('')
 
   useEffect(() => {
     if (hasMore) {
@@ -46,7 +49,22 @@ function useRequestWIthMore<T, S = string>(
     }, 100)
   })
 
+  useEffect(() => {
+    events.on(REACH_BOTTOM_EVENT, (page: string) => {
+      if (!pageRef.current) {
+        pageRef.current = page
+      } else if (pageRef.current !== page) {
+        return
+      }
+      getMoreData()
+    })
+    return () => {
+      events.off(REACH_BOTTOM_EVENT)
+    }
+  }, [])
+
   useReachBottom(() => {
+    // TODO add throttle
     console.log('reach')
     getMoreData()
   })

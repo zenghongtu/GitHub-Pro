@@ -4,9 +4,11 @@ import './index.scss'
 import NoAuthority from '@/components/no-authority'
 import StarredContent from './content'
 import useName from '@/hooks/useName'
+import useReachBottomEvent from '@/hooks/useReachBottomEvent'
 
 const StarredRepos = () => {
   const [name] = useName()
+  useReachBottomEvent()
 
   return (
     <View>

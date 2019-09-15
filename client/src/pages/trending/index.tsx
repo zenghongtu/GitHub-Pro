@@ -38,12 +38,17 @@ const tabList = [
   { title: 'monthly', value: 'monthly' }
 ]
 
+const defaultTrendingPramas = {
+  since: 'daily'
+}
 const Trending = () => {
   const [repos, setRepos] = useState<TrendingRepoState>({})
   // const [users, setUsers] = useState<TrendingUser[] | null>(null)
   const [title, setTitle] = useState<string>(defaultLang)
   const [currTab, setCurrTab] = useState<number>(0)
-  const [params, setParams] = useState<TrendingRequestParams>({})
+  const [params, setParams] = useState<TrendingRequestParams>(
+    defaultTrendingPramas
+  )
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false)
   const [refresh, setRefresh] = useState<number>(0)
   const countRef = useRef(0)
