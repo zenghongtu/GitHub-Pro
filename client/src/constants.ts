@@ -3,7 +3,7 @@ export interface IDefaultParams {
   page?: number
 }
 export const defaultParams: IDefaultParams = {
-  per_page: 30,
+  per_page: 15,
   page: 1
 }
 

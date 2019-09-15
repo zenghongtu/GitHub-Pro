@@ -60,6 +60,11 @@ const UserIssues = () => {
   const getClosedIssues = params => {
     getUserIssues(params).then(data => {
       if (data) {
+        if (closedList) {
+          setClosedtList([...closedList, ...data])
+        } else {
+          setClosedtList(data)
+        }
         setClosedtList(data)
         if (data.length < params.per_page) {
           setClosedHasMore(false)
@@ -72,7 +77,11 @@ const UserIssues = () => {
     if (openHasMore) {
       getUserIssues(openParams).then(data => {
         if (data) {
-          setOpenList(data)
+          if (openList) {
+            setOpenList([...openList, ...data])
+          } else {
+            setOpenList(data)
+          }
           if (data.length < openParams.per_page!) {
             setOpenHasMore(false)
           }
