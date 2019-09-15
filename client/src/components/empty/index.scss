@@ -1,8 +1,10 @@
 .wrap {
+  height: 100vh;
+  width: 100vw;
   display: flex;
-  height: 100%;
-  width: 100%;
-  min-height: 800px;
+  justify-content: center;
+  align-items: center;
+  background: $bg;
 }
 .inner {
   margin: auto;
