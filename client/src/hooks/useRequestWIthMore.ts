@@ -26,12 +26,14 @@ function useRequestWIthMore<T, S = string>(
   const [currData, setData] = useState<T[] | null>(null)
   const [hasMore, setHasMore] = useState<boolean>(true)
   const [params, setParams] = useState(defaultParams)
-  // 存储唯一 id 用于比对，防止消息乱窜
+  // 存储唯一 id 用于匹配消息
   const pageReachBottomRef = useRef('')
   const pagePullDownRef = useRef('')
+  const loadingRef = useRef(false)
 
   useEffect(() => {
     if (hasMore) {
+      loadingRef.current = true
       request(data, params).then(data => {
         if (data) {
           if (currData) {
@@ -43,6 +45,7 @@ function useRequestWIthMore<T, S = string>(
             setHasMore(false)
           }
         }
+        loadingRef.current = false
       })
     }
   }, [params])
@@ -56,6 +59,9 @@ function useRequestWIthMore<T, S = string>(
 
   useEffect(() => {
     events.on(REACH_BOTTOM_EVENT, (page: string) => {
+      if (loadingRef.current) {
+        return
+      }
       if (!pageReachBottomRef.current) {
         pageReachBottomRef.current = page
       } else if (pageReachBottomRef.current !== page) {
@@ -83,8 +89,9 @@ function useRequestWIthMore<T, S = string>(
   }, [])
 
   useReachBottom(() => {
-    // TODO add throttle
-    console.log('reach')
+    if (loadingRef.current) {
+      return
+    }
     getMoreData()
   })
 
