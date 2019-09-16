@@ -1,10 +1,9 @@
 import Taro, { Component, Config } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
-import { IUserReceivedEvent } from '../../../services/users'
-import { getTimeAgo } from '@/utils/date'
-import Avatar from '@/components/avatar'
+import { IUserReceivedEvent } from '../../services/users'
 import Author from '@/components/author'
+import { ITouchEvent } from '@tarojs/components/types/common'
 
 const spacesRegExp = new RegExp('[\r\n\t]+', 'g')
 const refsHeadsRegExp = new RegExp('refs/heads/')
@@ -26,6 +25,19 @@ interface ActivityItemProps {
 const ActivityItem = ({ item }: ActivityItemProps) => {
   if (!item) {
     return null
+  }
+
+  const {
+    actor: { avatar_url, display_login, login },
+    repo: { name },
+    created_at
+  } = item
+
+  const handleIssueNumberClick = (full_name, number) => (e: ITouchEvent) => {
+    e.stopPropagation()
+    const url = `/pages/issues/issue-detail/index?full_name=${full_name}&number=${number}`
+
+    Taro.navigateTo({ url })
   }
 
   const renderEvent = () => {
@@ -100,7 +112,14 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Created comment on #{number} in
+              Created comment on{' '}
+              <Text
+                className="issue-number"
+                onClick={handleIssueNumberClick(name, number)}
+              >
+                #{number}
+              </Text>{' '}
+              in
               <Text className="repo-name"> {name}</Text>
             </View>
             <View className="event-desc">{text}</View>
@@ -223,12 +242,6 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
       </View>
     )
   }
-
-  const {
-    actor: { avatar_url, display_login, login },
-    repo: { name },
-    created_at
-  } = item
 
   const handleCardClick = () => {
     Taro.navigateTo({ url: `/pages/repos/index?full_name=${name}` })

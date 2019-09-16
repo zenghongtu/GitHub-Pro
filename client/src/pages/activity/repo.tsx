@@ -3,7 +3,7 @@ import { View, Text } from '@tarojs/components'
 import './index.scss'
 import { IUserReceivedEvent, getUserEvents } from '../../services/users'
 import Empty from '../../components/empty'
-import ActivityItem from './activity-item'
+import ActivityItem from '../../components/activity-item'
 
 import useRequestWIthMore from '../../hooks/useRequestWIthMore'
 import LoadMore from '@/components/load-more'
