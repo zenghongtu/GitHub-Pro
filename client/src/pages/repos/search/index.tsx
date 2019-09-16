@@ -23,8 +23,6 @@ import { IStarred } from '@/services/user'
 import { AtInput, AtSearchBar, AtSegmentedControl, AtTag } from 'taro-ui'
 import { searchUsers } from '../../../services/search'
 import Author from '@/components/author'
-import { setGlobalData, getGlobalData } from '../../../utils/global_data'
-import { ITouchEvent } from '@tarojs/components/types/common'
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('')
@@ -56,7 +54,7 @@ const Search = () => {
   }
 
   useEffect(() => {
-    const history = getGlobalData('search_history') as string[]
+    const history = Taro.getStorageSync('search_history') as string[]
     setHistory(history)
   }, [])
 
@@ -169,9 +167,7 @@ const Search = () => {
     const newHistory = [...new Set([...hisotry, value])]
 
     setHistory(newHistory)
-    setTimeout(() => {
-      setGlobalData('search_history', newHistory)
-    }, 100)
+    Taro.setStorageSync('search_history', newHistory)
   }
 
   const handleSegmentedControlClick = (index: number) => {

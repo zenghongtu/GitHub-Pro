@@ -13,7 +13,6 @@ import { getTimeAgo } from '@/utils/date'
 import { copyText } from '@/utils/common'
 import { AtButton, AtList } from 'taro-ui'
 import ListItem from '../list-item'
-import { setGlobalData } from '@/utils/global_data'
 
 const UserInfo = ({
   userInfo,

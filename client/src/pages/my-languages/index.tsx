@@ -5,7 +5,6 @@ import { AtCheckbox, AtIndexes, AtSearchBar } from 'taro-ui'
 import LANGUAGE_LIST from './languages'
 import FabButton from '../../components/fab-button'
 import { LanguageParams } from '../trending'
-import { setGlobalData, getGlobalData } from '../../utils/global_data'
 import { useSelector, useDispatch } from '@tarojs/redux'
 import { UPDATE_SELECTED_LANGS } from '@/store/constatnts'
 

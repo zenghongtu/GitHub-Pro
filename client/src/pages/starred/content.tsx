@@ -7,9 +7,7 @@ import Empty from '../../components/empty'
 import RepoItem from '../../components/repo-item'
 import useRequestWIthMore from '../../hooks/useRequestWIthMore'
 import { getUserStarred } from '../../services/users'
-import { getGlobalData } from '../../utils/global_data'
 import LoadMore from '@/components/load-more'
-import NoAuthority from '@/components/no-authority'
 
 const StarredContent = ({ username }) => {
   const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(

@@ -6,7 +6,6 @@ import logo from '../../assets/logo.png'
 import './index.scss'
 import Base64 from '../../utils/base64'
 import { getCurrentUser } from '../../services/user'
-import { setGlobalData, getGlobalData } from '../../utils/global_data'
 import { useDispatch } from '@tarojs/redux'
 import { LOGIN } from '../../store/constatnts'
 
@@ -29,12 +28,6 @@ const Login = () => {
   }
 
   const dispatch = useDispatch()
-
-  useDidShow(() => {
-    if (getGlobalData('userInfo')) {
-      Taro.navigateBack()
-    }
-  })
 
   const handleInputChange = (val, e) => {
     const key = e.target.id

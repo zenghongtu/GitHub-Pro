@@ -1,18 +1,16 @@
 import Taro, { Component, useState } from '@tarojs/taro'
 import { View, Text, Button, Image } from '@tarojs/components'
-import { AtNavBar, AtDrawer, AtIcon } from 'taro-ui'
 import './index.scss'
 import { TrendingRepo } from '@/services/trending'
-import { getGlobalData } from '@/utils/global_data'
-import { IUserInfo } from '@/services/user'
 import { ITouchEvent } from '@tarojs/components/types/common'
 import FontIcon from '@/components/font-icon'
+import { useSelector } from '@tarojs/redux'
 
 const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
   if (!repo) {
     return null
   }
-  const username = getGlobalData('username') as string
+  const username = useSelector<any, any>(state => state.user.username)
 
   const handleCardClick = () => {
     const url = `/pages/repos/index?owner=${author}&repo=${name}`

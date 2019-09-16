@@ -7,7 +7,7 @@ import {
   useDidHide,
   usePullDownRefresh
 } from '@tarojs/taro'
-import Taro from '@tarojs/taro'
+
 import events from '@/utils/event_bus'
 import { PULL_DOWN_REFRESH_EVENT } from '../constants'
 import { getUniqueId } from '@/utils/common'

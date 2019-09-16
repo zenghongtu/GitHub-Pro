@@ -1,9 +1,8 @@
 import Taro, { Component, useState, useEffect, useDidShow } from '@tarojs/taro'
 import { View, Text, Button } from '@tarojs/components'
-import { AtNavBar, AtDrawer, AtIcon } from 'taro-ui'
+import { AtIcon } from 'taro-ui'
 import './index.scss'
-import { getGlobalData } from '../../../utils/global_data'
-import { LanguageParams } from '..'
+
 import { useSelector } from '@tarojs/redux'
 
 export const defaultLang = 'All Languages'
