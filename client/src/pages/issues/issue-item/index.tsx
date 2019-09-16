@@ -3,9 +3,10 @@ import { View, Image, Text } from '@tarojs/components'
 import './index.scss'
 import { Issue } from '@/services/issues'
 import { getFormatDate, getTimeAgo } from '../../../utils/date'
-import { setIssueData } from '../shared_data'
 import FontIcon from '@/components/font-icon'
 import Avatar from '@/components/avatar'
+import { useDispatch } from '@tarojs/redux'
+import { UPDATE_ISSUE_INFO } from '../../../store/constatnts'
 
 interface IssueItemProps {
   issue: Issue
@@ -15,6 +16,8 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
   if (!issue) {
     return null
   }
+  const dispatch = useDispatch()
+
   const {
     url,
     repository_url,
@@ -56,9 +59,10 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
     pull_request,
     repository
   } = issue
+
   const full_name = _full_name || repository!.full_name
   const handleNavTo = () => {
-    setIssueData(issue)
+    dispatch({ type: UPDATE_ISSUE_INFO, payload: issue })
     const url = `/pages/issues/issue-detail/index?full_name=${full_name}&number=${number}`
     Taro.navigateTo({ url })
   }

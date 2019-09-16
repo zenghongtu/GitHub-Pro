@@ -18,22 +18,62 @@ import {
 import Empty from '@/components/empty'
 import CommentItem from '../comment-item'
 import Markdown from '@/components/markdown'
-import { getIssueData, setIssueData } from '../shared_data'
 import Author from '@/components/author'
 import LoadMore from '@/components/load-more'
 import FabButton from '@/components/fab-button'
+import { useSelector, useDispatch } from '@tarojs/redux'
+import { CLEAR_ISSUE_INFO } from '@/store/constatnts'
 
 const IssueDetail = () => {
   const {
     params: { full_name, number }
   } = useRouter()
 
+  const issue = useSelector<any, any>(state => state.issue.info)
+
+  const [issueData, setIssue] = useState(issue)
+
   const [commentList, hasMore, refresh] = useRequestWIthMore<
     IssueComment | null,
     any
   >({ full_name, number }, getIssueComments)
 
-  const [issueData, setIssue] = useState({})
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const title = full_name
+    Taro.setNavigationBarTitle({ title })
+  }, [])
+
+  useEffect(() => {
+    return () => {
+      dispatch({ type: CLEAR_ISSUE_INFO })
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!issueData) {
+      getIssueDetail({ full_name, number }).then(resData => {
+        if (resData) {
+          setIssue(resData)
+        }
+      })
+    }
+  }, [])
+
+  usePullDownRefresh(() => {
+    console.log('pull down')
+    refresh!()
+    setTimeout(() => {
+      Taro.stopPullDownRefresh()
+    }, 100)
+  })
+
+  const handleFabBtnClick = () => {
+    Taro.navigateTo({
+      url: `/pages/issues/create-comment/index?full_name=${full_name}&number=${number}`
+    })
+  }
 
   const {
     url,
@@ -62,44 +102,6 @@ const IssueDetail = () => {
   } = (issueData as Issue) || {}
 
   const { login, avatar_url, gravatar_id, type, site_admin } = user || {}
-
-  useEffect(() => {
-    const title = full_name
-    Taro.setNavigationBarTitle({ title })
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      setIssueData(null)
-    }
-  }, [])
-
-  useEffect(() => {
-    const data = getIssueData() || null
-    if (data) {
-      setIssue(data)
-    } else {
-      getIssueDetail({ full_name, number }).then(resData => {
-        if (resData) {
-          setIssue(resData)
-        }
-      })
-    }
-  }, [])
-
-  const handleFabBtnClick = () => {
-    Taro.navigateTo({
-      url: `/pages/issues/create-comment/index?full_name=${full_name}&number=${number}`
-    })
-  }
-
-  usePullDownRefresh(() => {
-    console.log('pull down')
-    refresh!()
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 100)
-  })
 
   if (!login) {
     return <Empty></Empty>
