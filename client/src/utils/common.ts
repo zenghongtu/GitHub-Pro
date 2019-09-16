@@ -8,7 +8,7 @@ export const showLoginTips = () => {
   isShoTip = true
   Taro.showModal({
     title: 'Login Required',
-    content: 'This page requires login to view, Do you want to login?',
+    content: 'This page requires login. Do you want to login?',
     cancelText: 'No',
     cancelColor: '#fb3e3b',
     confirmText: 'Ok',

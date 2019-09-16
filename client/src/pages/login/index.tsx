@@ -131,7 +131,9 @@ const Login = () => {
               Login
             </AtButton>
           </View>
-          <View>{/* TODO  */}</View>
+          <View className="desc">
+            账号密码等数据只会在本地保存，不会上传到服务器的，放心使用~😎
+          </View>
         </View>
       </View>
     </View>
