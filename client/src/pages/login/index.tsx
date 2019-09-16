@@ -68,7 +68,7 @@ const Login = () => {
         })
         setGlobalData('username', data.login)
         setTimeout(() => {
-          Taro.switchTab({ url: '/pages/profile/index?refresh=true' })
+          Taro.navigateBack()
         }, 1500)
       }
     })
