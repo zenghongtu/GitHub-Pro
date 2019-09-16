@@ -6,10 +6,25 @@
 	line-height: 1.8em;
 }
 .wemark_block_h1{
-	font-size:40rpx;
-	text-align: center;
-	margin-bottom:1em;
+	font-size:50rpx;
+  /**不喜欢居中，把居中去掉**/
+  /**text-align: center;**/
+  margin-bottom:1em;
+  margin-top:40px;
+  font-weight: 500;
+  position: relative;
 }
+
+.wemark_block_h1:after{
+  content: '';                 /*CSS伪类用法*/
+  position: absolute;         /*定位背景横线的位置*/
+  top: 130%;
+  background: #e0e0e0;       /*宽和高做出来的背景横线*/
+  width: 100%;
+  height: 1px;
+  left:0px;
+}
+
 .wemark_block_h2{
 	font-size:40rpx;
 	padding-bottom:.5em;
@@ -71,7 +86,7 @@
 	border:1px solid #f0f0f0;
 	white-space: pre;
 	overflow: auto;
-  background-color: #111;
+  background-color: #2b2b2b;
 }
 .wemark_block_table{
 	width: 100%;
@@ -137,16 +152,16 @@
 }
 .wemark_inline_code{
 	background:#edebed;
-  padding: 3rpx 15rpx;
-  word-wrap: break-word;
-  border-radius: 5rpx;
+	padding:3px 5px;
+	word-wrap:break-word;
+  border-radius:5px;
   margin-left:5px;
   margin-right:5px;
 }
 
 .wemark_inline_code_annotation,
 .wemark_inline_code_triple-quoted-string{
-  color: slategray;
+  color: #e0e0e0;
 }
 .wemark_inline_code_rule,
 view.wemark_block_code view,
