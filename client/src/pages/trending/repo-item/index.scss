@@ -1,5 +1,5 @@
 .card-wrap {
-  margin: 20px;
+  margin: 30px 20px;
   padding: 10px 20px 20px 10px;
   box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
   border-radius: 10px;
@@ -76,16 +76,15 @@
 }
 
 .avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 20px;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
 }
 
 .card-bottom {
   margin-top: 10px;
   display: flex;
   margin-left: 35px;
-
   align-items: center;
 }
 
@@ -93,9 +92,9 @@
   margin-left: 15px;
 }
 .meta-item {
-  display: inline-block;
+  display: flex;
+  align-items: center;
   font-size: 24px;
-  vertical-align: bottom;
 }
 
 .meta-item:last-child {
