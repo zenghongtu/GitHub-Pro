@@ -36,8 +36,9 @@ export interface IUserInfo {
   updated_at: string
 }
 
-export const getCurrentUser = () => {
-  return request.get<IUserInfo | null>('/user')
+export const getCurrentUser = (token?: string) => {
+  const headers = token ? { Authorization: token } : {}
+  return request.get<IUserInfo | null>('/user', {}, headers)
 }
 
 export interface IStarred {

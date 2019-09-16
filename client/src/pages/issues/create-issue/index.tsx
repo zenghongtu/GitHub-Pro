@@ -9,11 +9,21 @@ import { View, Text, Button } from '@tarojs/components'
 import './index.scss'
 import { AtInput, AtTextarea, AtButton } from 'taro-ui'
 import { createIssue } from '../../../services/issues'
+import { useSelector } from '@tarojs/redux'
+import { showLoginTips } from '../../../utils/common'
 
 const CreateIssue = () => {
   const {
     params: { full_name }
   } = useRouter()
+  if (!full_name) {
+    return
+  }
+
+  const username = useSelector<any, any>(state => state.user.username)
+  if (!username) {
+    showLoginTips()
+  }
 
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')

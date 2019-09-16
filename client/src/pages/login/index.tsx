@@ -7,6 +7,8 @@ import './index.scss'
 import Base64 from '../../utils/base64'
 import { getCurrentUser } from '../../services/user'
 import { setGlobalData, getGlobalData } from '../../utils/global_data'
+import { useDispatch } from '@tarojs/redux'
+import { LOGIN } from '../../store/constatnts'
 
 const ACCOUNT_INDEX = 0
 const TOKEN_INDEX = 1
@@ -25,6 +27,8 @@ const Login = () => {
   const handleChangeTab = val => {
     setCurrTab(val)
   }
+
+  const dispatch = useDispatch()
 
   useDidShow(() => {
     if (getGlobalData('userInfo')) {
@@ -58,15 +62,16 @@ const Login = () => {
       authorization = 'token ' + token
     }
 
-    setGlobalData('authorization', authorization)
-    getCurrentUser().then(data => {
+    getCurrentUser(authorization).then(data => {
+      Taro.setStorageSync('authorization', authorization)
       if (data) {
+        dispatch({ type: LOGIN, payload: data.login })
         Taro.showToast({
           title: 'login success!',
           icon: 'success',
           duration: 1500
         })
-        setGlobalData('username', data.login)
+
         setTimeout(() => {
           Taro.navigateBack()
         }, 1500)

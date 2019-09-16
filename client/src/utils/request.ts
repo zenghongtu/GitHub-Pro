@@ -7,8 +7,10 @@ if (process.env.TARO_ENV === 'weapp') {
   BASE_URL = 'https://api.stayin.cn'
 }
 
-// TODO 效果不行，不缓存
+// TODO 目前不做缓存
 const isDev = process.env.NODE_ENV === 'development' && false
+
+let token = Taro.getStorageSync('authorization')
 
 type Method =
   | 'OPTIONS'
@@ -32,12 +34,13 @@ export const request = (
       return Promise.resolve(data)
     }
   }
+
   const option = {
     url,
     data,
     method,
     header: {
-      Authorization: getGlobalData('authorization'),
+      Authorization: token || (token = Taro.getStorageSync('authorization')),
       ...headers
     }
   }

@@ -15,10 +15,11 @@ import './index.scss'
 
 import NoAuthority from '@/components/no-authority'
 import ProfileContent from './content'
-import useName from '@/hooks/useName'
+import { useSelector } from '@tarojs/redux'
 
 const Profile = () => {
-  const [name] = useName()
+  const username = useSelector<any, any>(state => state.user.username)
+
   const [refreshCount, setRefreshCount] = useState(0)
 
   usePullDownRefresh(() => {
@@ -30,9 +31,9 @@ const Profile = () => {
 
   return (
     <Block>
-      {name ? (
+      {username ? (
         <ProfileContent
-          username={name}
+          username={username}
           refreshCount={refreshCount}
         ></ProfileContent>
       ) : (

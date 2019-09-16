@@ -1,19 +1,20 @@
-import Taro, { Component, Config, useDidShow, useState } from '@tarojs/taro'
+import Taro from '@tarojs/taro'
 import { View, Text, Block } from '@tarojs/components'
 import './index.scss'
-import NoAuthority from '@/components/no-authority'
 import NewContent from './content'
-import useName from '@/hooks/useName'
 import useReachBottomEvent from '@/hooks/useReachBottomEvent'
 import usePullDownRefreshEvent from '@/hooks/usePullDownRefreshEvent'
+import { useSelector } from '@tarojs/redux'
 
 const News = () => {
-  const [name] = useName()
+  const username = useSelector<any, any>(state => state.user.username)
+
   useReachBottomEvent()
   usePullDownRefreshEvent()
+
   return (
     <View className="wrap">
-      <NewContent username={name}></NewContent>
+      <NewContent username={username}></NewContent>
     </View>
   )
 }

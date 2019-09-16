@@ -3,19 +3,20 @@ import { View, Text, Block } from '@tarojs/components'
 import './index.scss'
 import NoAuthority from '@/components/no-authority'
 import StarredContent from './content'
-import useName from '@/hooks/useName'
 import useReachBottomEvent from '@/hooks/useReachBottomEvent'
 import usePullDownRefreshEvent from '@/hooks/usePullDownRefreshEvent'
+import { useSelector } from '@tarojs/redux'
 
 const StarredRepos = () => {
-  const [name] = useName()
+  const username = useSelector<any, any>(state => state.user.username)
+
   useReachBottomEvent()
   usePullDownRefreshEvent()
 
   return (
     <View>
-      {name ? (
-        <StarredContent username={name}></StarredContent>
+      {username ? (
+        <StarredContent username={username}></StarredContent>
       ) : (
         <NoAuthority></NoAuthority>
       )}
