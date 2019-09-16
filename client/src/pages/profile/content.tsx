@@ -11,19 +11,21 @@ import Taro, {
 import { View, Image, Block } from '@tarojs/components'
 
 import './index.scss'
-import { getGlobalData, setGlobalData } from '@/utils/global_data'
 import { getCurrentUser, IUserInfo } from '@/services/user'
 import UserInfo from '@/components/user-info'
 import Empty from '@/components/empty'
+import { LOGIN, LOGOUT } from '@/store/constatnts'
+import { useDispatch } from '@tarojs/redux'
 
 const ProfileContent = ({ username, refreshCount }) => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null)
+  const dispatch = useDispatch()
 
   const getUser = () => {
     getCurrentUser().then(data => {
       if (data) {
         setUserInfo(data)
-        setGlobalData('username', data.login)
+        dispatch({ type: LOGIN, payload: { username: data.login } })
       }
     })
   }
@@ -52,8 +54,7 @@ const ProfileContent = ({ username, refreshCount }) => {
 
       success(res) {
         if (res.confirm) {
-          setGlobalData('username', '')
-          setGlobalData('authorization', '')
+          dispatch({ type: LOGOUT })
           setUserInfo(null)
           Taro.switchTab({ url: '/pages/trending/index' })
         } else if (res.cancel) {

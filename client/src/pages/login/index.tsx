@@ -63,9 +63,11 @@ const Login = () => {
     }
 
     getCurrentUser(authorization).then(data => {
-      Taro.setStorageSync('authorization', authorization)
       if (data) {
-        dispatch({ type: LOGIN, payload: data.login })
+        dispatch({
+          type: LOGIN,
+          payload: { username: data.login, token: authorization }
+        })
         Taro.showToast({
           title: 'login success!',
           icon: 'success',

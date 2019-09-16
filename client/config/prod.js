@@ -12,6 +12,7 @@ module.exports = {
     '@/hooks': path.resolve(__dirname, '..', 'src/hooks'),
     '@/assets': path.resolve(__dirname, '..', 'src/assets'),
     '@/services': path.resolve(__dirname, '..', 'src/services'),
+    '@/store': path.resolve(__dirname, '..', 'src/store'),
     '@/constants': path.resolve(__dirname, '..', 'src/constants.ts'),
     '@/package': path.resolve(__dirname, '..', 'package.json')
   },

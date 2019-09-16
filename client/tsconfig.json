@@ -26,6 +26,7 @@
       "@/hooks/*": ["./src/hooks/*"],
       "@/assets/*": ["./src/assets/*"],
       "@/services/*": ["./src/services/*"],
+      "@/store/*": ["./src/store/*"],
       "@/constants": ["./src/constants.ts"],
       "@/package": ["./package.json"]
     }

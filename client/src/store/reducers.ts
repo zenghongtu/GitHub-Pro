@@ -3,7 +3,7 @@ import userReducer from './reducers/user'
 
 export interface IAction {
   type: string
-  payload: string
+  payload: any
 }
 
 export default combineReducers({
