@@ -6,6 +6,8 @@ import LANGUAGE_LIST from './languages'
 import FabButton from '../../components/fab-button'
 import { LanguageParams } from '../trending'
 import { setGlobalData, getGlobalData } from '../../utils/global_data'
+import { useSelector, useDispatch } from '@tarojs/redux'
+import { UPDATE_SELECTED_LANGS } from '@/store/constatnts'
 
 interface OptionsLang {
   value: string
@@ -13,12 +15,13 @@ interface OptionsLang {
 }
 
 const MyLanguages = () => {
-  const myLangs = getGlobalData('myLangs') as LanguageParams[]
-  const initSelectedList = myLangs.map(lang => lang.language)
+  const langs = useSelector<any, any>(state => state.lang.selected)
+  const initSelectedList = langs.map(lang => lang.language)
 
   const [optionsLangs, setOptionsLangs] = useState<OptionsLang[]>(LANGUAGE_LIST)
   const [selectedList, setSelectedList] = useState<string[]>(initSelectedList)
   const [fiterVal, setFilterVal] = useState<string>('')
+  const dispatch = useDispatch()
 
   const handleSeletedChange = val => {
     setSelectedList(val)
@@ -43,7 +46,11 @@ const MyLanguages = () => {
       },
       []
     )
-    setGlobalData('myLangs', languages)
+
+    dispatch({
+      type: UPDATE_SELECTED_LANGS,
+      payload: languages
+    })
     Taro.navigateBack()
   }
 

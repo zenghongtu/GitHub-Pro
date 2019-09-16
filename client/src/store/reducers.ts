@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux'
 import userReducer from './reducers/user'
+import languageReducer from './reducers/lang'
 
 export interface IAction {
   type: string
@@ -7,5 +8,6 @@ export interface IAction {
 }
 
 export default combineReducers({
-  user: userReducer
+  user: userReducer,
+  lang: languageReducer
 })

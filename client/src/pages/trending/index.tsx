@@ -42,10 +42,14 @@ const tabList = [
 const defaultTrendingPramas = {
   since: 'daily'
 }
+
+const current = Taro.getStorageSync('current') || defaultLang
+const currLang = current.replace(/^\S/, s => s.toUpperCase())
+
 const Trending = () => {
   const [repos, setRepos] = useState<TrendingRepoState>({})
   // const [users, setUsers] = useState<TrendingUser[] | null>(null)
-  const [title, setTitle] = useState<string>(defaultLang)
+  const [title, setTitle] = useState<string>(currLang)
   const [currTab, setCurrTab] = useState<number>(0)
   const [params, setParams] = useState<TrendingRequestParams>(
     defaultTrendingPramas
@@ -124,6 +128,7 @@ const Trending = () => {
 
   const handleChangeParams = ({ language, title }: LanguageParams) => {
     setParams({ ...params, language })
+    Taro.setStorageSync('current', language)
     setTitle(title)
     setShowLangDrawer(false)
   }

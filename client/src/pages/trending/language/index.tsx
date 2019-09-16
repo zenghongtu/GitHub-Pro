@@ -4,6 +4,7 @@ import { AtNavBar, AtDrawer, AtIcon } from 'taro-ui'
 import './index.scss'
 import { getGlobalData } from '../../../utils/global_data'
 import { LanguageParams } from '..'
+import { useSelector } from '@tarojs/redux'
 
 export const defaultLang = 'All Languages'
 
@@ -13,12 +14,7 @@ interface LanguageProps {
 }
 
 const Language = ({ onChangeLang, curTitle }: LanguageProps) => {
-  const myLangs = getGlobalData('myLangs') as LanguageParams[]
-  const [langs, setLangs] = useState<LanguageParams[]>(myLangs)
-
-  useDidShow(() => {
-    setLangs(getGlobalData('myLangs') as LanguageParams[])
-  })
+  const langs = useSelector<any, any>(state => state.lang.selected)
 
   const handleLangClick = e => {
     const { dataset } = e.target
@@ -39,6 +35,7 @@ const Language = ({ onChangeLang, curTitle }: LanguageProps) => {
       <View className="lang-list">
         {langs.map(lang => {
           const { title, language } = lang
+
           return (
             <View
               key={language}
