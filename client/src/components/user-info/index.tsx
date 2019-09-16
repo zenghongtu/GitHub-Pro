@@ -239,7 +239,7 @@ const UserInfo = ({
                 arrow="right"
                 title="Feedback"
                 onClick={handleNavTo(
-                  `/pages/repos/index?owner=zenghongtu&repo=GitHub-Pro`
+                  `/pages/issues/index?full_name=zenghongtu/GitHub-Pro`
                 )}
               />
               <ListItem
