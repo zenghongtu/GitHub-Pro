@@ -19,6 +19,7 @@ function useRequestWIthMore<T, S = string>(
   request: (data: S, params: any | null) => Promise<T[] | null>
 ): [T[] | null, boolean, () => void, () => void] | [] {
   if (!data) {
+    // bug?
     console.warn('useRequestWIthMore: no data')
     return []
   }
@@ -34,27 +35,29 @@ function useRequestWIthMore<T, S = string>(
   useEffect(() => {
     if (hasMore) {
       loadingRef.current = true
-      request(data, params).then(data => {
-        if (data) {
-          if (currData) {
-            setData([...currData, ...data])
-          } else {
-            setData(data)
+      request(data, params)
+        .then(data => {
+          if (data) {
+            if (currData) {
+              setData([...currData, ...data])
+            } else {
+              setData(data)
+            }
+            if (data.length < params.per_page!) {
+              setHasMore(false)
+            }
           }
-          if (data.length < params.per_page!) {
-            setHasMore(false)
-          }
-        }
-        loadingRef.current = false
-      })
+        })
+        .finally(() => {
+          loadingRef.current = false
+          Taro.stopPullDownRefresh()
+          Taro.hideLoading()
+        })
     }
   }, [params])
 
   usePullDownRefresh(() => {
     refresh()
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 0)
   })
 
   useEffect(() => {
