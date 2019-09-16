@@ -47,24 +47,24 @@ const Search = () => {
   const [current, setCurrent] = useState(0)
   const [hasMoreRepos, setHasMoreRepos] = useState(true)
   const [hasMoreUsers, setHasMoreUsers] = useState(true)
-  const [hisotry, setHistory] = useState<string[]>([])
+  const [searchHisotry, setSearchHistory] = useState<string[]>([])
 
   const isRepo = () => {
     return current === 0
   }
 
   useEffect(() => {
-    const history = Taro.getStorageSync('search_history') as string[]
-    setHistory(history)
+    const history = Taro.getStorageSync('search_history') || []
+    setSearchHistory(history)
   }, [])
 
   const getRepos = () => {
     searchRepos({ ...searchReposParams, q: searchValue }).then(data => {
       if (data) {
-        if (repoList) {
-          setRepoList([...repoList, ...data])
-        } else {
+        if (searchReposParams.page === 1 || !repoList) {
           setRepoList(data)
+        } else {
+          setRepoList([...repoList, ...data])
         }
         if (data.length < searchReposParams.per_page!) {
           setHasMoreRepos(false)
@@ -76,10 +76,10 @@ const Search = () => {
   const getUsers = () => {
     searchUsers({ ...searchUsersParams, q: searchValue }).then(data => {
       if (data) {
-        if (userList) {
-          setUserList([...userList, ...data])
-        } else {
+        if (searchUsersParams.page === 1 || !userList) {
           setUserList(data)
+        } else {
+          setUserList([...userList, ...data])
         }
         if (data.length < searchUsersParams.per_page!) {
           setHasMoreUsers(false)
@@ -143,16 +143,25 @@ const Search = () => {
   }
 
   const onChange = (val: string) => {
+    if (!val) {
+      onClear()
+      return
+    }
     setValue(val)
   }
 
   const onClear = () => {
     setValue('')
     setSearchValue('')
+    setRepoList(null)
+    setUserList(null)
   }
+
   const updateParams = (q: string) => {
-    // TODO
     setSearchValue(q)
+    // TODO
+    setRepoList(null)
+    setUserList(null)
     if (isRepo()) {
       setSearchReposParams({ ...searchReposParams, q })
     } else {
@@ -163,11 +172,11 @@ const Search = () => {
     if (!value) {
       return
     }
-    updateParams(value)
-    const newHistory = [...new Set([...hisotry, value])]
+    const newHistory = [...new Set([...searchHisotry, value])]
 
-    setHistory(newHistory)
+    setSearchHistory(newHistory)
     Taro.setStorageSync('search_history', newHistory)
+    updateParams(value)
   }
 
   const handleSegmentedControlClick = (index: number) => {
@@ -246,21 +255,22 @@ const Search = () => {
           )
         ) : (
           <View className="history-tags">
-            {hisotry.map(item => {
-              return (
-                <View key={item} className="tag">
-                  <AtTag
-                    name={item}
-                    type="primary"
-                    customStyle={{ background: '#fff' }}
-                    circle
-                    onClick={handleTagClick}
-                  >
-                    {item}
-                  </AtTag>
-                </View>
-              )
-            })}
+            {searchHisotry &&
+              searchHisotry.map(item => {
+                return (
+                  <View key={item} className="tag">
+                    <AtTag
+                      name={item}
+                      type="primary"
+                      customStyle={{ background: '#fff' }}
+                      circle
+                      onClick={handleTagClick}
+                    >
+                      {item}
+                    </AtTag>
+                  </View>
+                )
+              })}
           </View>
         )}
       </View>
