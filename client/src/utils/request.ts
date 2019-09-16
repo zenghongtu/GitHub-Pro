@@ -44,7 +44,10 @@ export const request = (
       ...headers
     }
   }
-  if (!url.endsWith('/readme')) {
+
+  if ((data && data.page > 1) || url.endsWith('/readme')) {
+    // TODO
+  } else {
     Taro.showLoading({ title: 'loading..' })
   }
   return Taro.request(option)
