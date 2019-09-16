@@ -88,6 +88,7 @@ export const request = (
       return null
     })
     .finally(() => {
+      Taro.stopPullDownRefresh()
       Taro.hideLoading()
     })
 }

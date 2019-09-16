@@ -62,11 +62,7 @@ const IssueDetail = () => {
   }, [])
 
   usePullDownRefresh(() => {
-    console.log('pull down')
     refresh!()
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 100)
   })
 
   const handleFabBtnClick = () => {

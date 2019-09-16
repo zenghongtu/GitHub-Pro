@@ -21,9 +21,6 @@ function useRequest<T>(
 
   usePullDownRefresh(() => {
     refresh()
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 0)
   })
 
   useEffect(() => {

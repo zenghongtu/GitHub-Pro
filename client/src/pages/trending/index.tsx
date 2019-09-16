@@ -65,9 +65,6 @@ const Trending = () => {
   usePullDownRefresh(() => {
     setRepos({ [currTab]: null })
     setRefresh(++countRef.current)
-    setTimeout(() => {
-      Taro.stopPullDownRefresh()
-    }, 0)
   })
 
   useShareAppMessage(res => {
