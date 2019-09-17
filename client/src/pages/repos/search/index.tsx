@@ -58,7 +58,7 @@ const Search = () => {
     setSearchHistory(history)
   }, [])
 
-  const getRepos = () => {
+  const getRepos = searchReposParams => {
     searchRepos({ ...searchReposParams, q: searchValue }).then(data => {
       if (data) {
         if (searchReposParams.page === 1 || !repoList) {
@@ -73,7 +73,7 @@ const Search = () => {
     })
   }
 
-  const getUsers = () => {
+  const getUsers = searchUsersParams => {
     searchUsers({ ...searchUsersParams, q: searchValue }).then(data => {
       if (data) {
         if (searchUsersParams.page === 1 || !userList) {
@@ -90,13 +90,13 @@ const Search = () => {
 
   useEffect(() => {
     if (searchValue) {
-      getRepos()
+      getRepos(searchReposParams)
     }
   }, [searchReposParams])
 
   useEffect(() => {
     if (searchValue) {
-      getUsers()
+      getUsers(searchUsersParams)
     }
   }, [searchUsersParams])
 
@@ -157,26 +157,24 @@ const Search = () => {
     setUserList(null)
   }
 
-  const updateParams = (q: string) => {
-    setSearchValue(q)
-    // TODO
-    setRepoList(null)
-    setUserList(null)
+  const updateParams = params => {
+    setSearchValue(params.q)
+    // TODO pref
     if (isRepo()) {
-      setSearchReposParams({ ...searchReposParams, q })
+      setSearchReposParams({ ...searchReposParams, ...params })
     } else {
-      setSearchUsersParams({ ...searchUsersParams, q })
+      setSearchUsersParams({ ...searchUsersParams, ...params })
     }
   }
-  const onActionClick = () => {
+  const handleConfirm = () => {
     if (!value) {
       return
     }
-    const newHistory = [...new Set([...searchHisotry, value])]
+    const newHistory = [...new Set([value, ...searchHisotry])]
 
     setSearchHistory(newHistory)
     Taro.setStorageSync('search_history', newHistory)
-    updateParams(value)
+    updateParams({ q: value, page: 1 })
   }
 
   const handleSegmentedControlClick = (index: number) => {
@@ -185,19 +183,20 @@ const Search = () => {
 
   const handleTagClick = ({ name }) => {
     setValue(name)
-    updateParams(name)
+    updateParams({ q: name })
   }
 
   return (
     <View className="wrap">
       <View className="search-wrap">
         <AtSearchBar
+          onConfirm={handleConfirm}
           placeholder="search"
           actionName="GO"
           value={value}
           onClear={onClear}
           onChange={onChange}
-          onActionClick={onActionClick}
+          onActionClick={handleConfirm}
         />
       </View>
       <View className="sc">
