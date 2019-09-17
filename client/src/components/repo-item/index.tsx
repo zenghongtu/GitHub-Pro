@@ -116,7 +116,7 @@ const RepoItem = ({ repo }: RepoItemProps) => {
             style={{ background: LANGUAGE_COLOR_MAP[language!] }}
           ></Text>
         </View>
-        <View className="desc">{description}</View>
+        <View className="desc">{description || ''}</View>
         <View className="bottom">
           <View className="meta-item">
             <FontIcon size="14" value="star"></FontIcon> {stargazers_count}

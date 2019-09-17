@@ -9,10 +9,11 @@ const NoAuthority = () => {
     <View className="wrap">
       <View className="inner">
         <Image src={img} className="img"></Image>
-        <View className="desc">This page required login to view!</View>
+        <View className="desc">This page required login to view</View>
         <View className="login">
           <AtButton
             size="small"
+            circle
             type="primary"
             onClick={() => {
               Taro.navigateTo({ url: `/pages/login/index` })

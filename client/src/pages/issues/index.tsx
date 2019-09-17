@@ -82,7 +82,6 @@ const Issues = () => {
       getIssues(full_name, openParams).then(data => {
         if (data) {
           if (openList) {
-            debugger
             setOpenList([...openList, ...data])
           } else {
             setOpenList(data)
