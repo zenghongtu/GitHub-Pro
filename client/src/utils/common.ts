@@ -29,7 +29,7 @@ export const copyText = (text: string) => {
     // @ts-ignore
     success: function(res) {
       Taro.showToast({
-        title: `Copy link: ${text}`,
+        title: `Copy: ${text}`,
         icon: 'none',
         mask: true
       })
