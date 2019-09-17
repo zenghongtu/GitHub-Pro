@@ -10,7 +10,7 @@ import Taro, {
 import { View, Text, Block } from '@tarojs/components'
 import './index.scss'
 import { getIssues, Issue } from '../../services/issues'
-import { defaultParams } from '../../constants'
+import { defaultParams, issueDefaultParams } from '../../constants'
 import { AtTabs, AtTabsPane } from 'taro-ui'
 import IssueItem from '../issues/issue-item'
 import Empty from '@/components/empty'
@@ -31,12 +31,12 @@ const UserIssues = () => {
   const [closedList, setClosedtList] = useState<Issue[] | null>(null)
 
   const [openParams, setOpenParams] = useState({
-    ...defaultParams,
+    ...issueDefaultParams,
     filter: 'all',
     state: 'open'
   })
   const [closedParams, setClosedParams] = useState({
-    ...defaultParams,
+    ...issueDefaultParams,
     filter: 'all',
     state: 'closed'
   })

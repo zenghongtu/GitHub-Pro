@@ -7,6 +7,12 @@ export const defaultParams: IDefaultParams = {
   page: 1
 }
 
+export const issueDefaultParams: IDefaultParams = {
+  // 多了会 GG
+  per_page: 12,
+  page: 1
+}
+
 export const REACH_BOTTOM_EVENT = 'reach_bottom_event'
 export const PULL_DOWN_REFRESH_EVENT = 'pull_down_refresh_event'
 

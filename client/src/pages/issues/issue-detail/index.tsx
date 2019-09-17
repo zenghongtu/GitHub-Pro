@@ -129,10 +129,9 @@ const IssueDetail = () => {
               ></CommentItem>
             )
           })}
-          <LoadMore hasMore={!!hasMore}></LoadMore>
         </View>
       ) : (
-        <Empty></Empty>
+        <LoadMore hasMore={!!hasMore}></LoadMore>
       )}
       <FabButton icon="add" onClick={handleFabBtnClick}></FabButton>
     </View>
