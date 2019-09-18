@@ -8,10 +8,9 @@
 
 探究 Taro 使用 TypeScript 的坑，以及 Taro Hooks 的能力（所有页面、组件均用 Hooks） -- 结论： 真香~😋
 
-
 ## 扫码体验
 
-![](docs/2019-09-18-00-45-26.png)
+![](docs/qrcode.jpg)
 
 (或者微信搜索小程序：GitHub Pro)
 
