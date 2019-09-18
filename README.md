@@ -4,7 +4,7 @@
 
 > 一个简洁、强大的 GitHub 小程序客户端，基于 Taro 和 TypeScript。
 
-## 启发
+## 想法
 
 探究 Taro 使用 TypeScript 的坑，以及 Taro Hooks 的能力（所有页面、组件均用 Hooks） -- 结论： 真香~😋
 
@@ -14,7 +14,7 @@
 
 (或者微信搜索小程序：GitHub Pro)
 
-## Gif
+## Preview
 
 ![](docs/github-pro.gif)
 
@@ -24,9 +24,11 @@
 ![](docs/2019-09-18-00-48-58.png)<br>
 ![](docs/2019-09-18-00-49-42.png)<br>
 
-## Feature
+## Next Feature
 
-TODO
+- [ ] 消息中心
+- [ ] 生成分享图片
+- [ ] ...
 
 ## 协议
 
