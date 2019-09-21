@@ -45,7 +45,11 @@ export const request = (
     }
   }
 
-  if ((data && data.page > 1) || url.endsWith('/readme')) {
+  if (
+    (data && data.page > 1) ||
+    url.endsWith('/readme') ||
+    url.includes('/user/starred')
+  ) {
     // TODO
   } else {
     Taro.showLoading({ title: 'loading..' })
