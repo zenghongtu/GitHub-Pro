@@ -44,6 +44,8 @@ const defaultTrendingPramas = {
   since: 'daily'
 }
 
+const duractionTextList = ['today', 'week', 'month']
+
 const currLang = Taro.getStorageSync('current') || defaultLang
 
 const Trending = () => {
@@ -146,6 +148,8 @@ const Trending = () => {
             {tabList.map((tab, idx) => {
               const _repos = repos[idx]
               const data = _repos && _repos!.length > 0 ? _repos : null
+              const duractionText = duractionTextList[currTab]
+
               return (
                 <AtTabsPane key={tab.title} current={currTab} index={idx}>
                   <View>
@@ -153,7 +157,11 @@ const Trending = () => {
                       data.map((repo, index) => {
                         return (
                           <Block key={repo.url}>
-                            <RepoItem repo={repo} index={index}></RepoItem>
+                            <RepoItem
+                              repo={repo}
+                              index={index}
+                              duractionText={duractionText}
+                            ></RepoItem>
                           </Block>
                         )
                       })

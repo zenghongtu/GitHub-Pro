@@ -6,7 +6,15 @@ import { ITouchEvent } from '@tarojs/components/types/common'
 import FontIcon from '@/components/font-icon'
 import { useSelector } from '@tarojs/redux'
 
-const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
+const RepoItem = ({
+  repo,
+  index,
+  duractionText
+}: {
+  repo: TrendingRepo
+  index: number
+  duractionText: string
+}) => {
   if (!repo) {
     return null
   }
@@ -81,7 +89,9 @@ const RepoItem = ({ repo, index }: { repo: TrendingRepo; index: number }) => {
           ></FontIcon>
           {forks}
         </View>
-        <View className="meta-item">{currentPeriodStars} stars today</View>
+        <View className="meta-item">
+          {currentPeriodStars} stars {duractionText}
+        </View>
       </View>
     </View>
   )
