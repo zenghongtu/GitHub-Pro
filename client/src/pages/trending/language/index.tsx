@@ -5,7 +5,7 @@ import './index.scss'
 
 import { useSelector } from '@tarojs/redux'
 
-export const defaultLang = 'All Languages'
+export const defaultLang = ''
 
 interface LanguageProps {
   onChangeLang: (params: { language: string; title: string }) => void
