@@ -126,6 +126,7 @@ const Trending = () => {
     if (!repos[val]) {
       setParams({ ...params, since: tabList[val].value })
     }
+    Taro.pageScrollTo({ scrollTop: 0 })
   }
 
   const handleToggleLangDrawer = isShow => () => {
