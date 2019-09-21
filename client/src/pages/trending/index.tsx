@@ -96,8 +96,9 @@ const Trending = () => {
       })
       .catch(err => {
         Taro.showToast({
-          title: 'Something error, Try later',
-          icon: 'none'
+          title: `${err.message || 'Network Error!'} Try pull-down refresh.`,
+          icon: 'none',
+          mask: true
         })
       })
       .finally(() => {
