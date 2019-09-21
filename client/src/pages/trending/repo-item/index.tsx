@@ -1,4 +1,4 @@
-import Taro, { Component, useState } from '@tarojs/taro'
+import Taro, { Component, useState, memo } from '@tarojs/taro'
 import { View, Text, Button, Image } from '@tarojs/components'
 import './index.scss'
 import { TrendingRepo } from '@/services/trending'
@@ -97,4 +97,10 @@ const RepoItem = ({
   )
 }
 
-export default RepoItem
+const areEqual = ({ repo: prevRepo }: any, { repo }: any) => {
+  return (
+    prevRepo && prevRepo.name === repo.name && prevRepo.author === repo.author
+  )
+}
+
+export default memo(RepoItem, areEqual)
