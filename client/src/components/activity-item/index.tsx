@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 import { IUserReceivedEvent } from '../../services/users'
@@ -216,7 +216,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Released {payload.release.name || payload.release!.tag_name} at{' '}
+              Released {payload.release!.name || payload.release!.tag_name} at{' '}
               <Text className="repo-name">{name}</Text>
             </View>
           </View>
@@ -260,4 +260,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
   )
 }
 
-export default ActivityItem
+const areEqual = ({ item: prevItem }: any, { item }: any) => {
+  return prevItem && prevItem.repo.name === item.repo.name
+}
+
+export default memo(ActivityItem, areEqual)

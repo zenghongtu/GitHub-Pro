@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import './index.scss'
 import Avatar from '../avatar'
@@ -34,4 +34,8 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
   )
 }
 
-export default Author
+const areEqual = ({ login: prevLogin }: any, { login }: any) => {
+  return prevLogin === login
+}
+
+export default memo(Author, areEqual)

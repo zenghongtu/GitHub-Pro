@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Image, Block } from '@tarojs/components'
 import './index.scss'
 
@@ -46,4 +46,8 @@ const Avatar = ({
   )
 }
 
-export default Avatar
+const areEqual = (prevProps: any, props: any) => {
+  return prevProps.url === props.url
+}
+
+export default memo(Avatar, areEqual)

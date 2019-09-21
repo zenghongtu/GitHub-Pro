@@ -57,6 +57,7 @@ const UserIssues = () => {
     }
   })
 
+  // TODO fix request more
   const getClosedIssues = params => {
     getUserIssues(params).then(data => {
       if (data) {

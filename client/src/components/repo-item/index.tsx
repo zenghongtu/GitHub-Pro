@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import './index.scss'
 import { IStarred } from '../../services/user'
@@ -134,4 +134,8 @@ const RepoItem = ({ repo }: RepoItemProps) => {
   )
 }
 
-export default RepoItem
+const areEqual = ({ repo: prevRepo }: any, { repo }: any) => {
+  return prevRepo && prevRepo.full_name === repo.full_name
+}
+
+export default memo(RepoItem, areEqual)

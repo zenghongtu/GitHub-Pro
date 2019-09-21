@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Image, Text } from '@tarojs/components'
 import './index.scss'
 import { Issue } from '@/services/issues'
@@ -16,6 +16,7 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
   if (!issue) {
     return null
   }
+
   const dispatch = useDispatch()
 
   const {
@@ -91,4 +92,8 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
   )
 }
 
-export default IssueItem
+const areEqual = (prevProps: any, props: any) => {
+  return prevProps && prevProps.issue.id === props.issue.id
+}
+
+export default memo(IssueItem, areEqual)

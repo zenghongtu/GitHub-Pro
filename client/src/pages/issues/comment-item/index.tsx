@@ -1,4 +1,4 @@
-import Taro, { Component, Config } from '@tarojs/taro'
+import Taro, { Component, Config, memo } from '@tarojs/taro'
 import { View, Text, Image } from '@tarojs/components'
 import Markdown from '@/components/markdown'
 import './index.scss'
@@ -49,4 +49,8 @@ const CommentItem = ({ comment, full_name }) => {
   )
 }
 
-export default CommentItem
+const areEqual = (prevProps: any, props: any) => {
+  return prevProps && prevProps.comment.id === props.comment.id
+}
+
+export default memo(CommentItem, areEqual)
