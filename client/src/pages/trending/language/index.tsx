@@ -9,10 +9,10 @@ export const defaultLang = 'All Languages'
 
 interface LanguageProps {
   onChangeLang: (params: { language: string; title: string }) => void
-  curTitle: string
+  curLang: string
 }
 
-const Language = ({ onChangeLang, curTitle }: LanguageProps) => {
+const Language = ({ onChangeLang, curLang }: LanguageProps) => {
   const langs = useSelector<any, any>(state => state.lang.selected)
 
   const handleLangClick = e => {
@@ -42,7 +42,7 @@ const Language = ({ onChangeLang, curTitle }: LanguageProps) => {
               data-language={language}
               onClick={handleLangClick}
               className={`lang-item ${
-                title === curTitle ? activeClassName : ''
+                language === curLang ? activeClassName : ''
               }`}
             >
               {title}

@@ -23,6 +23,7 @@ import RepoItem from './repo-item'
 import MyLanguage, { defaultLang } from './language'
 import FabButton from '../../components/fab-button'
 import Empty from '@/components/empty'
+import LANGUAGE_LIST from '../my-languages/languages'
 
 export interface LanguageParams {
   language: string
@@ -43,24 +44,29 @@ const defaultTrendingPramas = {
   since: 'daily'
 }
 
-const current = Taro.getStorageSync('current') || defaultLang
-const currLang = current.replace(/^\S/, s => s.toUpperCase())
+const currLang = Taro.getStorageSync('current') || defaultLang
 
 const Trending = () => {
   const [repos, setRepos] = useState<TrendingRepoState>({})
   // const [users, setUsers] = useState<TrendingUser[] | null>(null)
-  const [title, setTitle] = useState<string>(currLang)
+  // const [title, setTitle] = useState<string>(currLang)
+  const [curLang, setLang] = useState<string>(currLang)
   const [currTab, setCurrTab] = useState<number>(0)
+  const initTrendingPramas = {
+    ...defaultTrendingPramas,
+    language: curLang
+  }
   const [params, setParams] = useState<TrendingRequestParams>(
-    defaultTrendingPramas
+    initTrendingPramas
   )
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false)
   const [refresh, setRefresh] = useState<number>(0)
   const countRef = useRef(0)
 
   useEffect(() => {
+    const title = LANGUAGE_LIST.find(item => item.value === curLang)!.label
     Taro.setNavigationBarTitle({ title })
-  }, [title])
+  }, [curLang])
 
   usePullDownRefresh(() => {
     setRepos({ [currTab]: null })
@@ -126,7 +132,8 @@ const Trending = () => {
   const handleChangeParams = ({ language, title }: LanguageParams) => {
     setParams({ ...params, language })
     Taro.setStorageSync('current', language)
-    setTitle(title)
+    // setTitle(title)
+    setLang(language)
     setShowLangDrawer(false)
   }
 
@@ -168,7 +175,7 @@ const Trending = () => {
         >
           <View>
             <MyLanguage
-              curTitle={title}
+              curLang={curLang}
               onChangeLang={handleChangeParams}
             ></MyLanguage>
           </View>
