@@ -2,7 +2,8 @@ import Taro, {
   Component,
   Config,
   useEffect,
-  useReachBottom
+  useReachBottom,
+  useState
 } from '@tarojs/taro'
 import { View, Text, Image, Block } from '@tarojs/components'
 import './index.scss'
@@ -13,6 +14,9 @@ import { getTimeAgo } from '@/utils/date'
 import { copyText } from '@/utils/common'
 import { AtButton, AtList } from 'taro-ui'
 import ListItem from '../list-item'
+import { starred } from '../../services/user'
+
+const full_name = 'zenghongtu/GitHub-Pro'
 
 const UserInfo = ({
   userInfo,
@@ -24,6 +28,13 @@ const UserInfo = ({
   if (!userInfo) {
     return <Empty></Empty>
   }
+  const [isStarred, setStarred] = useState(true)
+
+  useEffect(() => {
+    starred.is(full_name).then(is => {
+      setStarred(is)
+    })
+  }, [])
 
   const handleNavTo = (url: string) => () => {
     Taro.navigateTo({ url })
@@ -33,6 +44,14 @@ const UserInfo = ({
     copyText(text)
   }
 
+  const handleSupport = () => {
+    starred.put(full_name).then(res => {
+      if (res) {
+        setStarred(true)
+        Taro.showToast({ title: 'Thank You! 🎈', icon: 'none' })
+      }
+    })
+  }
   const {
     login,
     id,
@@ -230,6 +249,18 @@ const UserInfo = ({
         <Block>
           <View className="info">
             <AtList hasBorder={false}>
+              {!isStarred && (
+                <ListItem
+                  icon="star"
+                  color="#ff0012"
+                  // @ts-ignore
+                  style={{ ...style, fontWeight: '800' }}
+                  hasBorder={true}
+                  // arrow="right"
+                  title="Support"
+                  onClick={handleSupport}
+                />
+              )}
               <ListItem
                 icon="fankui"
                 color="#ff9324"
