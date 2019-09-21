@@ -162,7 +162,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
               Created {payload.ref_type} {payload.ref || ''} at
               <Text className="repo-name"> {name}</Text>
             </View>
-            <View className="event-desc">{payload.description}</View>
+            <View className="event-desc">{payload.description || ''}</View>
           </View>
         )
       }
