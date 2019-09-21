@@ -9,7 +9,7 @@ export const defaultParams: IDefaultParams = {
 
 export const issueDefaultParams: IDefaultParams = {
   // 多了会 GG
-  per_page: 12,
+  per_page: 10,
   page: 1
 }
 
