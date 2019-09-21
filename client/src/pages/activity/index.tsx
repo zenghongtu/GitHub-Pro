@@ -1,4 +1,11 @@
-import Taro, { Component, Config, useEffect, useRouter } from '@tarojs/taro'
+import Taro, {
+  Component,
+  Config,
+  useEffect,
+  useRouter,
+  usePullDownRefresh,
+  useReachBottom
+} from '@tarojs/taro'
 import { View, Text } from '@tarojs/components'
 import './index.scss'
 import { IUserReceivedEvent, getUserEvents } from '../../services/users'
@@ -14,10 +21,17 @@ const Activity = () => {
     params: { name }
   } = useRouter()
 
-  const [eventsData, hasMore, refresh] = useRequestWIthMore<IUserReceivedEvent>(
-    name,
-    getUserEvents
-  )
+  const [eventsData, hasMore, refresh, getMoreData] = useRequestWIthMore<
+    IUserReceivedEvent
+  >(name, getUserEvents)
+
+  usePullDownRefresh(() => {
+    refresh!()
+  })
+
+  useReachBottom(() => {
+    getMoreData!()
+  })
 
   return (
     <View className="wrap">
