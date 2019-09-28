@@ -2,7 +2,9 @@ import Taro from '@tarojs/taro'
 import { request } from '@/utils/request'
 
 // build by https://github.com/huchenme/github-trending-api
-const TRENDING_URL = 'https://trending.stayin.cn/'
+// const TRENDING_URL = 'https://trending.stayin.cn/'
+// 国内转发
+const TRENDING_URL = 'https://trending-github.naotu.online'
 
 export interface TrendingRepo {
   author: string

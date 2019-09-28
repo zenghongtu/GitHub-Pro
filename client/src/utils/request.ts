@@ -1,10 +1,11 @@
 import Taro from '@tarojs/taro'
-import { getGlobalData } from './global_data'
 
 let BASE_URL = 'https://api.github.com'
 
 if (process.env.TARO_ENV === 'weapp') {
-  BASE_URL = 'https://api.stayin.cn'
+  // BASE_URL = 'https://api.stayin.cn'
+  // 国内转发
+  BASE_URL = 'https://api-github.naotu.online'
 }
 
 // TODO 目前不做缓存
@@ -87,7 +88,7 @@ export const request = (
     })
     .catch(({ message }) => {
       Taro.showToast({
-        title: message,
+        title: message || 'error(─‿─)',
         icon: 'none',
         duration: 1500,
         mask: true
