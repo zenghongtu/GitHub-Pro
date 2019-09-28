@@ -74,7 +74,7 @@ export const request = (
         // TODO
         if (
           url.includes('/user/starred') ||
-          (url.endsWith('/user') && method === 'GET')
+          (url.includes('/user') && method === 'GET')
         ) {
           return null
         }
