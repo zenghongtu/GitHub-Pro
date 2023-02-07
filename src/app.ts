@@ -9,7 +9,7 @@ class App extends Component {
   componentDidHide() {}
 
   render() {
-    return this.props.children;
+    return (this.props as any).children;
   }
 }
 export default App;

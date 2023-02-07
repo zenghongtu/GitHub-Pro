@@ -1,5 +1,5 @@
 import { Button } from '@nutui/nutui-react-taro';
-import { Component } from 'react';
+import { Component, PropsWithChildren } from 'react';
 import './index.scss';
 
 class Index extends Component<PropsWithChildren> {
