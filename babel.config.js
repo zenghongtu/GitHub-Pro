@@ -9,14 +9,29 @@ module.exports = {
   ],
   plugins: [
     [
-      "import",
+      'import',
       {
-        "libraryName": "@nutui/nutui-react-taro",
-        "libraryDirectory": "dist/esm",
-        "style": true,
-        "camel2DashComponentName": false
+        libraryName: 'taro-ui',
+        customName: name => {
+          if(name === 'at-list-item'){
+            name = 'at-list/item'
+          }
+          return `taro-ui/lib/components/${name.slice(3)}`
+        },
+        customStyleName: name => {
+          /**
+           * 修复style
+          */
+          if(name === 'at-tabs-pane'){
+            name = 'at-tabs'
+          }
+          if(name === 'at-list-item'){
+            name = 'at-list'
+          }
+          return `taro-ui/dist/style/components/${name.slice(3)}.scss`
+        }
       },
-      'nutui-react-taro'
+      'taro-ui'
     ]
   ]
 }

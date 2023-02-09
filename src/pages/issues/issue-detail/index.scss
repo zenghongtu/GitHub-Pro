@@ -1,0 +1,44 @@
+.wrap {
+  padding: 20px 20px 40px;
+  height: 100vh;
+  background: $itemBg;
+}
+.header {
+}
+.meta {
+  font-size: 28px;
+  font-weight: 400;
+}
+
+.title {
+  font-size: 32px;
+}
+.content {
+  padding-top: 20px;
+}
+
+.author {
+  display: flex;
+}
+
+.avatar {
+}
+.avatar-img {
+  width: 80px;
+  height: 80px;
+  margin: 0 20px;
+  border-radius: 50%;
+}
+.author {
+  color: #40a0fa;
+  font-size: 32px;
+  font-weight: 400;
+}
+.create-at {
+  margin-left: auto;
+  font-size: 25px;
+}
+.body {
+}
+.comment-list {
+}

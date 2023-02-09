@@ -1,0 +1,178 @@
+@import "prism.wxss";
+
+.wemark_wrapper{
+	margin:10px 0;
+	font-size:32rpx;
+	line-height: 1.8em;
+}
+.wemark_block_h1{
+	font-size:50rpx;
+  /**不喜欢居中，把居中去掉**/
+  /**text-align: center;**/
+  margin-bottom:1em;
+  margin-top:40px;
+  font-weight: 500;
+  position: relative;
+}
+
+.wemark_block_h1:after{
+  content: '';                 /*CSS伪类用法*/
+  position: absolute;         /*定位背景横线的位置*/
+  top: 130%;
+  background: #e0e0e0;       /*宽和高做出来的背景横线*/
+  width: 100%;
+  height: 1px;
+  left:0px;
+}
+
+.wemark_block_h2{
+	font-size:40rpx;
+	padding-bottom:.5em;
+	margin-top:1em;
+	margin-bottom:1em;
+	border-bottom:1px solid #f0f0f0;
+}
+.wemark_block_h3{
+	font-size:36rpx;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+.wemark_block_h4,
+.wemark_block_h5,
+.wemark_block_h6{
+	font-weight: bold;
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+.wemark_block_p{
+	margin-top:1em;
+	margin-bottom:1em;
+}
+.wemark_block_video{
+	margin-top:1em;
+	margin-bottom:1em;
+	width:100%;
+}
+.wemark_block_blockquote_p{
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding: 10rpx 0 10rpx 1em;
+  font-size: 28rpx;
+  background: #f6f8fa;
+  border-left: 5rpx solid #e0e0e0;
+
+}
+.wemark_block_ul_li_p::before{
+	content:'• ';
+}
+.wemark_block_ul_li_ul_li_p::before,
+.wemark_block_ol_li_ul_li_p::before{
+	content:'◦ ';
+}
+.wemark_block_ul_li_ul_li_p,
+.wemark_block_ul_li_ol_li_p,
+.wemark_block_ol_li_ul_li_p,
+.wemark_block_ol_li_ol_li_p{
+	padding-left: 1em;
+}
+.wemark_block_ul_li_p:last{
+	margin-bottom:1em;
+}
+.wemark_block_code{
+	display: block;
+	padding:10px;
+	font-size:28rpx;
+	line-height: 1.5em;
+	border:1px solid #f0f0f0;
+	white-space: pre;
+	overflow: auto;
+  background-color: #2b2b2b;
+}
+.wemark_block_table{
+	width: 100%;
+	border-spacing: 0;
+	border-collapse: collapse;
+	/* border-left: 1px solid #e0e0e0; */
+	/* border-top: 1px solid #e0e0e0; */
+}
+.wemark_block_table_tr{
+	display: flex;
+}
+.wemark_wrapper_richtext .wemark_block_table_tr{
+	display: table-row;
+}
+.wemark_inline_table_th,
+.wemark_inline_table_td{
+	flex:1;
+	padding:5px;
+	font-size:28rpx;
+	word-break: break-all;
+	border: 1px solid #e0e0e0;
+}
+.wemark_wrapper_richtext .wemark_inline_table_th,
+.wemark_wrapper_richtext .wemark_inline_table_td{
+	display: table-cell;
+	/* background:red;
+	border-right:1px solid #e0e0e0;
+	border-bottom:1px solid #e0e0e0; */
+}
+.wemark_inline_table_td:last{
+	/* border-top:1px solid #e0e0e0; */
+}
+.wemark_inline_table_th{
+	background:#f0f0f0;
+	/* border-top:1px solid #e0e0e0; */
+}
+.wemark_inline_strong{
+	font-weight: bold;
+	padding:0 5px;
+	word-wrap:break-word;
+}
+.wemark_inline_em{
+	font-style: italic;
+	padding:0 5px;
+	word-wrap:break-word;
+}
+.wemark_inline_strong_em{
+	font-style: italic;
+	font-weight: bold;
+	padding:0 5px;
+	word-wrap:break-word;
+}
+.wemark_inline_deleted{
+	text-decoration: line-through;
+	padding:0 5px;
+	word-wrap:break-word;
+}
+.wemark_inline_image{
+	width:100%;
+	height:auto;
+  margin-left: 3rpx;
+  margin-right: 3rpx;
+}
+.wemark_inline_code{
+	background:#edebed;
+	padding:3px 5px;
+	word-wrap:break-word;
+  border-radius:5px;
+  margin-left:5px;
+  margin-right:5px;
+}
+
+.wemark_inline_code_annotation,
+.wemark_inline_code_triple-quoted-string{
+  color: #e0e0e0;
+}
+.wemark_inline_code_rule,
+view.wemark_block_code view,
+.wemark_inline_code_text {
+  color: #e0e0e0;
+}
+.wemark_inline_text{
+	word-wrap:break-word;
+}
+.wemark_inline_link{
+	display: inline;
+	color: blue;
+	word-wrap:break-word;
+}

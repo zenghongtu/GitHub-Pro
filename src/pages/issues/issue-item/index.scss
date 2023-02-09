@@ -1,0 +1,53 @@
+.wrap {
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: $itemBg;
+  font-size: 22px;
+  line-height: 1.5;
+}
+.avatar {
+  margin-right: 20px;
+}
+.avatar-img {
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+}
+
+.info {
+  flex: 1;
+}
+
+.login {
+  font-size: 28px;
+  color: #40a0fa;
+}
+.create {
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+}
+.title {
+  margin: 8px 0 5px 0;
+  font-size: 26px;
+  font-weight: 400;
+}
+
+.bottom {
+  align-items: center;
+  @extend .top;
+}
+
+.number {
+  display: inline-block;
+}
+.comments {
+  display: flex;
+  align-items: center;
+}

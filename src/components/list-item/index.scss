@@ -1,0 +1,36 @@
+.item {
+  display: flex;
+  align-items: center;
+  padding: 15px 24px;
+  position: relative;
+  -webkit-box-sizing: border-box;
+  box-sizing: border-box;
+  color: $primary-text-color;
+  font-size: 29px;
+  font-weight: 500;
+  line-height: 1.5;
+  transition: background-color 0.3s;
+  position: relative;
+  border-bottom: 0px solid $bg;
+
+  &:active {
+    background-color: #f0f0f0;
+  }
+}
+
+.left {
+  display: flex;
+  align-items: center;
+}
+
+.right {
+  margin-left: auto;
+  @extend .left;
+}
+
+.extra-text {
+  font-size: 28px;
+  text-align: right;
+  font-weight: 400;
+  color: $text-color;
+}
