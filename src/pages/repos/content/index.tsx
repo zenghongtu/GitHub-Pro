@@ -6,7 +6,6 @@ import { getCodeMarkup, isImageFile } from '@/utils/repo';
 import { View } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
-import './index.scss';
 
 const Content = () => {
   const {

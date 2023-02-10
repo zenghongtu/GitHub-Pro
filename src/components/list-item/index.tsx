@@ -2,7 +2,7 @@ import FontIcon from '@/components/font-icon';
 import { Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import { AtIcon } from 'taro-ui';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface ListItemProps {
   onClick?: (ev: ITouchEvent) => void;
@@ -61,12 +61,12 @@ const ListItem = ({
       onClick={onClick || undefined}
       style={styleProps}
     >
-      <View className="left">
+      <View className={styles.left}>
         {icon && <FontIcon styleProps={iconStyleProps} value={icon}></FontIcon>}
         {title || (renderTitle && renderTitle())}
       </View>
-      <View className="right">
-        {extraText && <Text className="extra-text">{extraText}</Text>}
+      <View className={styles.right}>
+        {extraText && <Text className={styles['extra-text']}>{extraText}</Text>}
         {rightIcon && (
           <AtIcon
             onClick={onRightClick || undefined}

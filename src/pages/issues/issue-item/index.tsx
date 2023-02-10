@@ -7,7 +7,7 @@ import { memo } from 'react';
 import { useDispatch } from 'react-redux';
 import { UPDATE_ISSUE_INFO } from '../../../store/constatnts';
 import { getTimeAgo } from '../../../utils/date';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface IssueItemProps {
   issue: Issue;
@@ -70,17 +70,17 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
   };
 
   return (
-    <View className="wrap" onClick={handleNavTo}>
+    <View className={styles.wrap} onClick={handleNavTo}>
       <Avatar url={avatar_url} size="28"></Avatar>
-      <View className="info">
-        <View className="top">
-          <Text className="login">{login}</Text>
-          <Text className="create">{getTimeAgo(created_at)}</Text>
+      <View className={styles.info}>
+        <View className={styles.top}>
+          <Text className={styles.login}>{login}</Text>
+          <Text className={styles.create}>{getTimeAgo(created_at)}</Text>
         </View>
-        <View className="title">{title}</View>
-        <View className="bottom">
-          <View className="number">#{number}</View>
-          <View className="comments">
+        <View className={styles.title}>{title}</View>
+        <View className={styles.bottom}>
+          <View className={styles.number}>#{number}</View>
+          <View className={styles.comments}>
             <FontIcon
               value="comment"
               styleProps={{ fontSize: '15px', marginRight: '5px' }}

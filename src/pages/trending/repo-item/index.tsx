@@ -5,7 +5,7 @@ import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
-import './index.scss';
+import styles from './index.module.scss';
 
 const RepoItem = ({
   repo,
@@ -57,40 +57,40 @@ const RepoItem = ({
   } = repo;
 
   return (
-    <View className="card-wrap" onClick={handleCardClick}>
-      <View className="card-top">
-        <View className="info">
-          <View className="name">
-            <View className="index"> {index + 1}</View>
+    <View className={styles['card-wrap']} onClick={handleCardClick}>
+      <View className={styles['card-top']}>
+        <View className={styles.info}>
+          <View className={styles.name}>
+            <View className={styles.index}> {index + 1}</View>
             {name}
           </View>
-          <View className="description">{description}</View>
+          <View className={styles.description}>{description}</View>
         </View>
-        <View className="author" onClick={handleAuthorClick}>
-          <Image src={avatar} className="avatar"></Image>
-          <View className="author-name">{author}</View>
+        <View className={styles.author} onClick={handleAuthorClick}>
+          <Image src={avatar} className={styles.avatar}></Image>
+          <View className={styles['author-name']}>{author}</View>
         </View>
       </View>
-      <View className="card-bottom">
-        <View className="meta-item">
+      <View className={styles['card-bottom']}>
+        <View className={styles['meta-item']}>
           <Text
-            className="language-color"
+            className={styles['language-color']}
             style={{ background: languageColor || '#000000' }}
           ></Text>
           {language || 'null'}
         </View>
-        <View className="meta-item">
+        <View className={styles['meta-item']}>
           <FontIcon styleProps={{ fontSize: '16px' }} value="star"></FontIcon>
           {stars}
         </View>
-        <View className="meta-item">
+        <View className={styles['meta-item']}>
           <FontIcon
             styleProps={{ fontSize: '16px' }}
             value="git-repo-forked"
           ></FontIcon>
           {forks}
         </View>
-        <View className="meta-item">
+        <View className={styles['meta-item']}>
           {currentPeriodStars} stars {duractionText}
         </View>
       </View>

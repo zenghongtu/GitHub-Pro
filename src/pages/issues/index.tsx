@@ -11,7 +11,6 @@ import { AtTabs, AtTabsPane } from 'taro-ui';
 import LoadMore from '../../components/load-more/index';
 import { issueDefaultParams } from '../../constants';
 import { getIssues, Issue } from '../../services/issues';
-import './index.scss';
 import IssueItem from './issue-item';
 
 const Issues = () => {

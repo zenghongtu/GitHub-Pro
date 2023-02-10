@@ -9,7 +9,6 @@ import {
 import { View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
-import './index.scss';
 
 interface MarkDownProps {
   md: string | undefined | null;

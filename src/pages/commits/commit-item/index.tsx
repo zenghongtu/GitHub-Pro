@@ -5,7 +5,7 @@ import { Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { getTimeAgo } from '../../../utils/date';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface CommitItemProps {
   commit: CommitItemData;
@@ -61,19 +61,19 @@ const CommitItem = ({ commit, full_name = '' }: CommitItemProps) => {
 
   const shortSha = sha.slice(0, 8);
   return (
-    <View className="wrap" onClick={handleClick}>
+    <View className={styles.wrap} onClick={handleClick}>
       <Avatar url={avatar_url} username={login}></Avatar>
-      <View className="info">
-        <View className="top">
-          <Text className="login" onClick={handleNavTo}>
+      <View className={styles.info}>
+        <View className={styles.top}>
+          <Text className={styles.login} onClick={handleNavTo}>
             {login}
           </Text>
-          <Text className="create">{getTimeAgo(date)}</Text>
+          <Text className={styles.create}>{getTimeAgo(date)}</Text>
         </View>
-        <View className="title">{message}</View>
-        <View className="bottom">
-          <Text className="number">{shortSha}</Text>
-          <View className="comments">
+        <View className={styles.title}>{message}</View>
+        <View className={styles.bottom}>
+          <Text className={styles.number}>{shortSha}</Text>
+          <View className={styles.comments}>
             <FontIcon
               value="comment"
               styleProps={{ fontSize: '15px', marginRight: '5px' }}

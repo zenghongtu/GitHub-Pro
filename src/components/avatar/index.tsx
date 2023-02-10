@@ -1,7 +1,8 @@
 import { Block, Image } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import classnames from 'classnames';
 import { memo } from 'react';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface AvatarProps {
   url: string;
@@ -39,7 +40,7 @@ const Avatar = ({
     <Block>
       <Image
         onClick={handleImgClick}
-        className={`avatar ${className}`}
+        className={classnames(styles.avatar, className)}
         style={styleProps}
         src={url}
       ></Image>

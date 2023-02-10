@@ -7,7 +7,7 @@ import ActivityItem from '../../components/activity-item';
 import Empty from '../../components/empty';
 import useRequestWIthMore from '../../hooks/useRequestWIthMore';
 import { IUserReceivedEvent } from '../../services/users';
-import './index.scss';
+import styles from './index.module.scss';
 
 const RepoActivity = () => {
   const {
@@ -27,7 +27,7 @@ const RepoActivity = () => {
   }, []);
 
   return (
-    <View className="wrap">
+    <View className={styles.wrap}>
       {eventsData ? (
         eventsData.map((item) => {
           return (

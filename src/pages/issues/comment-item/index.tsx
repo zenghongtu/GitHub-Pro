@@ -2,7 +2,7 @@ import Author from '@/components/author';
 import Markdown from '@/components/markdown';
 import { View } from '@tarojs/components';
 import { memo } from 'react';
-import './index.scss';
+import styles from './index.module.scss';
 
 const CommentItem = ({ comment, full_name }) => {
   if (!comment) {
@@ -37,11 +37,11 @@ const CommentItem = ({ comment, full_name }) => {
   } = comment;
 
   return (
-    <View className="wrap">
-      <View className="author">
+    <View className={styles.wrap}>
+      <View className={styles.author}>
         <Author url={avatar_url} login={login} created_at={created_at}></Author>
       </View>
-      <View className="content">
+      <View className={styles.content}>
         <Markdown md={body} full_name={full_name}></Markdown>
       </View>
     </View>

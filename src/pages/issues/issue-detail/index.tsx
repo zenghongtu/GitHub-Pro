@@ -16,7 +16,7 @@ import Taro, { usePullDownRefresh, useRouter } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import CommentItem from '../comment-item';
-import './index.scss';
+import styles from './index.module.scss';
 
 const IssueDetail = () => {
   const {
@@ -98,22 +98,22 @@ const IssueDetail = () => {
   }
 
   return (
-    <View className="wrap">
-      <View className="header">
-        <View className="title">{title}</View>
-        <View className="meta">
+    <View className={styles.wrap}>
+      <View className={styles.header}>
+        <View className={styles.title}>{title}</View>
+        <View className={styles.meta}>
           #{number} {state} {comments} comments
         </View>
       </View>
-      <View className="content">
+      <View className={styles.content}>
         <Author url={avatar_url} login={login} created_at={created_at}></Author>
-        <View className="body">
+        <View className={styles.body}>
           <Markdown md={body} full_name={full_name}></Markdown>
         </View>
       </View>
 
       {commentList ? (
-        <View className="comment-list">
+        <View className={styles['comment-list']}>
           {commentList.map((item, idx) => {
             return (
               <CommentItem

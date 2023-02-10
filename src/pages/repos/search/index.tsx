@@ -14,7 +14,7 @@ import Taro, { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { AtSearchBar, AtSegmentedControl, AtTag } from 'taro-ui';
 import { searchUsers } from '../../../services/search';
-import './index.scss';
+import styles from './index.module.scss';
 
 const Search = () => {
   const [searchValue, setSearchValue] = useState('');
@@ -179,8 +179,8 @@ const Search = () => {
   };
 
   return (
-    <View className="wrap">
-      <View className="search-wrap">
+    <View className={styles.wrap}>
+      <View className={styles['search-wrap']}>
         <AtSearchBar
           onConfirm={handleConfirm}
           placeholder="search"
@@ -191,7 +191,7 @@ const Search = () => {
           onActionClick={handleConfirm}
         />
       </View>
-      <View className="sc">
+      <View className={styles.sc}>
         <AtSegmentedControl
           values={['Repositories', 'Users']}
           onClick={handleSegmentedControlClick}
@@ -232,7 +232,7 @@ const Search = () => {
                     const login = item.login;
                     const avatar_url = item.avatar_url;
                     return (
-                      <View key={login} className="user-item">
+                      <View key={login} className={styles['user-item']}>
                         <Author login={login} url={avatar_url}></Author>
                       </View>
                     );
@@ -245,11 +245,11 @@ const Search = () => {
             </View>
           )
         ) : (
-          <View className="history-tags">
+          <View className={styles['history-tags']}>
             {searchHisotry &&
               searchHisotry.map((item) => {
                 return (
-                  <View key={item} className="tag">
+                  <View key={item} className={styles.tag}>
                     <AtTag
                       name={item}
                       type="primary"

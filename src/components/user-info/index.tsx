@@ -2,13 +2,14 @@ import { copyText } from '@/utils/common';
 import { getTimeAgo } from '@/utils/date';
 import { Block, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import classnames from 'classnames';
 import { useEffect, useState } from 'react';
 import { AtButton, AtList } from 'taro-ui';
 import { starred } from '../../services/user';
 import Avatar from '../avatar';
 import Empty from '../empty';
 import ListItem from '../list-item';
-import './index.scss';
+import styles from './index.module.scss';
 
 const full_name = 'zenghongtu/GitHub-Pro';
 
@@ -82,64 +83,66 @@ const UserInfo = ({
   const style: React.CSSProperties = { padding: '6px', fontSize: '16px' };
 
   return (
-    <View className="wrap">
-      <View className="header">
+    <View className={styles.wrap}>
+      <View className={styles.header}>
         <Avatar circle={false} size="70" url={avatar_url}></Avatar>
-        <View className="basic">
-          <View className="name">
+        <View className={styles.basic}>
+          <View className={styles.name}>
             {name || login} ({login})
           </View>
-          <View className="bio">{bio}</View>
-          <View className="Joined">Joined at {getTimeAgo(created_at)}</View>
+          <View className={styles.bio}>{bio}</View>
+          <View className={styles.Joined}>
+            Joined at {getTimeAgo(created_at)}
+          </View>
         </View>
       </View>
-      <View className="divide"></View>
-      <View className="info meta">
-        <View className="nav">
+      <View className={styles.divide}></View>
+      <View className={classnames(styles.info, styles.meta)}>
+        <View className={styles.nav}>
           <View
-            className="nav-item"
+            className={styles['nav-item']}
             onClick={handleNavTo(
               `/pages/developer/repos/index?isCurrent=${isCurrent}&name=${login}`,
             )}
           >
-            <View className="item-count">
+            <View className={styles['item-count']}>
               {Number(public_repos).toLocaleString()}
             </View>
-            <View className="item-label">repositories</View>
+            <View className={styles['item-label']}>repositories</View>
           </View>
           <View
-            className="nav-item"
+            className={styles['nav-item']}
             onClick={handleNavTo(
               `/pages/developer/followers/index?name=${login}`,
             )}
           >
-            <View className="item-count">
+            <View className={styles['item-count']}>
               {Number(followers).toLocaleString()}
             </View>
-            <View className="item-label">followers</View>
+            <View className={styles['item-label']}>followers</View>
           </View>
           <View
-            className="nav-item"
+            className={styles['nav-item']}
             onClick={handleNavTo(
               `/pages/developer/following/index?name=${login}`,
             )}
           >
-            <View className="item-count">
+            <View className={styles['item-count']}>
               {Number(following).toLocaleString()}
             </View>
-            <View className="item-label">following</View>
+            <View className={styles['item-label']}>following</View>
           </View>
 
-          {/* <View className="nav-item">
-              <View className="item-count">{public_gists}</View>
-              <View className="item-label">Gists</View>
+          {/* <View className={styles["nav-item"]}>
+              <View className={styles["item-count"]}>{public_gists}</View>
+              <View className={styles["item-label"]}>Gists</View>
             </View> */}
         </View>
       </View>
       {!isCurrent && (
-        <View className="action-btns">
+        <View className={styles['action-btns']}>
           <AtButton
-            className="btn"
+            className={styles.btn}
             type="primary"
             full={false}
             size="small"
@@ -149,7 +152,7 @@ const UserInfo = ({
             {isFollowing ? 'unfollow' : 'follow'}
           </AtButton>
           <AtButton
-            className="btn"
+            className={styles.btn}
             openType="share"
             type="primary"
             full={false}
@@ -161,7 +164,7 @@ const UserInfo = ({
         </View>
       )}
 
-      <View className="info">
+      <View className={styles.info}>
         <ListItem
           hasBorder={true}
           icon="activity"
@@ -197,7 +200,7 @@ const UserInfo = ({
         />
       </View>
 
-      <View className="info">
+      <View className={styles.info}>
         <ListItem
           arrow={null}
           hasBorder={true}
@@ -241,7 +244,7 @@ const UserInfo = ({
       </View>
       {isCurrent && (
         <Block>
-          <View className="info">
+          <View className={styles.info}>
             <AtList hasBorder={false}>
               {!isStarred && (
                 <ListItem
@@ -280,7 +283,7 @@ const UserInfo = ({
               />
             </AtList>
           </View>
-          <View className="logout">
+          <View className={styles.logout}>
             <AtButton
               onClick={onLogout}
               customStyle={{ background: '#fb3e3b', border: 'none' }}

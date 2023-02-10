@@ -4,7 +4,7 @@ import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
 import { IUserReceivedEvent } from '../../services/users';
-import './index.scss';
+import styles from './index.module.scss';
 
 const spacesRegExp = new RegExp('[\r\n\t]+', 'g');
 const refsHeadsRegExp = new RegExp('refs/heads/');
@@ -58,23 +58,24 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Pushed to {_ref} at <Text className="repo-name">{name}</Text>
+              Pushed to {_ref} at{' '}
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
-            <View className="event-desc">
+            <View className={styles['event-desc']}>
               {commits!.slice(0, 3).map((item) => {
                 const { message, sha } = item;
                 const commit = truncateText(message.replace(spacesRegExp, ''));
                 const _sha = sha.substr(0, 8);
                 return (
-                  <View key={sha} className="commit">
-                    <Text className="commit-sha">{_sha} </Text>
-                    <Text className="commit-content"> {commit}</Text>
+                  <View key={sha} className={styles.commit}>
+                    <Text className={styles['commit-sha']}>{_sha} </Text>
+                    <Text className={styles['commit-content']}> {commit}</Text>
                   </View>
                 );
               })}
               {len > 3 && (
-                <View className="commit">
-                  <Text className="commit-content"> ...</Text>
+                <View className={styles.commit}>
+                  <Text className={styles['commit-content']}> ...</Text>
                 </View>
               )}
             </View>
@@ -85,10 +86,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              <Text className="event-action">{payload.action}</Text> issue{' '}
-              <Text className="repo-name">{name}</Text>
+              <Text className={styles['event-action']}>{payload.action}</Text>{' '}
+              issue <Text className={styles['repo-name']}>{name}</Text>
             </View>
-            <View className="event-desc">{payload.issue!.title}</View>
+            <View className={styles['event-desc']}>{payload.issue!.title}</View>
           </View>
         );
       }
@@ -98,7 +99,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              {action} pull request <Text className="repo-name">{name}</Text>
+              {action} pull request{' '}
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
             <View>{title}</View>
           </View>
@@ -115,15 +117,15 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
             <View>
               Created comment on{' '}
               <Text
-                className="issue-number"
+                className={styles['issue-number']}
                 onClick={handleIssueNumberClick(name, number)}
               >
                 #{number}
               </Text>{' '}
               in
-              <Text className="repo-name"> {name}</Text>
+              <Text className={styles['repo-name']}> {name}</Text>
             </View>
-            <View className="event-desc">{text}</View>
+            <View className={styles['event-desc']}>{text}</View>
           </View>
         );
       }
@@ -131,7 +133,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Starred <Text className="repo-name">{name}</Text>
+              Starred <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
         );
@@ -140,7 +142,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Open sourced <Text className="repo-name">{name}</Text>
+              Open sourced <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
         );
@@ -151,7 +153,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               Forked {forkee!.full_name} from{' '}
-              <Text className="repo-name">{name}</Text>
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
         );
@@ -161,9 +163,11 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               Created {payload.ref_type} {payload.ref || ''} at
-              <Text className="repo-name"> {name}</Text>
+              <Text className={styles['repo-name']}> {name}</Text>
             </View>
-            <View className="event-desc">{payload.description || ''}</View>
+            <View className={styles['event-desc']}>
+              {payload.description || ''}
+            </View>
           </View>
         );
       }
@@ -172,7 +176,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               Deleted {payload.ref_type} {payload.ref} at
-              <Text className="repo-name"> {name}</Text>
+              <Text className={styles['repo-name']}> {name}</Text>
             </View>
             <View>{payload.description}</View>
           </View>
@@ -196,9 +200,10 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Reviewed pull request in <Text className="repo-name">{name}</Text>
+              Reviewed pull request in{' '}
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
-            <View className="event-desc">{text}</View>
+            <View className={styles['event-desc']}>{text}</View>
           </View>
         );
       }
@@ -208,7 +213,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              {action} {page_name} <Text className="repo-name">{name}</Text>
+              {action} {page_name}{' '}
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
         );
@@ -218,7 +224,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               Released {payload.release!.name || payload.release!.tag_name} at{' '}
-              <Text className="repo-name">{name}</Text>
+              <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
         );
@@ -229,7 +235,8 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Commented on commit <Text className="repo-name">{name}</Text> @{' '}
+              Commented on commit{' '}
+              <Text className={styles['repo-name']}>{name}</Text> @{' '}
               {comment!.commit_id.substring(0, 8)}
             </View>
           </View>
@@ -239,7 +246,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
     const text = JSON.stringify(item);
     return (
       <View>
-        <View className="event-desc">{text}</View>
+        <View className={styles['event-desc']}>{text}</View>
       </View>
     );
   };
@@ -248,7 +255,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
     Taro.navigateTo({ url: `/pages/repos/index?full_name=${name}` });
   };
   return (
-    <View className="item-wrap" onClick={handleCardClick}>
+    <View className={styles['item-wrap']} onClick={handleCardClick}>
       <Author
         login={login}
         size="28"
@@ -256,7 +263,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         created_at={created_at}
       ></Author>
 
-      <View className="event-wrap">{renderEvent()}</View>
+      <View className={styles['event-wrap']}>{renderEvent()}</View>
     </View>
   );
 };

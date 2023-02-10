@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { AtButton, AtTextarea } from 'taro-ui';
 import { createIssueComment } from '../../../services/issues';
-import './index.scss';
+import styles from './index.module.scss';
 
 const CreateComment = () => {
   const {
@@ -45,8 +45,8 @@ const CreateComment = () => {
   };
 
   return (
-    <View className="wrap">
-      <View className="content">
+    <View className={styles.wrap}>
+      <View className={styles.content}>
         <AtTextarea
           height={400}
           count={false}
@@ -56,7 +56,11 @@ const CreateComment = () => {
           placeholder="Leave a comment"
         />
       </View>
-      <AtButton className="confirm" type="primary" onClick={handleConfirm}>
+      <AtButton
+        className={styles.confirm}
+        type="primary"
+        onClick={handleConfirm}
+      >
         Comment
       </AtButton>
     </View>

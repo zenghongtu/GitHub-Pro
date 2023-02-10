@@ -7,7 +7,7 @@ import { Block, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect } from 'react';
 import ActivityItem from '../../components/activity-item';
-import './index.scss';
+import styles from './index.module.scss';
 
 const funcMap = {
   false: getEvents,
@@ -30,7 +30,7 @@ const NewContent = ({ username }) => {
   return (
     <Block>
       {eventsData ? (
-        <View className="content-wrap">
+        <View className={styles['content-wrap']}>
           {eventsData.map((item) => {
             return (
               <ActivityItem

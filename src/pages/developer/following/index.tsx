@@ -3,7 +3,6 @@ import useRequestWIthMore from '@/hooks/useRequestWIthMore';
 import { getUserFollowing } from '@/services/users';
 import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
-import './index.scss';
 
 const Following = () => {
   const {

@@ -7,7 +7,7 @@ import logo from '../../assets/logo.png';
 import { getCurrentUser } from '../../services/user';
 import { LOGIN } from '../../store/constatnts';
 import Base64 from '../../utils/base64';
-import './index.scss';
+import styles from './index.module.scss';
 
 const ACCOUNT_INDEX = 0;
 const TOKEN_INDEX = 1;
@@ -75,15 +75,19 @@ const Login = () => {
   };
 
   return (
-    <View className="layout-container">
-      <View className="login-container">
-        <View className="login-header">
-          <Image className="logo-img" mode="widthFix" src={logo}></Image>
+    <View className={styles['layout-container']}>
+      <View className={styles['login-container']}>
+        <View className={styles['login-header']}>
+          <Image
+            className={styles['logo-img']}
+            mode="widthFix"
+            src={logo}
+          ></Image>
           <View>Welcome to GitHub Pro.</View>
         </View>
-        <View className="login-body">
+        <View className={styles['login-body']}>
           <AtTabs current={currTab} tabList={tabList} onClick={handleChangeTab}>
-            <View className="tabs-body">
+            <View className={styles['tabs-body']}>
               <AtTabsPane current={currTab} index={ACCOUNT_INDEX}>
                 <View>
                   <AtInput
@@ -120,9 +124,9 @@ const Login = () => {
             </View>
           </AtTabs>
 
-          <View className="login-btn-container">
+          <View className={styles['login-btn-container']}>
             <AtButton
-              className="login-btn"
+              className={styles['login-btn']}
               size="small"
               type="primary"
               // circle
@@ -131,7 +135,7 @@ const Login = () => {
               Login
             </AtButton>
           </View>
-          <View className="desc">
+          <View className={styles.desc}>
             账号密码等数据只会在本地保存，不会上传到服务器的，放心使用~😎
           </View>
         </View>

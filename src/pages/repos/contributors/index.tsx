@@ -3,7 +3,6 @@ import useRequestWIthMore from '@/hooks/useRequestWIthMore';
 import { Contributor, getContributors } from '@/services/repos';
 import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
-import './index.scss';
 
 const Contributors = () => {
   const {

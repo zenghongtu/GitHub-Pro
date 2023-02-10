@@ -16,7 +16,7 @@ import { getRepo, Repo } from '../../services/repos';
 import { getTimeAgo } from '../../utils/date';
 import { bytesToSize } from '../../utils/size';
 import { LANGUAGE_COLOR_MAP } from '../my-languages/languages';
-import './index.scss';
+import styles from './index.module.scss';
 import Readme from './readme';
 
 const Repository = () => {
@@ -149,48 +149,50 @@ const Repository = () => {
 
     return (
       <Block>
-        <View className="header">
+        <View className={styles.header}>
           <Avatar
-            className="avatar-img"
+            className={styles['avatar-img']}
             username={login}
             size={45}
             circle={false}
             url={avatar_url}
           ></Avatar>
           <View>
-            <View className="full-name">
-              <Text className="login" onClick={handleNavTo(authorUrl)}>
+            <View className={styles['full-name']}>
+              <Text className={styles.login} onClick={handleNavTo(authorUrl)}>
                 {login}{' '}
               </Text>
-              /<Text className="name"> {name}</Text>
+              /<Text className={styles.name}> {name}</Text>
             </View>
-            <View className="desc">{description || ''}</View>
-            {/* <View className="meta">Created {getTimeAgo(created_at)}</View> */}
-            <View className="meta">Updated {getTimeAgo(pushed_at)}</View>
+            <View className={styles.desc}>{description || ''}</View>
+            {/* <View className={styles.meta}>Created {getTimeAgo(created_at)}</View> */}
+            <View className={styles.meta}>Updated {getTimeAgo(pushed_at)}</View>
           </View>
         </View>
 
-        <View className="divider"></View>
-        <View className="repo-num">
-          <View className="num-item" onClick={handleNavTo(watchsUrl)}>
-            <View className="num">
+        <View className={styles.divider}></View>
+        <View className={styles['repo-num']}>
+          <View className={styles['num-item']} onClick={handleNavTo(watchsUrl)}>
+            <View className={styles.num}>
               {Number(subscribers_count).toLocaleString()}
             </View>
-            <View className="label">watchs</View>
+            <View className={styles.label}>watchs</View>
           </View>
-          <View className="num-item" onClick={handleNavTo(starsUrl)}>
-            <View className="num">
+          <View className={styles['num-item']} onClick={handleNavTo(starsUrl)}>
+            <View className={styles.num}>
               {Number(stargazers_count).toLocaleString()}
             </View>
-            <View className="label">stars</View>
+            <View className={styles.label}>stars</View>
           </View>
-          <View className="num-item" onClick={handleNavTo(forksUrl)}>
-            <View className="num">{Number(forks_count).toLocaleString()}</View>
-            <View className="label">forks</View>
+          <View className={styles['num-item']} onClick={handleNavTo(forksUrl)}>
+            <View className={styles.num}>
+              {Number(forks_count).toLocaleString()}
+            </View>
+            <View className={styles.label}>forks</View>
           </View>
         </View>
 
-        <View className="repo-info">
+        <View className={styles['repo-info']}>
           <AtList hasBorder={false}>
             <ListItem
               onClick={handleNavTo(filesUrl)}
@@ -228,7 +230,7 @@ const Repository = () => {
           </AtList>
         </View>
 
-        <View className="repo-info">
+        <View className={styles['repo-info']}>
           <AtList hasBorder={false}>
             <ListItem
               onClick={handleNavTo(commitsUrl)}
@@ -323,12 +325,12 @@ const Repository = () => {
   };
 
   return (
-    <View className="wrap">
-      <View className="repo">
+    <View className={styles.wrap}>
+      <View className={styles.repo}>
         {repoInfo ? renderInfo(repoInfo) : <Empty></Empty>}
       </View>
       {repoInfo && (
-        <View className="readme">
+        <View className={styles.readme}>
           {showReadme && <Readme full_name={full_name}></Readme>}
         </View>
       )}
@@ -338,9 +340,12 @@ const Repository = () => {
         onClick={handleFabClick}
       ></FabButton>
       <AtFloatLayout isOpened={showActions} title="" onClose={handleClose}>
-        <View className="actions">
-          <View className="action-item" onClick={handleActionClick('star')}>
-            <View className="icon-wrap">
+        <View className={styles.actions}>
+          <View
+            className={styles['action-item']}
+            onClick={handleActionClick('star')}
+          >
+            <View className={styles['icon-wrap']}>
               <FontIcon
                 styleProps={{
                   ...IconStyleProps,
@@ -349,12 +354,12 @@ const Repository = () => {
                 value="star"
               ></FontIcon>
             </View>
-            <View className="action-label">
+            <View className={styles['action-label']}>
               {isStarred ? 'unstar' : 'star'}
             </View>
           </View>
           {/* // TODO */}
-          {/* <View className="action-item" onClick={handleActionClick('fork')}>
+          {/* <View className={styles["action-item"]} onClick={handleActionClick('fork')}>
             <View>
               <FontIcon
                 styleProps={{
@@ -364,9 +369,9 @@ const Repository = () => {
                 value="git-repo-forked"
               ></FontIcon>
             </View>
-            <View className="action-label">Fork</View>
+            <View className={styles["action-label"]}>Fork</View>
           </View> */}
-          {/* <View className="action-item" onClick={handleActionClick('watch')}>
+          {/* <View className={styles["action-item"]} onClick={handleActionClick('watch')}>
             <View>
               <FontIcon
                 styleProps={{
@@ -376,10 +381,13 @@ const Repository = () => {
                 value="eye"
               ></FontIcon>
             </View>
-            <View className="action-label">Watch</View>
+            <View className={styles["action-label"]}>Watch</View>
           </View> */}
-          <View className="action-item" onClick={handleActionClick('save')}>
-            <View className="icon-wrap">
+          <View
+            className={styles['action-item']}
+            onClick={handleActionClick('save')}
+          >
+            <View className={styles['icon-wrap']}>
               <FontIcon
                 styleProps={{
                   ...IconStyleProps,
@@ -388,10 +396,13 @@ const Repository = () => {
                 value="baocuntupian"
               ></FontIcon>
             </View>
-            <View className="action-label">save</View>
+            <View className={styles['action-label']}>save</View>
           </View>
-          <View className="action-item" onClick={handleActionClick('copy')}>
-            <View className="icon-wrap">
+          <View
+            className={styles['action-item']}
+            onClick={handleActionClick('copy')}
+          >
+            <View className={styles['icon-wrap']}>
               <FontIcon
                 styleProps={{
                   ...IconStyleProps,
@@ -400,11 +411,14 @@ const Repository = () => {
                 value="copy"
               ></FontIcon>
             </View>
-            <View className="action-label">Copy</View>
+            <View className={styles['action-label']}>Copy</View>
           </View>
-          <View className="action-item" onClick={handleActionClick('share')}>
-            <Button className="share-btn" openType="share"></Button>
-            <View className="icon-wrap">
+          <View
+            className={styles['action-item']}
+            onClick={handleActionClick('share')}
+          >
+            <Button className={styles['share-btn']} openType="share"></Button>
+            <View className={styles['icon-wrap']}>
               <FontIcon
                 styleProps={{
                   ...IconStyleProps,
@@ -413,7 +427,7 @@ const Repository = () => {
                 value="link-external"
               ></FontIcon>
             </View>
-            <View className="action-label">Share</View>
+            <View className={styles['action-label']}>Share</View>
           </View>
         </View>
       </AtFloatLayout>

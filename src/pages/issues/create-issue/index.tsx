@@ -5,7 +5,7 @@ import { useSelector } from 'react-redux';
 import { AtButton, AtInput, AtTextarea } from 'taro-ui';
 import { createIssue } from '../../../services/issues';
 import { showLoginTips } from '../../../utils/common';
-import './index.scss';
+import styles from './index.module.scss';
 
 const CreateIssue = () => {
   const {
@@ -51,8 +51,8 @@ const CreateIssue = () => {
 
   // TODO add preview
   return (
-    <View className="wrap">
-      <View className="title">
+    <View className={styles.wrap}>
+      <View className={styles.title}>
         <AtInput
           name="title"
           title=""
@@ -63,7 +63,7 @@ const CreateIssue = () => {
           onChange={handleChange}
         />
       </View>
-      <View className="content">
+      <View className={styles.content}>
         <AtTextarea
           height={400}
           count={false}
@@ -73,7 +73,11 @@ const CreateIssue = () => {
           placeholder="Leave a comment"
         />
       </View>
-      <AtButton className="confirm" type="primary" onClick={handleConfirm}>
+      <AtButton
+        className={styles.confirm}
+        type="primary"
+        onClick={handleConfirm}
+      >
         Submit new issue
       </AtButton>
     </View>

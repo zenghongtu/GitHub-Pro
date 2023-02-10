@@ -1,13 +1,13 @@
 import img from '@/assets/spidertocat.png';
 import { Image, View } from '@tarojs/components';
-import './index.scss';
+import styles from './index.module.scss';
 
 const Empty = () => {
   return (
-    <View className="wrap">
-      <View className="inner">
-        <Image src={img} className="img"></Image>
-        <View className="desc">No Data.</View>
+    <View className={styles.wrap}>
+      <View className={styles.inner}>
+        <Image src={img} className={styles.img}></Image>
+        <View className={styles.desc}>No Data.</View>
         {/* <View>
           <AtButton
             size="small"

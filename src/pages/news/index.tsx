@@ -3,7 +3,7 @@ import useReachBottomEvent from '@/hooks/useReachBottomEvent';
 import { View } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import NewContent from './content';
-import './index.scss';
+import styles from './index.module.scss';
 
 const News = () => {
   const username = useSelector<any, any>((state) => state.user.username);
@@ -12,7 +12,7 @@ const News = () => {
   usePullDownRefreshEvent();
 
   return (
-    <View className="wrap">
+    <View className={styles.wrap}>
       <NewContent username={username}></NewContent>
     </View>
   );

@@ -4,7 +4,6 @@ import useReachBottomEvent from '@/hooks/useReachBottomEvent';
 import { View } from '@tarojs/components';
 import { useSelector } from 'react-redux';
 import StarredContent from './content';
-import './index.scss';
 
 const StarredRepos = () => {
   const username = useSelector<any, any>((state) => state.user.username);

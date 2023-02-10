@@ -4,7 +4,6 @@ import Taro, { usePullDownRefresh } from '@tarojs/taro';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import ProfileContent from './content';
-import './index.scss';
 
 const Profile = () => {
   const username = useSelector<any, any>((state) => state.user.username);

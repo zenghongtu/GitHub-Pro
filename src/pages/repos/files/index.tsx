@@ -5,7 +5,7 @@ import { View } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
 import { AtList, AtListItem } from 'taro-ui';
-import './index.scss';
+import styles from './index.module.scss';
 
 const Files = () => {
   const {
@@ -37,7 +37,7 @@ const Files = () => {
   };
   return (
     <View>
-      <View className="files-wrap">
+      <View className={styles['files-wrap']}>
         <AtList hasBorder={false}>
           {files &&
             files.map((item) => {
@@ -45,9 +45,9 @@ const Files = () => {
               // TODO check file type to open files or content
               const isFolder = type === 'dir';
               return (
-                <View key="url" className="file-item">
+                <View key="url" className={styles['file-item']}>
                   <AtListItem
-                    className="file"
+                    className={styles.file}
                     hasBorder={false}
                     title={`${isFolder ? `🗂️` : `📄`}${name}`}
                     onClick={handleNavTo(url, isFolder)}

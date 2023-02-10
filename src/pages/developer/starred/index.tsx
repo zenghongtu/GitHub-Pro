@@ -7,7 +7,6 @@ import { getUserStarred } from '@/services/users';
 import { View } from '@tarojs/components';
 import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
-import './index.scss';
 
 const StarredRepoList = () => {
   const {

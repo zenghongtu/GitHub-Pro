@@ -1,7 +1,7 @@
 import { View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import { AtFab, AtIcon } from 'taro-ui';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface FabButtonProps {
   icon?: string;
@@ -19,7 +19,7 @@ const FabButton = ({
     props.prefixClass = prefixClass;
   }
   return (
-    <View className="fab-btn" onClick={onClick}>
+    <View className={styles['fab-btn']} onClick={onClick}>
       <AtFab size="small">
         <AtIcon {...props}></AtIcon>
       </AtFab>

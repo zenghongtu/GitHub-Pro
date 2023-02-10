@@ -6,7 +6,7 @@ import { LANGUAGE_COLOR_MAP } from '../../pages/my-languages/languages';
 import { IStarred } from '../../services/user';
 import Avatar from '../avatar';
 import FontIcon from '../font-icon';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface RepoItemProps {
   repo: IStarred;
@@ -105,27 +105,27 @@ const RepoItem = ({ repo }: RepoItemProps) => {
   };
 
   return (
-    <View className="repo-wrap" onClick={handleCardClick}>
+    <View className={styles['repo-wrap']} onClick={handleCardClick}>
       <Avatar url={avatar_url} size="40" username={login}></Avatar>
-      <View className="info">
-        <View className="top">
-          <Text className="name">{name}</Text>
-          <Text className="language">{language || ''}</Text>
+      <View className={styles.info}>
+        <View className={styles.top}>
+          <Text className={styles.name}>{name}</Text>
+          <Text className={styles.language}>{language || ''}</Text>
           <Text
-            className="lang-color"
+            className={styles['lang-color']}
             style={{ background: LANGUAGE_COLOR_MAP[language!] }}
           ></Text>
         </View>
-        <View className="desc">{description || ''}</View>
-        <View className="bottom">
-          <View className="meta-item">
+        <View className={styles.desc}>{description || ''}</View>
+        <View className={styles.bottom}>
+          <View className={styles['meta-item']}>
             <FontIcon size="14" value="star"></FontIcon> {stargazers_count}
           </View>
-          <View className="meta-item">
+          <View className={styles['meta-item']}>
             <FontIcon size="14" value="git-repo-forked"></FontIcon>
             {forks_count}
           </View>
-          <View className="meta-item" onClick={handleNameClick}>
+          <View className={styles['meta-item']} onClick={handleNameClick}>
             <FontIcon size="14" value="author"></FontIcon> {login}
           </View>
         </View>

@@ -5,7 +5,6 @@ import { getUser, IUser } from '@/services/users';
 import { Block } from '@tarojs/components';
 import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
-import './index.scss';
 
 const Developer = () => {
   const {

@@ -6,7 +6,6 @@ import { Block } from '@tarojs/components';
 import Taro, { useShareAppMessage } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import './index.scss';
 
 const ProfileContent = ({ username, refreshCount }) => {
   const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);

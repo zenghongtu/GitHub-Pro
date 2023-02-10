@@ -1,29 +1,31 @@
-.at-tabs__item {
-  flex: none;
-  color: white;
-  margin: 0 10px;
-  padding: 15px 50px;
-  border-radius: 30px 10px 0 0;
-  text-transform: capitalize;
-  background: $normal;
-}
+.trending-page {
+  .at-tabs__item {
+    flex: none;
+    color: white;
+    margin: 0 10px;
+    padding: 15px 50px;
+    border-radius: 30px 10px 0 0;
+    text-transform: capitalize;
+    background: $normal;
+  }
 
-.at-tabs__item--active {
-  background: $color-brand-light;
-}
+  .at-tabs__item--active {
+    background: $color-brand-light;
+  }
 
-.at-tabs__header {
-  justify-content: center;
-  align-items: flex-start;
-  position: fixed;
-  z-index: 1;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: $navBg;
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
-}
+  .at-tabs__header {
+    justify-content: center;
+    align-items: flex-start;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: $navBg;
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  }
 
-.at-tabs-pane {
-  margin-top: 58px;
+  .at-tabs-pane {
+    margin-top: 58px;
+  }
 }

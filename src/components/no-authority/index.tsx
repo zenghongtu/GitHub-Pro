@@ -2,15 +2,15 @@ import img from '@/assets/stormtroopocat.png';
 import { Image, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { AtButton } from 'taro-ui';
-import './index.scss';
+import styles from './index.module.scss';
 
 const NoAuthority = () => {
   return (
-    <View className="wrap">
-      <View className="inner">
-        <Image src={img} className="img"></Image>
-        <View className="desc">This page required login to view</View>
-        <View className="login">
+    <View className={styles.wrap}>
+      <View className={styles.inner}>
+        <Image src={img} className={styles.img}></Image>
+        <View className={styles.desc}>This page required login to view</View>
+        <View className={styles.login}>
           <AtButton
             size="small"
             circle

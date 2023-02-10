@@ -131,7 +131,7 @@ const Trending = () => {
 
   return (
     <Block>
-      <View>
+      <View className="trending-page">
         <View>
           <AtTabs current={currTab} tabList={tabList} onClick={handleClickTab}>
             {tabList.map((tab, idx) => {

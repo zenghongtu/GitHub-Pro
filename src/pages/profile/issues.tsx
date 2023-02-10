@@ -8,7 +8,6 @@ import LoadMore from '../../components/load-more/index';
 import { issueDefaultParams } from '../../constants';
 import { Issue } from '../../services/issues';
 import IssueItem from '../issues/issue-item';
-import './index.scss';
 
 const UserIssues = () => {
   const {

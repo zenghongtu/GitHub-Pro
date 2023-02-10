@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { AtCheckbox } from 'taro-ui';
 import FabButton from '../../components/fab-button';
 import { LanguageParams } from '../trending';
-import './index.scss';
+import styles from './index.module.scss';
 import LANGUAGE_LIST from './languages';
 
 interface OptionsLang {
@@ -56,12 +56,12 @@ const MyLanguages = () => {
   };
 
   return (
-    <View className="wrap">
+    <View className={styles.wrap}>
       <View>
         <Input
-          autoFocus
+          focus
           placeholder="Search"
-          className="filter-input"
+          className={styles['filter-input']}
           value={fiterVal}
           onInput={handleChangeInput}
         ></Input>

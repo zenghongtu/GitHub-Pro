@@ -6,7 +6,6 @@ import { Block, View } from '@tarojs/components';
 import Taro, { useRouter } from '@tarojs/taro';
 import { useEffect } from 'react';
 import CommitItem from './commit-item';
-import './index.scss';
 
 const Commits = () => {
   const {

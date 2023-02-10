@@ -1,5 +1,4 @@
 import { AtIcon } from 'taro-ui';
-import './index.scss';
 
 interface FontIconProps {
   value: string;

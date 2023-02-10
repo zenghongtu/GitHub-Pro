@@ -1,8 +1,9 @@
 import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
+import classnames from 'classnames';
 import { useSelector } from 'react-redux';
 import { AtIcon } from 'taro-ui';
-import './index.scss';
+import styles from './index.module.scss';
 
 export const defaultLang = '';
 
@@ -24,13 +25,14 @@ const Language = ({ onChangeLang, curLang }: LanguageProps) => {
   };
 
   const activeClassName = '.active';
+
   return (
-    <View className="wrap">
-      <View className="title">
+    <View className={styles.wrap}>
+      <View className={styles.title}>
         <Text>My languages</Text>
         <AtIcon size={18} value="edit" onClick={handleIconClick}></AtIcon>
       </View>
-      <View className="lang-list">
+      <View className={styles['lang-list']}>
         {langs.map((lang) => {
           const { title, language } = lang;
 
@@ -40,9 +42,10 @@ const Language = ({ onChangeLang, curLang }: LanguageProps) => {
               data-title={title}
               data-language={language}
               onClick={handleLangClick}
-              className={`lang-item ${
-                language === curLang ? activeClassName : ''
-              }`}
+              className={classnames(
+                styles['lang-item '],
+                language === curLang && styles[activeClassName],
+              )}
             >
               {title}
             </View>

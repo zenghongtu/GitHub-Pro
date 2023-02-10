@@ -3,7 +3,7 @@ import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
 import Avatar from '../avatar';
-import './index.scss';
+import styles from './index.module.scss';
 
 interface AuthorProps {
   login: string;
@@ -19,17 +19,17 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
 
   return (
     <View
-      className="author"
+      className={styles.author}
       style={
         !!created_at ? undefined : { alignItems: 'center', paddingLeft: '20px' }
       }
     >
       <Avatar size={size} username={login} url={url}></Avatar>
-      <Text className="login" onClick={handleLoginClick}>
+      <Text className={styles.login} onClick={handleLoginClick}>
         {login}
       </Text>
       {!!created_at && (
-        <Text className="create-at">{getTimeAgo(created_at)}</Text>
+        <Text className={styles['create-at']}>{getTimeAgo(created_at)}</Text>
       )}
     </View>
   );
