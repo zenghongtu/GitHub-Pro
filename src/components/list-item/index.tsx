@@ -1,6 +1,7 @@
 import FontIcon from '@/components/font-icon';
 import { Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
+import classnames from 'classnames';
 import { AtIcon } from 'taro-ui';
 import styles from './index.module.scss';
 
@@ -57,7 +58,7 @@ const ListItem = ({
 
   return (
     <View
-      className={`item ${className}`}
+      className={classnames(styles.item, className)}
       onClick={onClick || undefined}
       style={styleProps}
     >

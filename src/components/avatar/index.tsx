@@ -39,6 +39,7 @@ const Avatar = ({
   return (
     <Block>
       <Image
+        mode="widthFix"
         onClick={handleImgClick}
         className={classnames(styles.avatar, className)}
         style={styleProps}

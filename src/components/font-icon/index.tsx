@@ -6,7 +6,13 @@ interface FontIconProps {
   styleProps?: React.CSSProperties;
 }
 const FontIcon = ({ value, size = 16, styleProps = {} }: FontIconProps) => {
-  const style = { fontSize: size + 'px', ...styleProps };
+  const fontSize = size + 'px';
+
+  const style: React.CSSProperties = {
+    lineHeight: '1em',
+    fontSize,
+    ...styleProps,
+  };
   return (
     <AtIcon prefixClass={'icon'} customStyle={style} value={value}></AtIcon>
   );
