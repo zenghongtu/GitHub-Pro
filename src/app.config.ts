@@ -78,4 +78,7 @@ export default defineAppConfig({
       },
     ],
   },
+  usingComponents: {
+    wemark: './wemark/wemark',
+  },
 });

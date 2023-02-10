@@ -4,27 +4,19 @@
 	margin:10px 0;
 	font-size:32rpx;
 	line-height: 1.8em;
+    /* start */
+    font-family: Optima-Regular, Optima, PingFangTC-Light, PingFangSC-light, PingFangTC-light;
+    letter-spacing: 2px;
+    background-image: linear-gradient(90deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%), linear-gradient(360deg, rgba(50, 0, 0, 0.05) 3%, rgba(0, 0, 0, 0) 3%);
+    background-size: 20px 20px;
+    background-position: center center;
+    padding: 0 0 10px 0;
 }
 .wemark_block_h1{
-	font-size:50rpx;
-  /**不喜欢居中，把居中去掉**/
-  /**text-align: center;**/
-  margin-bottom:1em;
-  margin-top:40px;
-  font-weight: 500;
-  position: relative;
+	font-size:40rpx;
+	text-align: center;
+	margin-bottom:1em;
 }
-
-.wemark_block_h1:after{
-  content: '';                 /*CSS伪类用法*/
-  position: absolute;         /*定位背景横线的位置*/
-  top: 130%;
-  background: #e0e0e0;       /*宽和高做出来的背景横线*/
-  width: 100%;
-  height: 1px;
-  left:0px;
-}
-
 .wemark_block_h2{
 	font-size:40rpx;
 	padding-bottom:.5em;
@@ -35,8 +27,19 @@
 .wemark_block_h3{
 	font-size:36rpx;
 	margin-top: 1em;
+    /*  */
 	margin-bottom: 1em;
+    padding-left: 18px;
 }
+
+/*  */
+.wemark_block_h3::before{
+    content: "";
+    position: relative;
+    right: 18px;
+    border-left: 10px solid #916dd5;
+}
+/*  */
 .wemark_block_h4,
 .wemark_block_h5,
 .wemark_block_h6{
@@ -47,6 +50,10 @@
 .wemark_block_p{
 	margin-top:1em;
 	margin-bottom:1em;
+    /*  */
+    font-size: 28px;
+    letter-spacing: 2px;
+    word-spacing: 2px;
 }
 .wemark_block_video{
 	margin-top:1em;
@@ -54,13 +61,15 @@
 	width:100%;
 }
 .wemark_block_blockquote_p{
-  margin-top: 1em;
-  margin-bottom: 1em;
-  padding: 10rpx 0 10rpx 1em;
-  font-size: 28rpx;
-  background: #f6f8fa;
-  border-left: 5rpx solid #e0e0e0;
-
+	margin-top:1em;
+	margin-bottom:1em;
+	padding:10px 0 10px 1em;
+	font-size:28rpx;
+    /*  */
+	border-left:5px solid #d89cf6;
+    background: #f4eeff;
+    /* background:#f0f0f0;
+	border-left:5px solid #e0e0e0; */
 }
 .wemark_block_ul_li_p::before{
 	content:'• ';
@@ -80,13 +89,12 @@
 }
 .wemark_block_code{
 	display: block;
-	padding:10px;
-	font-size:28rpx;
-	line-height: 1.5em;
+	padding:14px;
+	font-size:26rpx;
+	line-height: 1.8em;
 	border:1px solid #f0f0f0;
 	white-space: pre;
 	overflow: auto;
-  background-color: #2b2b2b;
 }
 .wemark_block_table{
 	width: 100%;
@@ -147,32 +155,22 @@
 .wemark_inline_image{
 	width:100%;
 	height:auto;
-  margin-left: 3rpx;
-  margin-right: 3rpx;
 }
 .wemark_inline_code{
-	background:#edebed;
 	padding:3px 5px;
 	word-wrap:break-word;
-  border-radius:5px;
-  margin-left:5px;
-  margin-right:5px;
-}
-
-.wemark_inline_code_annotation,
-.wemark_inline_code_triple-quoted-string{
-  color: #e0e0e0;
-}
-.wemark_inline_code_rule,
-view.wemark_block_code view,
-.wemark_inline_code_text {
-  color: #e0e0e0;
+    /* start */
+    color: #916dd5;
+    font-weight: bolder;
+    background: none;
+	/* background:#f0f0f0; */
 }
 .wemark_inline_text{
 	word-wrap:break-word;
 }
 .wemark_inline_link{
 	display: inline;
-	color: blue;
+	/* color: blue; */
+    color: #916dd5;
 	word-wrap:break-word;
 }

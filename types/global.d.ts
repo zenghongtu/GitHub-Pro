@@ -17,3 +17,9 @@ declare namespace NodeJS {
   }
 }
 
+
+declare namespace JSX {
+  interface IntrinsicElements {
+      'wemark': any
+  }
+}

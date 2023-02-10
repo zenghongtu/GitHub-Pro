@@ -140,10 +140,4 @@ const Markdown = ({ md: rawMD, full_name }: MarkDownProps) => {
   );
 };
 
-Markdown.config = {
-  usingComponents: {
-    wemark: '../../wemark/wemark',
-  },
-};
-
 export default Markdown;
