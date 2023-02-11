@@ -59,16 +59,16 @@ export default defineAppConfig({
         text: 'News',
       },
       {
-        pagePath: 'pages/starred/index',
-        iconPath: './assets/icons/star.png',
-        selectedIconPath: './assets/icons/star_active.png',
-        text: 'Starred',
-      },
-      {
         pagePath: 'pages/repos/search/index',
         iconPath: './assets/icons/search.png',
         selectedIconPath: './assets/icons/search_active.png',
         text: 'Search',
+      },
+      {
+        pagePath: 'pages/starred/index',
+        iconPath: './assets/icons/star.png',
+        selectedIconPath: './assets/icons/star_active.png',
+        text: 'Starred',
       },
       {
         pagePath: 'pages/profile/index',

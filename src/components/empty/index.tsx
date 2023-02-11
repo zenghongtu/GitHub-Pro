@@ -1,24 +1,27 @@
 import img from '@/assets/spidertocat.png';
 import { Image, View } from '@tarojs/components';
+import Taro from '@tarojs/taro';
+import { FC } from 'react';
+import { AtButton } from 'taro-ui';
 import styles from './index.module.scss';
 
-const Empty = () => {
+const Empty: FC = () => {
   return (
     <View className={styles.wrap}>
       <View className={styles.inner}>
         <Image src={img} className={styles.img}></Image>
-        <View className={styles.desc}>No Data.</View>
-        {/* <View>
+        <View className={styles.desc}>没有数据</View>
+        <View>
           <AtButton
             size="small"
             type="primary"
             onClick={() => {
-              Taro.startPullDownRefresh()
+              Taro.startPullDownRefresh();
             }}
           >
-            retry
+            重试
           </AtButton>
-        </View> */}
+        </View>
       </View>
     </View>
   );

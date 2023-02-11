@@ -1,15 +1,12 @@
-import Empty from '@/components/empty';
+import SkeletonCard from '@/components/skeleton-card';
+import useTrending from '@/hooks/useTrending';
 import { Block, View } from '@tarojs/components';
 import Taro, { usePullDownRefresh, useShareAppMessage } from '@tarojs/taro';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import { AtDrawer, AtTabs, AtTabsPane } from 'taro-ui';
+import { TrendingRequestParams } from 'types/trending';
 import FabButton from '../../components/fab-button';
-import {
-  getTrendingRepos,
-  TrendingRepo,
-  TrendingRequestParams,
-} from '../../services/trending';
-import LANGUAGE_LIST from '../my-languages/languages';
+import { TrendingRepo } from '../../services/trending';
 import './index.scss';
 import MyLanguage, { defaultLang } from './language';
 import RepoItem from './repo-item';
@@ -24,43 +21,40 @@ interface TrendingRepoState {
 }
 
 const tabList = [
-  { title: 'daily', value: 'daily' },
-  { title: 'weekly', value: 'weekly' },
-  { title: 'monthly', value: 'monthly' },
+  { title: '今日', value: 'daily' },
+  { title: '本周', value: 'weekly' },
+  { title: '本月', value: 'monthly' },
 ];
 
-const defaultTrendingPramas = {
-  since: 'daily',
-};
-
-const duractionTextList = ['today', 'week', 'month'];
+const durationTextList = ['today', 'week', 'month'];
 
 const currLang = Taro.getStorageSync('current') || defaultLang;
 
-const Trending = () => {
-  const [repos, setRepos] = useState<TrendingRepoState>({});
-  // const [users, setUsers] = useState<TrendingUser[] | null>(null)
-  // const [title, setTitle] = useState<string>(currLang)
-  const [curLang, setLang] = useState<string>(currLang);
-  const [currTab, setCurrTab] = useState<number>(0);
-  const initTrendingPramas = {
-    ...defaultTrendingPramas,
-    language: curLang,
-  };
-  const [params, setParams] =
-    useState<TrendingRequestParams>(initTrendingPramas);
-  const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false);
-  const [refresh, setRefresh] = useState<number>(0);
-  const countRef = useRef(0);
+const defaultTrendingParams = {
+  since: 'daily',
+  language: currLang,
+};
 
-  useEffect(() => {
-    const title = LANGUAGE_LIST.find((item) => item.value === curLang)!.label;
-    Taro.setNavigationBarTitle({ title });
-  }, [curLang]);
+const Trending = () => {
+  // const [curLang, setLang] = useState<string>(currLang);
+  const [currTab, setCurrTab] = useState<number>(0);
+
+  const [params, setParams] = useState<TrendingRequestParams>(
+    defaultTrendingParams,
+  );
+
+  const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false);
+
+  const { data, isLoading, isError, refetch } = useTrending(params);
+  console.log('data: ', data);
+
+  // useEffect(() => {
+  //   const title = LANGUAGE_LIST.find((item) => item.value === curLang)!.label;
+  //   Taro.setNavigationBarTitle({ title });
+  // }, [curLang]);
 
   usePullDownRefresh(() => {
-    setRepos({ [currTab]: null });
-    setRefresh(++countRef.current);
+    refetch();
   });
 
   useShareAppMessage((res) => {
@@ -70,50 +64,10 @@ const Trending = () => {
     };
   });
 
-  const getRepos = (params: TrendingRequestParams) => {
-    Taro.showLoading({ title: 'loading..' });
-    getTrendingRepos(params)
-      .then((data) => {
-        if (data) {
-          if (repos[currTab]) {
-            setRepos({ [currTab]: data });
-          } else {
-            setRepos({ ...repos, [currTab]: data });
-          }
-        } else {
-          throw new Error(data || '');
-        }
-      })
-      .catch((err) => {
-        Taro.showToast({
-          title: `${err.message || 'Network Error!'} Try pull-down refresh.`,
-          icon: 'none',
-          mask: true,
-        });
-      })
-      .finally(() => {
-        Taro.hideLoading();
-      });
-  };
-
-  useEffect(() => {
-    getRepos(params);
-
-    // getTrendingUsers(params).then(data => {
-    //   if (!data) {
-    //     // TODO handle error
-    //     return
-    //   }
-    //   setRepos(data)
-    // })
-  }, [params, refresh]);
-
   const handleClickTab = (val) => {
     setCurrTab(val);
 
-    if (!repos[val]) {
-      setParams({ ...params, since: tabList[val].value });
-    }
+    setParams({ ...params, since: tabList[val].value });
     Taro.pageScrollTo({ scrollTop: 0 });
   };
 
@@ -125,7 +79,7 @@ const Trending = () => {
     setParams({ ...params, language });
     Taro.setStorageSync('current', language);
     // setTitle(title)
-    setLang(language);
+    // setLang(language);
     setShowLangDrawer(false);
   };
 
@@ -135,28 +89,25 @@ const Trending = () => {
         <View>
           <AtTabs current={currTab} tabList={tabList} onClick={handleClickTab}>
             {tabList.map((tab, idx) => {
-              const _repos = repos[idx];
-              const data = _repos && _repos!.length > 0 ? _repos : null;
-              const duractionText = duractionTextList[currTab];
+              const duractionText = durationTextList[currTab];
 
               return (
                 <AtTabsPane key={tab.title} current={currTab} index={idx}>
                   <View>
-                    {data ? (
-                      data.map((repo, index) => {
-                        return (
-                          <Block key={repo.url}>
-                            <RepoItem
-                              repo={repo}
-                              index={index}
-                              duractionText={duractionText}
-                            ></RepoItem>
-                          </Block>
-                        );
-                      })
-                    ) : (
-                      <Empty></Empty>
-                    )}
+                    <SkeletonCard isLoading={isLoading} isError={isError}>
+                      {data &&
+                        data.map((repo, index) => {
+                          return (
+                            <Block key={repo.url}>
+                              <RepoItem
+                                repo={repo}
+                                index={index}
+                                duractionText={duractionText}
+                              ></RepoItem>
+                            </Block>
+                          );
+                        })}
+                    </SkeletonCard>
                   </View>
                 </AtTabsPane>
               );
@@ -173,7 +124,7 @@ const Trending = () => {
         >
           <View>
             <MyLanguage
-              curLang={curLang}
+              curLang={params.language!}
               onChangeLang={handleChangeParams}
             ></MyLanguage>
           </View>

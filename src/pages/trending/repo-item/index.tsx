@@ -1,10 +1,10 @@
 import FontIcon from '@/components/font-icon';
-import { TrendingRepo } from '@/services/trending';
 import { Image, Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
 import { useSelector } from 'react-redux';
+import { TrendingRepoData } from 'types/trending';
 import styles from './index.module.scss';
 
 const RepoItem = ({
@@ -12,7 +12,7 @@ const RepoItem = ({
   index,
   duractionText,
 }: {
-  repo: TrendingRepo;
+  repo: TrendingRepoData;
   index: number;
   duractionText: string;
 }) => {
