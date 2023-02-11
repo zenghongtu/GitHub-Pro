@@ -24,7 +24,8 @@
     "dev:swan": "npm run build:swan -- --watch",
     "dev:tt": "npm run build:tt -- --watch",
     "dev:weapp": "npm run build:weapp -- --watch",
-    "format": "prettier --write \"src/**/*.{ts,tsx}\""
+    "format": "prettier --write \"src/**/*.{ts,tsx}\"",
+    "gen:github": "openapi-codegen gen github"
   },
   "browserslist": [
     "last 3 versions",
@@ -33,6 +34,7 @@
   ],
   "dependencies": {
     "@babel/runtime": "^7.7.7",
+    "@tanstack/react-query": "^4.24.4",
     "@tarojs/components": "3.6.0",
     "@tarojs/helper": "3.6.0",
     "@tarojs/plugin-framework-react": "3.6.0",
@@ -58,10 +60,13 @@
     "redux": "^4.2.1",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.4.2",
-    "taro-ui": "3.1.0-beta.4"
+    "taro-ui": "3.1.0-beta.4",
+    "zustand": "^4.3.3"
   },
   "devDependencies": {
     "@babel/core": "^7.8.0",
+    "@openapi-codegen/cli": "^2.0.0",
+    "@openapi-codegen/typescript": "^6.1.0",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.5",
     "@tarojs/cli": "3.6.0",
     "@tarojs/webpack5-runner": "3.6.0",

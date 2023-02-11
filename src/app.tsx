@@ -1,12 +1,22 @@
 import '@/assets/iconfont/icon.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Taro from '@tarojs/taro';
 import { Component } from 'react';
 import { Provider } from 'react-redux';
 import './app.scss';
 import configStore from './store';
-import { getNavPath, githubHttpsUrl, parseGitHub } from './utils/repo';
 
 const store = configStore();
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+      retry: 1,
+      retryDelay: (attempt) => attempt * 2000,
+    },
+  },
+});
 
 class App extends Component<any> {
   componentWillMount() {
@@ -16,18 +26,18 @@ class App extends Component<any> {
 
   componentDidMount() {
     this.updateApp();
-    Taro.getClipboardData({
-      success(res) {
-        const data = res.data as string;
-        if (data && data.startsWith(githubHttpsUrl)) {
-          const [owner, repo, filePath] = parseGitHub(data);
-          const url = getNavPath({ owner, filePath, repo });
-          if (url) {
-            Taro.navigateTo({ url });
-          }
-        }
-      },
-    });
+    // Taro.getClipboardData({
+    //   success(res) {
+    //     const data = res.data as string;
+    //     if (data && data.startsWith(githubHttpsUrl)) {
+    //       const [owner, repo, filePath] = parseGitHub(data);
+    //       const url = getNavPath({ owner, filePath, repo });
+    //       if (url) {
+    //         Taro.navigateTo({ url });
+    //       }
+    //     }
+    //   },
+    // });
 
     // no use
     // if (process.env.TARO_ENV === 'weapp') {
@@ -74,7 +84,13 @@ class App extends Component<any> {
   // 在 App 类中的 render() 函数没有实际作用
   // 请勿修改此函数
   render() {
-    return <Provider store={store}>{this.props.children}</Provider>;
+    return (
+      <Provider store={store}>
+        <QueryClientProvider client={queryClient}>
+          {this.props.children}
+        </QueryClientProvider>
+      </Provider>
+    );
   }
 }
 
