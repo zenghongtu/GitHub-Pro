@@ -3,6 +3,33 @@ var parser = new Remarkable({
 	html: true
 });
 var prism = require('./prism');
+var idDict = {}
+var images = []
+
+function urlModify(baseurl, url, currentDir) {
+  var url = _urlModify(baseurl, url, currentDir)
+  images.push(url)
+  return url
+}
+
+function _urlModify(baseurl, url, currentDir) {
+  var re = '/blob/master/'
+  if (url.startsWith('https://github.com/') && url.indexOf(re)>0) {
+    // 暂时以 /blob/master/ 作为替换标识
+    return baseurl + url.slice(url.indexOf(re) + re.length, url.length)
+  }
+  if (url == "" || url == undefined || url.startsWith('http')) {
+    return url
+  }
+  if (url.startsWith('./')) {url = url.replace('./', currentDir + '/')}
+  return baseurl + url;
+}
+
+function isHtml(h) {
+  var h = h.trim()
+  h = h.replace(/^\s+|\s+$/g, '');  
+  return h.startsWith('<') && h.endsWith('>')
+}
 
 function parse(md, options){
 	if(!options) options = {};
@@ -17,20 +44,46 @@ function parse(md, options){
 	// 记录第N级ol的顺序
 	var orderNum = [0, 0];
 	var tmp;
-
+  var parseHtml = function(html, ret) {
+    var list = [{ type: 'text', reg: /<a.*?>(.*?)<\/a>/g }, {type: 'image', reg: /<img.*?src\s*=\s*['"]*([^\s^'^"]+).*?(?:\/\s*|<\/img)?>/g}, {type: 'text', reg: /<h2.*?>(.*?)<\/h2>/g}, {type: 'text', reg: /<h1.*?>(.*?)<\/h1>/g}, {type: 'text', reg: /<p.*?>(.*?)<\/p>/g}, {type: 'text', reg: /<p.*?>(.*)/g}]
+    var match;
+    list.map(function(p) {
+      var tmpHtml = html
+      while (match = p.reg.exec(tmpHtml)) {
+        // console.log('match: ', match)
+        if (match[1]) {
+          if (isHtml(match[1])) {
+            var left = parseHtml(match[1], ret)
+            match[1] = match[1].replace(match[1], left)
+          }
+          var data = { type: p.type, content: match[1]}
+          if (p.type == 'image') {
+            data['src'] = urlModify(options.baseurl, match[1], options.currentDir)
+          }
+          ret.push(data)
+          html = html.replace(match[0], '')
+        }
+      }
+    })
+    if (html) {
+      ret.push({ type: 'text', content: html })
+    }
+    return html
+  }
 	// 获取inline内容
 	var getInlineContent = function(inlineToken){
 		var ret = [];
 		var env;
 		var tokenData = {};
-
-		if(inlineToken.type === 'htmlblock'){
+    if (inlineToken.type === 'htmlblock' || (inlineToken.type === 'inline' && isHtml(inlineToken.content))){
 			// 匹配video
 			// 兼容video[src]和video > source[src]
 			var videoRegExp = /<video.*?src\s*=\s*['"]*([^\s^'^"]+).*?(poster\s*=\s*['"]*([^\s^'^"]+).*?)?(?:\/\s*>|<\/video>)/g;
+            
+	    var match;
+	    var html = inlineToken.content.replace(/\n/g, '');
+      parseHtml(html, ret)
 
-			var match;
-			var html = inlineToken.content.replace(/\n/g, '');
 			while(match = videoRegExp.exec(html)){
 				if(match[1]){
 					var retParam = {
@@ -46,12 +99,12 @@ function parse(md, options){
 				}
 			}
 		}else{
-			// console.log(inlineToken);
 			inlineToken.children && inlineToken.children.forEach(function(token, index){
 				if(['text', 'code'].indexOf(token.type) > -1){
 					ret.push({
 						type: env || token.type,
 						content: token.content,
+            id: idDict[token.content] || '',
 						data: tokenData
 					});
 					env = '';
@@ -87,11 +140,15 @@ function parse(md, options){
 						tokenData = {
 							href: token.href
 						};
+            if (token.href.startsWith('#')) {
+              // console.log("link:", token, token.href, inlineToken.children[index + 1].content)
+              idDict[inlineToken.children[index+1].content] = token.href.substr(1)
+            }
 					}
 				}else if(token.type === 'image'){
 					ret.push({
 						type: token.type,
-						src: token.src
+            src: urlModify(options.baseurl, token.src, options.currentDir)
 					});
 				}
 			});
@@ -137,53 +194,57 @@ function parse(md, options){
 		}else if(blockToken.type === 'fence' || blockToken.type === 'code'){
 			content = blockToken.content;
 			var highlight = false;
+            if (!blockToken.params){blockToken.params = 'python'}
+            if (blockToken.params == 'c' || blockToken.params == 'c++' || blockToken.params == 'c#') {
+                blockToken.params = 'clike'
+            }
 			if(options.highlight && blockToken.params && prism.languages[blockToken.params]){
 				content = prism.tokenize(content, prism.languages[blockToken.params]);
 				highlight = true;
 			}
 
-			const flattenTokens = (tokensArr, result = [], parentType = '') => {
-				if (Array.isArray(tokensArr)) {
-					tokensArr.forEach(el => {
-						if (typeof el === 'object') {
-							// el.type = parentType + ' wemark_inline_code_' + el.type;
-							if(Array.isArray(el.content)){
-								flattenTokens(el.content, result, el.type);
-							}else{
-								flattenTokens(el, result, el.type);
-							}
-						} else {
-							const obj = {};
-							obj.type = parentType || 'text';
-							// obj.type = parentType + ' wemark_inline_code_';
-							obj.content = el;
-							result.push(obj);
-						}
-					})
-					return result
-				} else {
-					result.push(tokensArr)
-					return result
-				}
-			}
+            const flattenTokens = (tokensArr, result = [], parentType = '') => {
+                if (Array.isArray(tokensArr)) {
+                    tokensArr.forEach(el => {
+                        if (typeof el === 'object') {
+                            // el.type = parentType + ' wemark_inline_code_' + el.type;
+                            if(Array.isArray(el.content)){
+                                flattenTokens(el.content, result, el.type);
+                            }else{
+                                flattenTokens(el, result, el.type);
+                            }
+                        } else {
+                            const obj = {};
+                            obj.type = parentType || 'text';
+                            // obj.type = parentType + ' wemark_inline_code_';
+                            obj.content = el;
+                            result.push(obj);
+                        }
+                    })
+                    return result
+                } else {
+                    result.push(tokensArr)
+                    return result
+                }
+            }
 
-			if(highlight){
-				var tokenList = content;
-				content = [];
-				tokenList.forEach((token) => {
-					// let contentListForToken = [];
-					if(Array.isArray(token.content)){
-						content = content.concat(flattenTokens(token.content, [], ''));
-					}else{
-						content.push(token);
-					}
-				});
-			}
-			// flatten nested tokens in html
-			// if (blockToken.params === 'html') {
-				// content = flattenTokens(content)
-			// }
-			// console.log(content);
+            if(highlight){
+                var tokenList = content;
+                content = [];
+                tokenList.forEach((token) => {
+                    // let contentListForToken = [];
+                    if(Array.isArray(token.content)){
+                        content = content.concat(flattenTokens(token.content, [], ''));
+                    }else{
+                        content.push(token);
+                    }
+                });
+            }
+            // flatten nested tokens in html
+            // if (blockToken.params === 'html') {
+            // content = flattenTokens(content)
+            // }
+            // console.log(content);
 
 			return {
 				type: 'code',
@@ -217,18 +278,18 @@ function parse(md, options){
 		}else if(blockToken.type === 'tr_open'){
 			tmp = {
 				type: 'table_tr',
-				content:[]
+        content: []
 			};
 			return tmp;
 		}else if(blockToken.type === 'th_open'){
 			tmp.content.push({
 				type: 'table_th',
-				content: getInlineContent(tokens[index+1]).map(function(inline){return inline.content;}).join('')
+				content: getInlineContent(tokens[index+1])
 			});
 		}else if(blockToken.type === 'td_open'){
 			tmp.content.push({
 				type: 'table_td',
-				content: getInlineContent(tokens[index+1]).map(function(inline){return inline.content;}).join('')
+				content: getInlineContent(tokens[index+1])
 			});
 		}
 	};
@@ -254,7 +315,7 @@ function parse(md, options){
 		});
 	});
 
-	return renderList;
+	return [renderList, images];
 }
 
 module.exports = {
