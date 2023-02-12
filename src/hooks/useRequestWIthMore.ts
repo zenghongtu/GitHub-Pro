@@ -11,12 +11,6 @@ function useRequestWIthMore<T, S = string>(
   data: S,
   request: (data: S, params: any | null) => Promise<T[] | null>,
 ): [T[] | null, boolean, () => void, () => void] | [] {
-  if (!data) {
-    // bug?
-    console.warn('useRequestWIthMore: no data');
-    return [];
-  }
-
   const [currData, setData] = useState<T[] | null>(null);
   const [hasMore, setHasMore] = useState<boolean>(true);
   const [params, setParams] = useState(defaultParams);

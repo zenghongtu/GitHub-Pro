@@ -1,5 +1,5 @@
 import monaLoadingGif from '@/assets/mona-loading.gif';
-import { Image, Text, View } from '@tarojs/components';
+import { Block, Image, Text, View } from '@tarojs/components';
 import { FC, ReactNode } from 'react';
 import Empty from '../empty';
 import styles from './index.module.scss';
@@ -11,7 +11,7 @@ const SkeletonCard: FC<{
 }> = ({ children, isLoading, isError }) => {
   // TODO skeleton replace loading
   return (
-    <View className={styles.wrap}>
+    <Block>
       {isLoading && (
         <View className={styles.loading}>
           <Image
@@ -26,7 +26,7 @@ const SkeletonCard: FC<{
       )}
       {isError && <Empty />}
       {!isError && !isLoading && children}
-    </View>
+    </Block>
   );
 };
 

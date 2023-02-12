@@ -70,6 +70,8 @@ export async function githubFetch<
       mask: true,
     });
     throw err;
+  } finally {
+    Taro.stopPullDownRefresh();
   }
 }
 

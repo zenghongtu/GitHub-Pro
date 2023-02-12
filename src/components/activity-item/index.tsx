@@ -1,9 +1,9 @@
 import Author from '@/components/author';
+import type * as Schemas from '@/src/githubSchemas';
 import { Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
-import { IUserReceivedEvent } from '../../services/users';
 import styles from './index.module.scss';
 
 const spacesRegExp = new RegExp('[\r\n\t]+', 'g');
@@ -19,8 +19,10 @@ const truncateText = (text = '') => {
   return truncated;
 };
 
+export type ActivityItemDataType = Schemas.Event;
+
 interface ActivityItemProps {
-  item: IUserReceivedEvent;
+  item: ActivityItemDataType;
 }
 
 const ActivityItem = ({ item }: ActivityItemProps) => {
@@ -152,7 +154,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         return (
           <View>
             <View>
-              Forked {forkee!.full_name} from{' '}
+              Forked {forkee?.full_name} from{' '}
               <Text className={styles['repo-name']}>{name}</Text>
             </View>
           </View>
@@ -187,7 +189,7 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
           <View>
             <View>
               {payload.action} permissions of {payload.member!.login} to
-              {payload.repository!.full_name}
+              {payload.repository?.full_name}
             </View>
           </View>
         );
@@ -243,10 +245,16 @@ const ActivityItem = ({ item }: ActivityItemProps) => {
         );
       }
     }
-    const text = JSON.stringify(item);
+    // const text = JSON.stringify(item);
+    // return (
+    //   <View>
+    //     <View className={styles['event-desc']}>{text}</View>
+    //   </View>
+    // );
     return (
       <View>
-        <View className={styles['event-desc']}>{text}</View>
+        {payload?.action} at
+        <Text className={styles['repo-name']}>{name}</Text>
       </View>
     );
   };

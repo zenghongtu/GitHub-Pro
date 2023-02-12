@@ -24,7 +24,7 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
         !!created_at ? undefined : { alignItems: 'center', paddingLeft: '20px' }
       }
     >
-      <Avatar size={size} username={login} url={url}></Avatar>
+      <Avatar size={size} username={login} url={`${url}s=96&v=4`}></Avatar>
       <Text className={styles.login} onClick={handleLoginClick}>
         {login}
       </Text>
