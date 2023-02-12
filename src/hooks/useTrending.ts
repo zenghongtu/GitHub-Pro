@@ -3,14 +3,17 @@ import { useQuery } from '@tanstack/react-query';
 import Taro from '@tarojs/taro';
 import { TrendingRepoData, TrendingRequestParams } from 'types/trending';
 
-const useTrending = (params: TrendingRequestParams) => {
+const useTrending = ({
+  type = 'repositories',
+  ...params
+}: TrendingRequestParams) => {
   return useQuery<TrendingRepoData[]>(
-    ['trending', params],
+    ['trending', type, params],
     () => {
-      Taro.showLoading({ title: '努力加载中...' });
+      // Taro.showLoading({ title: '努力加载中...' });
       return Taro.request({
-        url: TRENDING_URL,
-        data: { type: 'repo', ...params },
+        url: `${TRENDING_URL}/${type}`,
+        data: params,
         method: 'GET',
       }).then((rsp) => {
         Taro.stopPullDownRefresh();
@@ -18,7 +21,7 @@ const useTrending = (params: TrendingRequestParams) => {
         return rsp.data;
       });
     },
-    { staleTime: 60 * 60 * 10 },
+    { cacheTime: 60 * 60 * 10 },
   );
 };
 

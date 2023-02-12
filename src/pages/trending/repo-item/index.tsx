@@ -10,11 +10,11 @@ import styles from './index.module.scss';
 const RepoItem = ({
   repo,
   index,
-  duractionText,
+  durationText,
 }: {
   repo: TrendingRepoData;
   index: number;
-  duractionText: string;
+  durationText: string;
 }) => {
   if (!repo) {
     return null;
@@ -91,7 +91,11 @@ const RepoItem = ({
           {forks}
         </View>
         <View className={styles['meta-item']}>
-          {currentPeriodStars} stars {duractionText}
+          <FontIcon
+            styleProps={{ fontSize: '16px', color: 'yellow' }}
+            value="star"
+          ></FontIcon>
+          {currentPeriodStars} this {durationText}
         </View>
       </View>
     </View>
@@ -99,9 +103,7 @@ const RepoItem = ({
 };
 
 const areEqual = ({ repo: prevRepo }: any, { repo }: any) => {
-  return (
-    prevRepo && prevRepo.name === repo.name && prevRepo.author === repo.author
-  );
+  return prevRepo?.url === repo.url;
 };
 
 export default memo(RepoItem, areEqual);

@@ -1,6 +1,8 @@
-import { View } from '@tarojs/components';
+import monaLoadingGif from '@/assets/mona-loading.gif';
+import { Image, Text, View } from '@tarojs/components';
 import { FC, ReactNode } from 'react';
 import Empty from '../empty';
+import styles from './index.module.scss';
 
 const SkeletonCard: FC<{
   children: ReactNode;
@@ -9,10 +11,19 @@ const SkeletonCard: FC<{
 }> = ({ children, isLoading, isError }) => {
   // TODO skeleton replace loading
   return (
-    <View>
-      {/* {isLoading && (
-        <AtIcon prefixClass="fa" value="clock" size="30" color="#F00"></AtIcon>
-      )} */}
+    <View className={styles.wrap}>
+      {isLoading && (
+        <View className={styles.loading}>
+          <Image
+            mode="widthFix"
+            style={{ width: '90px' }}
+            src={monaLoadingGif}
+          ></Image>
+          <View>
+            <Text>努力加载..</Text>
+          </View>
+        </View>
+      )}
       {isError && <Empty />}
       {!isError && !isLoading && children}
     </View>

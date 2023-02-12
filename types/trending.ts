@@ -1,3 +1,9 @@
+export interface TrendingRequestParams {
+  language?: string;
+  since?: string;
+  type?: 'repositories' | 'developers';
+}
+
 export interface TrendingRepoData {
   author: string;
   name: string;
@@ -18,7 +24,17 @@ interface BuiltBy {
   avatar: string;
 }
 
-export interface TrendingRequestParams {
-  language?: string;
-  since?: string;
+export interface TrendingDeveloperData {
+  username: string;
+  name: string;
+  url: string;
+  sponsorUrl?: any;
+  avatar: string;
+  repo: Repo;
+}
+
+interface Repo {
+  name: string;
+  description: string;
+  url: string;
 }

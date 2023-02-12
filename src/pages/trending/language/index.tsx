@@ -15,16 +15,15 @@ interface LanguageProps {
 const Language = ({ onChangeLang, curLang }: LanguageProps) => {
   const langs = useSelector<any, any>((state) => state.lang.selected);
 
-  const handleLangClick = (e) => {
+  const handleLangClick = (lang, e) => {
+    console.log('lang: ', lang);
     const { dataset } = e.target;
-    onChangeLang(dataset);
+    // onChangeLang(dataset);
   };
 
   const handleIconClick = () => {
     Taro.navigateTo({ url: '/pages/my-languages/index' });
   };
-
-  const activeClassName = '.active';
 
   return (
     <View className={styles.wrap}>
@@ -39,12 +38,10 @@ const Language = ({ onChangeLang, curLang }: LanguageProps) => {
           return (
             <View
               key={language}
-              data-title={title}
-              data-language={language}
-              onClick={handleLangClick}
+              onClick={handleLangClick.bind(null, lang)}
               className={classnames(
-                styles['lang-item '],
-                language === curLang && styles[activeClassName],
+                styles['lang-item'],
+                language === curLang && styles.active,
               )}
             >
               {title}

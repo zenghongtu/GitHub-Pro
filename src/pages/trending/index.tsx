@@ -6,8 +6,7 @@ import { useState } from 'react';
 import { AtDrawer, AtTabs, AtTabsPane } from 'taro-ui';
 import { TrendingRequestParams } from 'types/trending';
 import FabButton from '../../components/fab-button';
-import { TrendingRepo } from '../../services/trending';
-import './index.scss';
+import styles from './index.module.scss';
 import MyLanguage, { defaultLang } from './language';
 import RepoItem from './repo-item';
 
@@ -16,17 +15,13 @@ export interface LanguageParams {
   title: string;
 }
 
-interface TrendingRepoState {
-  [id: number]: TrendingRepo[] | null;
-}
-
 const tabList = [
   { title: '今日', value: 'daily' },
   { title: '本周', value: 'weekly' },
   { title: '本月', value: 'monthly' },
 ];
 
-const durationTextList = ['today', 'week', 'month'];
+const tabs = [];
 
 const currLang = Taro.getStorageSync('current') || defaultLang;
 
@@ -36,7 +31,6 @@ const defaultTrendingParams = {
 };
 
 const Trending = () => {
-  // const [curLang, setLang] = useState<string>(currLang);
   const [currTab, setCurrTab] = useState<number>(0);
 
   const [params, setParams] = useState<TrendingRequestParams>(
@@ -46,12 +40,6 @@ const Trending = () => {
   const [showLangDrawer, setShowLangDrawer] = useState<boolean>(false);
 
   const { data, isLoading, isError, refetch } = useTrending(params);
-  console.log('data: ', data);
-
-  // useEffect(() => {
-  //   const title = LANGUAGE_LIST.find((item) => item.value === curLang)!.label;
-  //   Taro.setNavigationBarTitle({ title });
-  // }, [curLang]);
 
   usePullDownRefresh(() => {
     refetch();
@@ -75,38 +63,39 @@ const Trending = () => {
     setShowLangDrawer(isShow);
   };
 
-  const handleChangeParams = ({ language, title }: LanguageParams) => {
-    setParams({ ...params, language });
+  const handleChangeLang = ({ language, title }: LanguageParams) => {
     Taro.setStorageSync('current', language);
-    // setTitle(title)
-    // setLang(language);
+    Taro.setNavigationBarTitle({ title });
+    setParams({ ...params, language });
     setShowLangDrawer(false);
   };
 
   return (
     <Block>
-      <View className="trending-page">
-        <View>
+      <View className={styles.wrap}>
+        <View className={styles.header}>
           <AtTabs current={currTab} tabList={tabList} onClick={handleClickTab}>
             {tabList.map((tab, idx) => {
-              const duractionText = durationTextList[currTab];
+              const durationText = tabList[idx].value;
 
               return (
                 <AtTabsPane key={tab.title} current={currTab} index={idx}>
                   <View>
-                    <SkeletonCard isLoading={isLoading} isError={isError}>
-                      {data &&
-                        data.map((repo, index) => {
-                          return (
-                            <Block key={repo.url}>
-                              <RepoItem
-                                repo={repo}
-                                index={index}
-                                duractionText={duractionText}
-                              ></RepoItem>
-                            </Block>
-                          );
-                        })}
+                    <SkeletonCard
+                      key={Object.values(params).join('-')}
+                      isLoading={isLoading}
+                      isError={isError}
+                    >
+                      {data?.map((repo, index) => {
+                        return (
+                          <RepoItem
+                            key={repo.url}
+                            repo={repo}
+                            index={index}
+                            durationText={durationText}
+                          ></RepoItem>
+                        );
+                      })}
                     </SkeletonCard>
                   </View>
                 </AtTabsPane>
@@ -125,7 +114,7 @@ const Trending = () => {
           <View>
             <MyLanguage
               curLang={params.language!}
-              onChangeLang={handleChangeParams}
+              onChangeLang={handleChangeLang}
             ></MyLanguage>
           </View>
         </AtDrawer>
