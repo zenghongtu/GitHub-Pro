@@ -3,11 +3,11 @@
   width: 100vw;
   display: flex;
   justify-content: center;
-  align-items: center;
+
   background: $bg;
 }
 .inner {
-  margin: auto;
+  margin: 40px auto;
 }
 
 .img {
@@ -19,4 +19,8 @@
   text-align: center;
   font-size: 35px;
   color: rgb(88, 88, 88);
+}
+
+.tips {
+  color: $primary;
 }

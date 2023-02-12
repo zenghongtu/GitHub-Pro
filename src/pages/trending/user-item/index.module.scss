@@ -1,0 +1,73 @@
+.cardWrap {
+  margin: 25px 20px;
+  padding: 10px 20px 20px 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  box-sizing: border-box;
+  background: $itemBg;
+}
+
+.author {
+  display: flex;
+}
+
+.index {
+  display: inline-block;
+  vertical-align: middle;
+  width: 32px;
+  height: 32px;
+  margin-top: 10px;
+  line-height: 32px;
+  border-radius: 50%;
+  margin-right: 15px;
+  text-align: center;
+  font-size: 20px;
+  background-color: $color-brand-light;
+  color: white;
+}
+
+.nameWrap {
+  margin-left: 15px;
+  white-space: nowrap;
+  text-align: left;
+}
+
+.name {
+  font-size: 32px;
+  width: 100%;
+}
+
+.authorName {
+  font-size: 28px;
+  font-weight: 600;
+  color: rgb(109, 109, 109);
+}
+
+.repo {
+  margin-left: 35px;
+}
+
+.repoName {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  margin-top: 5px;
+  font-size: 23px;
+  font-weight: 400;
+  line-height: 1.5em;
+  color: #828282;
+  word-break: break-all;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+}

@@ -1,8 +1,7 @@
 import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
-import classnames from 'classnames';
 import { useSelector } from 'react-redux';
-import { AtIcon } from 'taro-ui';
+import { AtIcon, AtRadio } from 'taro-ui';
 import styles from './index.module.scss';
 
 export const defaultLang = '';
@@ -16,9 +15,8 @@ const Language = ({ onChangeLang, curLang }: LanguageProps) => {
   const langs = useSelector<any, any>((state) => state.lang.selected);
 
   const handleLangClick = (lang, e) => {
-    console.log('lang: ', lang);
-    const { dataset } = e.target;
-    // onChangeLang(dataset);
+    const value = langs.find((item) => item.language === lang);
+    onChangeLang(value);
   };
 
   const handleIconClick = () => {
@@ -28,26 +26,18 @@ const Language = ({ onChangeLang, curLang }: LanguageProps) => {
   return (
     <View className={styles.wrap}>
       <View className={styles.title}>
-        <Text>My languages</Text>
+        <Text>Favorite languages</Text>
         <AtIcon size={18} value="edit" onClick={handleIconClick}></AtIcon>
       </View>
       <View className={styles['lang-list']}>
-        {langs.map((lang) => {
-          const { title, language } = lang;
-
-          return (
-            <View
-              key={language}
-              onClick={handleLangClick.bind(null, lang)}
-              className={classnames(
-                styles['lang-item'],
-                language === curLang && styles.active,
-              )}
-            >
-              {title}
-            </View>
-          );
-        })}
+        <AtRadio
+          options={langs.map((item) => ({
+            label: item.title,
+            value: item.language,
+          }))}
+          value={curLang}
+          onClick={handleLangClick}
+        />
       </View>
     </View>
   );

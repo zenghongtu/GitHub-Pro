@@ -2,6 +2,7 @@ export const LANGUAGE_LIST = [
   {
     value: '',
     label: 'All Languages',
+    disabled: true,
   },
   {
     value: '1c-enterprise',

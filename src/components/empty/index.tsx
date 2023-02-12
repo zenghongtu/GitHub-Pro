@@ -1,8 +1,6 @@
 import img from '@/assets/spidertocat.png';
-import { Image, View } from '@tarojs/components';
-import Taro from '@tarojs/taro';
+import { Image, Text, View } from '@tarojs/components';
 import { FC } from 'react';
-import { AtButton } from 'taro-ui';
 import styles from './index.module.scss';
 
 const Empty: FC = () => {
@@ -10,8 +8,13 @@ const Empty: FC = () => {
     <View className={styles.wrap}>
       <View className={styles.inner}>
         <Image src={img} className={styles.img}></Image>
-        <View className={styles.desc}>没有数据</View>
-        <View>
+        <View className={styles.desc}>
+          <Text>没有数据~</Text>
+          <View>
+            <Text className={styles.tips}>试试下拉刷新</Text>
+          </View>
+        </View>
+        {/* <View>
           <AtButton
             size="small"
             type="primary"
@@ -21,7 +24,7 @@ const Empty: FC = () => {
           >
             重试
           </AtButton>
-        </View>
+        </View> */}
       </View>
     </View>
   );

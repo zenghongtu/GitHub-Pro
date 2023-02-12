@@ -13,8 +13,13 @@
 }
 
 .info {
-  max-width: 75%;
+  max-width: 100%;
   margin-right: 10px;
+}
+
+.nameWrap {
+  display: flex;
+  align-items: center;
 }
 
 .name {
@@ -33,13 +38,13 @@
 .index {
   display: inline-block;
   vertical-align: middle;
-  width: 30px;
-  height: 30px;
-  line-height: 30px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
   border-radius: 50%;
   margin-right: 10px;
   text-align: center;
-  font-size: 18px;
+  font-size: 20px;
   background-color: $color-brand-light;
   color: white;
 }

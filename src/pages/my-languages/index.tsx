@@ -21,10 +21,10 @@ const MyLanguages = () => {
   const [optionsLangs, setOptionsLangs] =
     useState<OptionsLang[]>(LANGUAGE_LIST);
   const [selectedList, setSelectedList] = useState<string[]>(initSelectedList);
-  const [fiterVal, setFilterVal] = useState<string>('');
+  const [filterVal, setFilterVal] = useState<string>('');
   const dispatch = useDispatch();
 
-  const handleSeletedChange = (val) => {
+  const handleSelectedChange = (val) => {
     setSelectedList(val);
   };
 
@@ -62,7 +62,7 @@ const MyLanguages = () => {
           focus
           placeholder="Search"
           className={styles['filter-input']}
-          value={fiterVal}
+          value={filterVal}
           onInput={handleChangeInput}
         ></Input>
       </View>
@@ -70,7 +70,7 @@ const MyLanguages = () => {
         <AtCheckbox
           options={optionsLangs}
           selectedList={selectedList}
-          onChange={handleSeletedChange}
+          onChange={handleSelectedChange}
         ></AtCheckbox>
       </View>
       <FabButton icon="check" onClick={handleFabClick}></FabButton>

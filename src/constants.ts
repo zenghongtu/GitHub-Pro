@@ -19,3 +19,5 @@ export const PULL_DOWN_REFRESH_EVENT = 'pull_down_refresh_event';
 export const THROTTLE_DELAY = 1500;
 
 export const TRENDING_URL = 'https://trending.stayin.cn';
+
+export const CURRENT_LANGUAGE_STORAGE_KEY = 'current-language';

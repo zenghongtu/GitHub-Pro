@@ -2,8 +2,35 @@
 }
 
 .header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
   display: flex;
+  background-color: white;
+  padding: 0 20px;
+
+  :global(.at-tabs__item--active .at-tabs__item-underline) {
+    width: 50%;
+    transform: translate(-50%);
+    left: 50%;
+    transition: none;
+  }
+}
+
+.filterIcon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  &:active {
+    color: $primary;
+  }
 }
 
 .tabs {
+}
+
+.main {
+  padding: 80px 0;
 }

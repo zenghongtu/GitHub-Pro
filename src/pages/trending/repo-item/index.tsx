@@ -1,9 +1,7 @@
 import FontIcon from '@/components/font-icon';
-import { Image, Text, View } from '@tarojs/components';
-import { ITouchEvent } from '@tarojs/components/types/common';
+import { Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
-import { useSelector } from 'react-redux';
 import { TrendingRepoData } from 'types/trending';
 import styles from './index.module.scss';
 
@@ -16,27 +14,8 @@ const RepoItem = ({
   index: number;
   durationText: string;
 }) => {
-  if (!repo) {
-    return null;
-  }
-  const username = useSelector<any, any>((state) => state.user.username);
-
   const handleCardClick = () => {
     const url = `/pages/repos/index?owner=${author}&repo=${name}`;
-    Taro.navigateTo({
-      url,
-    });
-  };
-
-  const handleAuthorClick = (e: ITouchEvent) => {
-    e.stopPropagation();
-    let url: string;
-    if (username === author) {
-      url = `/pages/profile/index`;
-    } else {
-      url = `/pages/developer/index?name=${author}`;
-    }
-
     Taro.navigateTo({
       url,
     });
@@ -60,15 +39,13 @@ const RepoItem = ({
     <View className={styles['card-wrap']} onClick={handleCardClick}>
       <View className={styles['card-top']}>
         <View className={styles.info}>
-          <View className={styles.name}>
+          <View className={styles.nameWrap}>
             <View className={styles.index}> {index + 1}</View>
-            {name}
+            <View className={styles.name}>
+              {author}/{name}
+            </View>
           </View>
           <View className={styles.description}>{description}</View>
-        </View>
-        <View className={styles.author} onClick={handleAuthorClick}>
-          <Image src={avatar} className={styles.avatar}></Image>
-          <View className={styles['author-name']}>{author}</View>
         </View>
       </View>
       <View className={styles['card-bottom']}>
@@ -92,10 +69,10 @@ const RepoItem = ({
         </View>
         <View className={styles['meta-item']}>
           <FontIcon
-            styleProps={{ fontSize: '16px', color: 'yellow' }}
+            styleProps={{ fontSize: '16px', color: '#0062c9' }}
             value="star"
           ></FontIcon>
-          {currentPeriodStars} this {durationText}
+          {currentPeriodStars} {durationText}
         </View>
       </View>
     </View>

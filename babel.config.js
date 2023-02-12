@@ -15,6 +15,8 @@ module.exports = {
         customName: name => {
           if(name === 'at-list-item'){
             name = 'at-list/item'
+          } else if(name === 'at-action-sheet-item'){
+            name = 'at-action-sheet/body/item'
           }
           return `taro-ui/lib/components/${name.slice(3)}`
         },
@@ -25,8 +27,11 @@ module.exports = {
           if(name === 'at-tabs-pane'){
             name = 'at-tabs'
           }
-          if(name === 'at-list-item'){
+          else if(name === 'at-list-item'){
             name = 'at-list'
+          }
+          else if(name === 'at-action-sheet-item'){
+            name = 'at-action-sheet'
           }
           return `taro-ui/dist/style/components/${name.slice(3)}.scss`
         }
