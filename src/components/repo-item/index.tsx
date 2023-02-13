@@ -1,15 +1,14 @@
+import { SearchReposResponse } from '@/github/githubComponents';
 import { Text, View } from '@tarojs/components';
 import { ITouchEvent } from '@tarojs/components/types/common';
 import Taro from '@tarojs/taro';
 import { memo } from 'react';
 import { LANGUAGE_COLOR_MAP } from '../../pages/my-languages/languages';
-import { IStarred } from '../../services/user';
-import Avatar from '../avatar';
 import FontIcon from '../font-icon';
 import styles from './index.module.scss';
 
 interface RepoItemProps {
-  repo: IStarred;
+  repo: SearchReposResponse['items'][number];
 }
 
 const RepoItem = ({ repo }: RepoItemProps) => {
@@ -21,7 +20,7 @@ const RepoItem = ({ repo }: RepoItemProps) => {
     node_id,
     name,
     full_name,
-    owner: { avatar_url, login },
+    owner,
     html_url,
     description,
     fork,
@@ -92,6 +91,8 @@ const RepoItem = ({ repo }: RepoItemProps) => {
     permissions,
   } = repo;
 
+  const { avatar_url, login } = owner || {};
+
   const handleNameClick = (e: ITouchEvent) => {
     e.stopPropagation();
     const url = `/pages/developer/index?name=${login}`;
@@ -106,10 +107,10 @@ const RepoItem = ({ repo }: RepoItemProps) => {
 
   return (
     <View className={styles['repo-wrap']} onClick={handleCardClick}>
-      <Avatar url={avatar_url} size="40" username={login}></Avatar>
+      {/* <Avatar url={avatar_url} size="40" username={login}></Avatar> */}
       <View className={styles.info}>
         <View className={styles.top}>
-          <Text className={styles.name}>{name}</Text>
+          <Text className={styles.name}>{full_name}</Text>
           <Text className={styles.language}>{language || ''}</Text>
           <Text
             className={styles['lang-color']}
@@ -119,14 +120,16 @@ const RepoItem = ({ repo }: RepoItemProps) => {
         <View className={styles.desc}>{description || ''}</View>
         <View className={styles.bottom}>
           <View className={styles['meta-item']}>
-            <FontIcon size="14" value="star"></FontIcon> {stargazers_count}
+            <FontIcon size="14" value="star"></FontIcon>
+            <Text style={{ fontWeight: 400 }}>{stargazers_count}</Text>
           </View>
           <View className={styles['meta-item']}>
             <FontIcon size="14" value="git-repo-forked"></FontIcon>
-            {forks_count}
+            <Text style={{ fontWeight: 400 }}>{forks_count}</Text>
           </View>
           <View className={styles['meta-item']} onClick={handleNameClick}>
-            <FontIcon size="14" value="author"></FontIcon> {login}
+            Updated on{' '}
+            <Text style={{ fontWeight: 400 }}>{updated_at.slice(0, 10)}</Text>
           </View>
         </View>
       </View>

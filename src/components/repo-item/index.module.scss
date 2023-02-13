@@ -28,12 +28,15 @@
 .top {
   display: flex;
   align-items: center;
+  flex-wrap: wrap;
 }
+
 .name {
   color: #40a0fa;
   font-weight: 700;
   font-size: 28px;
 }
+
 .language {
   margin-left: auto;
   align-self: flex-start;
@@ -54,4 +57,6 @@
 
 .meta-item {
   flex: 1;
+  white-space: nowrap;
+  color: rgb(107, 107, 107);
 }

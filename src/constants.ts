@@ -5,11 +5,19 @@ export interface IDefaultParams {
 export const defaultParams: IDefaultParams = {
   per_page: 20,
   page: 1,
-} as const;
+};
 
 export const issueDefaultParams: IDefaultParams = {
   // 多了会 GG
   per_page: 10,
+  page: 1,
+};
+
+export const defaultSearchParams = {
+  q: '',
+  sort: '',
+  order: '',
+  per_page: 30,
   page: 1,
 };
 

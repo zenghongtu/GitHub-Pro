@@ -58,7 +58,7 @@ export async function githubFetch<
     }
 
     if (statusCode === 403) {
-      throw new Error('接口请求受限，请先登录！');
+      throw new Error('接口请求受限，请登录或稍后尝试！');
     }
     throw new Error(errMsg);
   } catch (err) {

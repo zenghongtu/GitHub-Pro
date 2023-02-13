@@ -14,9 +14,11 @@ const useInfiniteGithubRequest = <
   {
     pathParams: initPathParams,
     queryParams: initQueryParams = defaultParams,
+    getItems,
   }: {
-    pathParams: InitParamsType;
+    pathParams?: InitParamsType;
     queryParams?: InitParamsType;
+    getItems?: (data: any) => T[];
   },
 ) => {
   const [queryParams, setQueryParams] = useState({ ...initQueryParams });
@@ -32,8 +34,13 @@ const useInfiniteGithubRequest = <
       pathParams: initPathParams,
     },
     {
-      onSuccess(newData: T[]) {
+      onSuccess(newData: any) {
         isMountedRef.current = true;
+
+        if (getItems) {
+          newData = getItems(newData);
+        }
+
         if (newData?.length >= queryParams.per_page!) {
           setHasMore(true);
         }
@@ -59,8 +66,10 @@ const useInfiniteGithubRequest = <
 
   return {
     data,
-    hasMore,
-    isError,
+    queryParams,
+    hasMore: hasMore && !isError,
+    // 第2页不显示错误
+    isError: isError && !(queryParams.page > 1),
     isLoading: isLoading && !isMountedRef.current,
   };
 };

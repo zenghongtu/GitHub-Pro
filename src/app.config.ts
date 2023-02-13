@@ -7,7 +7,7 @@ export default defineAppConfig({
     'pages/developer/index',
     'pages/profile/index',
     'pages/profile/issues',
-    'pages/repos/search/index',
+    'pages/search/index',
     'pages/login/index',
     'pages/repos/index',
     'pages/my-languages/index',
@@ -59,7 +59,7 @@ export default defineAppConfig({
         text: 'News',
       },
       {
-        pagePath: 'pages/repos/search/index',
+        pagePath: 'pages/search/index',
         iconPath: './assets/icons/search.png',
         selectedIconPath: './assets/icons/search_active.png',
         text: 'Search',

@@ -17,6 +17,8 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
     Taro.navigateTo({ url });
   };
 
+  url = url.endsWith('?') ? `${url}s=96&v=4` : `${url}&s=96`;
+
   return (
     <View
       className={styles.author}
@@ -24,7 +26,7 @@ const Author = ({ login, url, size, created_at = '' }: AuthorProps) => {
         !!created_at ? undefined : { alignItems: 'center', paddingLeft: '20px' }
       }
     >
-      <Avatar size={size} username={login} url={`${url}s=96&v=4`}></Avatar>
+      <Avatar size={size} username={login} url={url}></Avatar>
       <Text className={styles.login} onClick={handleLoginClick}>
         {login}
       </Text>

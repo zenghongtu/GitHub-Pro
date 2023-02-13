@@ -12,7 +12,7 @@ const SkeletonCard: FC<{
   // TODO skeleton replace loading
   return (
     <Block>
-      {isLoading && (
+      {isLoading ? (
         <View className={styles.loading}>
           <Image
             mode="widthFix"
@@ -23,9 +23,11 @@ const SkeletonCard: FC<{
             <Text>努力加载..</Text>
           </View>
         </View>
+      ) : isError ? (
+        <Empty></Empty>
+      ) : (
+        children
       )}
-      {isError && <Empty />}
-      {!isError && !isLoading && children}
     </Block>
   );
 };

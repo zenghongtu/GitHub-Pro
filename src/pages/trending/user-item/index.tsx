@@ -1,8 +1,8 @@
+import FontIcon from '@/components/font-icon';
 import { Image, ITouchEvent, Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { FC, memo } from 'react';
 import { useSelector } from 'react-redux';
-import { AtIcon } from 'taro-ui';
 import { TrendingDeveloperData } from 'types/trending';
 import styles from './index.module.scss';
 
@@ -52,10 +52,11 @@ const UserItem: FC<{ data: TrendingDeveloperData; index: number }> = ({
         {repo && (
           <View>
             <Text className={styles.repoName}>
-              <AtIcon
-                customStyle={{ fontSize: '13px' }}
-                value="bookmark"
-              ></AtIcon>{' '}
+              <FontIcon
+                size="14"
+                value="hot"
+                styleProps={{ color: 'red' }}
+              ></FontIcon>
               {repo.name}
             </Text>
             <Text className={styles.description}>{repo.description}</Text>
