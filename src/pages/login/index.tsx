@@ -1,77 +1,55 @@
-import { Image, View } from '@tarojs/components';
+import { useUsersGetAuthenticated } from '@/github/githubComponents';
+import { LOGIN } from '@/store/constatnts';
+import { copyText } from '@/utils/common';
+import { Block, Image, Text, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { AtButton, AtInput, AtTabs, AtTabsPane } from 'taro-ui';
+import { AtButton, AtInput } from 'taro-ui';
 import logo from '../../assets/logo.png';
-import { getCurrentUser } from '../../services/user';
-import { LOGIN } from '../../store/constatnts';
-import Base64 from '../../utils/base64';
 import styles from './index.module.scss';
 
-const ACCOUNT_INDEX = 0;
-const TOKEN_INDEX = 1;
-
-const tabList = [{ title: 'Account' }, { title: 'Token' }];
-
-interface AuthInfoState {
-  username?: string;
-  password?: string;
-  token?: string;
-}
-
 const Login = () => {
-  const [currTab, setCurrTab] = useState<number>(0);
-  const [authInfo, setAuthInfo] = useState<AuthInfoState>({});
-  const handleChangeTab = (val) => {
-    setCurrTab(val);
-  };
-
   const dispatch = useDispatch();
 
+  const [token, setToken] = useState('');
+
+  const authorization = `token ${token}`;
+  const { refetch } = useUsersGetAuthenticated(
+    { headers: { Authorization: authorization } },
+    {
+      enabled: false,
+      onSuccess(data) {
+        if (data) {
+          dispatch({
+            type: LOGIN,
+            payload: { username: data.login, token: authorization },
+          });
+          Taro.showToast({
+            title: '登录成功!',
+            icon: 'success',
+            duration: 1500,
+          });
+
+          setTimeout(() => {
+            Taro.navigateBack();
+          }, 1500);
+        }
+      },
+    },
+  );
+
   const handleInputChange = (val, e) => {
-    const key = e.target.id;
-    setAuthInfo({ ...authInfo, [key]: val });
+    setToken(val);
   };
 
   const handleLoginBtnClick = () => {
-    const { username, password, token } = authInfo;
-
-    let authorization: string;
-    if (currTab === ACCOUNT_INDEX) {
-      if (!username || !password) {
-        Taro.showToast({
-          title: 'Username or Password is empty',
-          icon: 'none',
-        });
-        return;
-      }
-      authorization = 'Basic ' + Base64.encode(`${username}:${password}`);
-    } else {
-      if (!token) {
-        Taro.showToast({ title: 'Token is empty', icon: 'none' });
-        return;
-      }
-      authorization = 'token ' + token;
+    if (!token) {
+      Taro.showToast({ title: '请输入 Token！', icon: 'none' });
+      return;
     }
 
-    getCurrentUser(authorization).then((data) => {
-      if (data) {
-        dispatch({
-          type: LOGIN,
-          payload: { username: data.login, token: authorization },
-        });
-        Taro.showToast({
-          title: 'login success!',
-          icon: 'success',
-          duration: 1500,
-        });
-
-        setTimeout(() => {
-          Taro.navigateBack();
-        }, 1500);
-      }
-    });
+    refetch();
   };
 
   return (
@@ -86,57 +64,44 @@ const Login = () => {
           <View>Welcome to GitHub Pro.</View>
         </View>
         <View className={styles['login-body']}>
-          <AtTabs current={currTab} tabList={tabList} onClick={handleChangeTab}>
-            <View className={styles['tabs-body']}>
-              <AtTabsPane current={currTab} index={ACCOUNT_INDEX}>
-                <View>
-                  <AtInput
-                    autoFocus
-                    name="username"
-                    // title="Username"
-                    type="text"
-                    placeholder="Username"
-                    value={authInfo['username']}
-                    onChange={handleInputChange}
-                  />
-                  <AtInput
-                    name="password"
-                    // title="Password"
-                    type="password"
-                    placeholder="Password"
-                    value={authInfo['password']}
-                    onChange={handleInputChange}
-                  />
-                </View>
-              </AtTabsPane>
-              <AtTabsPane current={currTab} index={TOKEN_INDEX}>
-                <View>
-                  <AtInput
-                    name="token"
-                    // title="Token"
-                    type="text"
-                    placeholder="Token"
-                    value={authInfo['token']}
-                    onChange={handleInputChange}
-                  />
-                </View>
-              </AtTabsPane>
+          <View className={styles['tabs-body']}>
+            <View>
+              <AtInput
+                name="token"
+                type="text"
+                placeholder="Token"
+                value={token}
+                onChange={handleInputChange}
+              />
             </View>
-          </AtTabs>
-
+          </View>
           <View className={styles['login-btn-container']}>
             <AtButton
               className={styles['login-btn']}
               size="small"
               type="primary"
-              // circle
+              circle
               onClick={handleLoginBtnClick}
             >
-              Login
+              登录
             </AtButton>
           </View>
+          <Block>Token 只会在本地保存，不会上传到服务器的，放心使用~😎</Block>
+          <Block></Block>
           <View className={styles.desc}>
-            账号密码等数据只会在本地保存，不会上传到服务器的，放心使用~😎
+            <Text
+              onClick={async () => {
+                await copyText(
+                  'https://github.com/settings/tokens/new?scopes=repo,workflow,notifications,user,gist,project&description=Github%20Pro',
+                );
+              }}
+            >
+              https://github.com/settings/tokens/new (点击复制)
+            </Text>
+
+            <View>
+              <Text>Expiration 选择 No expiration</Text>
+            </View>
           </View>
         </View>
       </View>

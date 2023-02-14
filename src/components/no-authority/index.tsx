@@ -9,7 +9,7 @@ const NoAuthority = () => {
     <View className={styles.wrap}>
       <View className={styles.inner}>
         <Image src={img} className={styles.img}></Image>
-        <View className={styles.desc}>This page required login to view</View>
+        <View className={styles.desc}>需要登录才能查看</View>
         <View className={styles.login}>
           <AtButton
             size="small"
@@ -19,7 +19,7 @@ const NoAuthority = () => {
               Taro.navigateTo({ url: `/pages/login/index` });
             }}
           >
-            Go to Login
+            前往登录
           </AtButton>
         </View>
       </View>

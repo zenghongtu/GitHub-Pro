@@ -7,11 +7,11 @@ export const showLoginTips = () => {
   }
   isShoTip = true;
   Taro.showModal({
-    title: 'Login Required',
-    content: 'This page requires login. Do you want to login?',
+    title: '是否前往登录?',
+    content: '该页面操作需要登录才能操作',
     cancelText: 'No',
     cancelColor: '#fb3e3b',
-    confirmText: 'Ok',
+    confirmText: 'Yes',
     confirmColor: '#007afb',
     success(res) {
       if (res.confirm) {
@@ -23,17 +23,14 @@ export const showLoginTips = () => {
   });
 };
 
-export const copyText = (text: string) => {
-  Taro.setClipboardData({
+export const copyText = async (text: string) => {
+  const { data } = await Taro.setClipboardData({
     data: `${text}`,
-    // @ts-ignore
-    success: function (res) {
-      Taro.showToast({
-        title: `Copy: ${text}`,
-        icon: 'none',
-        mask: true,
-      });
-    },
+  });
+  Taro.showToast({
+    title: `复制成功:${text}`,
+    icon: 'none',
+    mask: true,
   });
 };
 

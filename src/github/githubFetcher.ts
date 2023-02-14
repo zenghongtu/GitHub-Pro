@@ -17,6 +17,8 @@ export type GithubFetcherOptions<TBody, THeaders, TQueryParams, TPathParams> = {
   signal?: AbortSignal;
 } & GithubContext['fetcherOptions'];
 
+let token = Taro.getStorageSync('authorization');
+
 export async function githubFetch<
   TData,
   TError,
@@ -39,6 +41,7 @@ export async function githubFetch<
 >): Promise<TData> {
   try {
     const requestHeaders: TaroGeneral.IAnyObject = {
+      Authorization: token || (token = Taro.getStorageSync('authorization')),
       ...headers,
     };
 
@@ -54,7 +57,9 @@ export async function githubFetch<
     }
 
     if (statusCode === 401) {
-      throw new Error('需要登录才能查看！');
+      Taro.setStorageSync('username', '');
+      Taro.setStorageSync('authorization', '');
+      throw new Error('Token 无效或未登录！');
     }
 
     if (statusCode === 403) {

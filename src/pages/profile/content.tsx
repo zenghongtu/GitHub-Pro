@@ -1,29 +1,18 @@
-import Empty from '@/components/empty';
+import SkeletonCard from '@/components/skeleton-card';
 import UserInfo from '@/components/user-info';
-import { getCurrentUser, IUserInfo } from '@/services/user';
-import { LOGIN, LOGOUT } from '@/store/constatnts';
-import { Block } from '@tarojs/components';
-import Taro, { useShareAppMessage } from '@tarojs/taro';
-import { useEffect, useState } from 'react';
+import { useUsersGetAuthenticated } from '@/github/githubComponents';
+import { LOGOUT } from '@/store/constatnts';
+import Taro, { usePullDownRefresh, useShareAppMessage } from '@tarojs/taro';
 import { useDispatch } from 'react-redux';
 
-const ProfileContent = ({ username, refreshCount }) => {
-  const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
+const ProfileContent = () => {
   const dispatch = useDispatch();
-
-  const getUser = () => {
-    getCurrentUser().then((data) => {
-      if (data) {
-        setUserInfo(data);
-        dispatch({ type: LOGIN, payload: { username: data.login } });
-      }
-    });
-  };
-  useEffect(() => {
-    if (username) {
-      getUser();
-    }
-  }, [refreshCount]);
+  const {
+    data: userInfo,
+    refetch,
+    isError,
+    isLoading,
+  } = useUsersGetAuthenticated({});
 
   useShareAppMessage((res) => {
     const title = `[${userInfo!.login}] ${userInfo!.bio}`;
@@ -34,18 +23,21 @@ const ProfileContent = ({ username, refreshCount }) => {
     };
   });
 
+  usePullDownRefresh(() => {
+    refetch();
+  });
+
   const handleLogout = () => {
     Taro.showModal({
-      content: 'Are you sure?',
+      content: '确认退出?',
       cancelText: 'No',
       cancelColor: '#fb3e3b',
-      confirmText: 'Sure',
+      confirmText: 'Yes',
       confirmColor: '#007afb',
 
       success(res) {
         if (res.confirm) {
           dispatch({ type: LOGOUT });
-          setUserInfo(null);
           Taro.switchTab({ url: '/pages/trending/index' });
         } else if (res.cancel) {
         }
@@ -54,13 +46,9 @@ const ProfileContent = ({ username, refreshCount }) => {
   };
 
   return (
-    <Block>
-      {userInfo ? (
-        <UserInfo userInfo={userInfo} onLogout={handleLogout}></UserInfo>
-      ) : (
-        <Empty></Empty>
-      )}
-    </Block>
+    <SkeletonCard isError={isError} isLoading={isLoading}>
+      <UserInfo userInfo={userInfo} onLogout={handleLogout}></UserInfo>
+    </SkeletonCard>
   );
 };
 

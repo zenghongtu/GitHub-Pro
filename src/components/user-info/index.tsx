@@ -85,7 +85,7 @@ const UserInfo = ({
   return (
     <View className={styles.wrap}>
       <View className={styles.header}>
-        <Avatar circle={false} size="70" url={avatar_url}></Avatar>
+        <Avatar circle={false} size="70" url={`${avatar_url}&s=96`}></Avatar>
         <View className={styles.basic}>
           <View className={styles.name}>
             {name || login} ({login})
