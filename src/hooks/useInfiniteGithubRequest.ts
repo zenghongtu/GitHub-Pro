@@ -1,6 +1,6 @@
 import { defaultParams } from '@/constants';
 import { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 type InitParamsType = {
   [x: string]: any;
@@ -28,7 +28,7 @@ const useInfiniteGithubRequest = <
   const [data, setData] = useState<T[]>([]);
 
   // FIXME isLoading 每次加载都为 true
-  const { isError, isLoading, refetch } = useRequest(
+  const { isError, isLoading, isFetching, refetch } = useRequest(
     {
       queryParams,
       pathParams: initPathParams,
@@ -53,6 +53,10 @@ const useInfiniteGithubRequest = <
     },
   );
 
+  useEffect(() => {
+    setQueryParams({ ...initQueryParams });
+  }, [initQueryParams]);
+
   useReachBottom(() => {
     if (hasMore) {
       setQueryParams({ ...queryParams, page: queryParams.page! + 1 });
@@ -66,6 +70,7 @@ const useInfiniteGithubRequest = <
 
   return {
     data,
+    isFetching,
     queryParams,
     hasMore: hasMore && !isError,
     // 第2页不显示错误

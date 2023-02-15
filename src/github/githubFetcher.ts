@@ -52,7 +52,7 @@ export async function githubFetch<
       header: requestHeaders,
     });
 
-    if (statusCode >= 200 && statusCode < 300) {
+    if ((statusCode >= 200 && statusCode < 300) || statusCode === 404) {
       return data;
     }
 
@@ -65,6 +65,7 @@ export async function githubFetch<
     if (statusCode === 403) {
       throw new Error('接口请求受限，请登录或稍后尝试！');
     }
+
     throw new Error(errMsg);
   } catch (err) {
     console.log('err: ', err);
