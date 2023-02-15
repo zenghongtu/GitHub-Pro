@@ -1,7 +1,11 @@
+import SkeletonCard from '@/components/skeleton-card';
 import UserInfo from '@/components/user-info';
-import useRequest from '@/hooks/useRequest';
-import { follow } from '@/services/user';
-import { getUser, IUser } from '@/services/users';
+import {
+  useUsersCheckPersonIsFollowedByAuthenticated,
+  useUsersFollow,
+  useUsersGetByUsername,
+  useUsersUnfollow,
+} from '@/github/githubComponents';
 import { Block } from '@tarojs/components';
 import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
@@ -10,31 +14,49 @@ const Developer = () => {
   const {
     params: { name },
   } = useRouter();
-  const [userInfo, refreshUserInfo] = useRequest<IUser>(name, getUser);
-  const [isFollowing, setFollow] = useState<boolean>(false);
+  const username = name!;
+  const {
+    data: userInfo,
+    isError,
+    isLoading,
+  } = useUsersGetByUsername({
+    pathParams: { username },
+  });
+
+  const [isFollowing, setIsFollowing] = useState(false);
+
+  useUsersCheckPersonIsFollowedByAuthenticated(
+    {
+      pathParams: { username },
+    },
+    {
+      onSuccess(data) {
+        const isFollowing = !data && data !== null;
+        setIsFollowing(isFollowing);
+      },
+    },
+  );
+
+  const { mutateAsync: unFollow } = useUsersUnfollow();
+
+  const { mutateAsync: updateFollow } = useUsersFollow();
 
   useEffect(() => {
     const title = `Developer`;
     Taro.setNavigationBarTitle({ title });
   }, []);
 
-  useEffect(() => {
-    follow.is(name).then((isFollowing) => {
-      setFollow(isFollowing);
-    });
-  }, []);
-
   const handleFollowBtnClick = () => {
     if (isFollowing) {
-      follow.delete(name).then((isSuccess) => {
-        if (isSuccess) {
-          setFollow(false);
+      unFollow({ pathParams: { username } }).then((data) => {
+        if (!data && data !== null) {
+          setIsFollowing(false);
         }
       });
     } else {
-      follow.put(name).then((isSuccess) => {
-        if (isSuccess) {
-          setFollow(true);
+      updateFollow({ pathParams: { username } }).then((data) => {
+        if (!data && data !== null) {
+          setIsFollowing(true);
         }
       });
     }
@@ -51,12 +73,14 @@ const Developer = () => {
 
   return (
     <Block>
-      <UserInfo
-        userInfo={userInfo}
-        isCurrent={false}
-        isFollowing={isFollowing}
-        onFollowClick={handleFollowBtnClick}
-      ></UserInfo>
+      <SkeletonCard isError={isError} isLoading={isLoading}>
+        <UserInfo
+          userInfo={userInfo}
+          isCurrent={false}
+          isFollowing={isFollowing}
+          onFollowClick={handleFollowBtnClick}
+        ></UserInfo>
+      </SkeletonCard>
     </Block>
   );
 };

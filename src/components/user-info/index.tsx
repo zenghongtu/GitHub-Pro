@@ -1,17 +1,19 @@
+import {
+  useActivityCheckRepoIsStarredByAuthenticatedUser,
+  useActivityStarRepoForAuthenticatedUser,
+} from '@/github/githubComponents';
 import { copyText } from '@/utils/common';
 import { getTimeAgo } from '@/utils/date';
 import { Block, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import classnames from 'classnames';
-import { useEffect, useState } from 'react';
 import { AtButton, AtList } from 'taro-ui';
-import { starred } from '../../services/user';
 import Avatar from '../avatar';
 import Empty from '../empty';
 import ListItem from '../list-item';
 import styles from './index.module.scss';
 
-const full_name = 'zenghongtu/GitHub-Pro';
+const supportStarParams = { owner: 'zenghongtu', repo: 'GitHub-Pro' };
 
 const UserInfo = ({
   userInfo,
@@ -23,13 +25,13 @@ const UserInfo = ({
   if (!userInfo) {
     return <Empty></Empty>;
   }
-  const [isStarred, setStarred] = useState(true);
 
-  useEffect(() => {
-    starred.is(full_name).then((is) => {
-      setStarred(is);
-    });
-  }, []);
+  const { data } = useActivityCheckRepoIsStarredByAuthenticatedUser({
+    pathParams: supportStarParams,
+  });
+  const isStarred = !data && data !== null;
+
+  const { mutateAsync } = useActivityStarRepoForAuthenticatedUser({});
 
   const handleNavTo = (url: string) => () => {
     Taro.navigateTo({ url });
@@ -40,10 +42,9 @@ const UserInfo = ({
   };
 
   const handleSupport = () => {
-    starred.put(full_name).then((res) => {
-      if (res) {
-        setStarred(true);
-        Taro.showToast({ title: 'Thank You! 🎈', icon: 'none' });
+    mutateAsync({ pathParams: supportStarParams }).then((res) => {
+      if (!res && res !== null) {
+        Taro.showToast({ title: '感谢支持! 🎈', icon: 'none' });
       }
     });
   };
