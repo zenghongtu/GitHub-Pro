@@ -1,0 +1,14 @@
+.wrap {
+  height: 800px;
+  overflow: hidden;
+  position: relative;
+  padding-bottom: 150px;
+}
+
+.btn {
+  width: 300px;
+  position: absolute;
+  bottom: 15px;
+  left: 50%;
+  transform: translate(-50%);
+}

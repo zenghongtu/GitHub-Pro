@@ -10,13 +10,16 @@
 }
 
 .avatar-img {
+  min-width: 80px;
 }
 
 .full-name {
   font-size: 34px;
   font-weight: 600;
   color: $primary;
+  white-space: pre-wrap;
 }
+
 .name {
 }
 
@@ -55,6 +58,7 @@
 }
 
 .num {
+  margin-top: 10px;
   font-size: 33px;
   font-weight: 600;
 }
