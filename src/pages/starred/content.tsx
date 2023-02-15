@@ -1,32 +1,36 @@
 import LoadMore from '@/components/load-more';
+import SkeletonCard from '@/components/skeleton-card';
+import { useActivityListReposStarredByUser } from '@/github/githubComponents';
+import useInfiniteGithubRequest from '@/hooks/useInfiniteGithubRequest';
+import usePageScrollBackToTop from '@/hooks/usePageScrollBackToTop';
 import { View } from '@tarojs/components';
 import Empty from '../../components/empty';
 import RepoItem from '../../components/repo-item';
-import useRequestWIthMore from '../../hooks/useRequestWIthMore';
-import { IStarred } from '../../services/user';
-import { getUserStarred } from '../../services/users';
 import styles from './index.module.scss';
 
 const StarredContent = ({ username }) => {
-  const [starredRepos, hasMore, refresh] = useRequestWIthMore<IStarred>(
-    username,
-    getUserStarred,
+  const { data, hasMore, isError, isLoading } = useInfiniteGithubRequest(
+    useActivityListReposStarredByUser,
+    { pathParams: { username } },
   );
+
+  const BackToTop = usePageScrollBackToTop();
 
   return (
     <View>
-      <View>
-        {starredRepos ? (
+      <SkeletonCard isError={isError} isLoading={isLoading}>
+        {data ? (
           <View className={styles['content-wrap']}>
-            {starredRepos.map((item, idx) => {
+            {data.map((item, idx) => {
               return <RepoItem key={item.id} repo={item}></RepoItem>;
             })}
+            <LoadMore hasMore={hasMore}></LoadMore>
           </View>
         ) : (
           <Empty></Empty>
         )}
-      </View>
-      {starredRepos && <LoadMore hasMore={hasMore!}></LoadMore>}
+      </SkeletonCard>
+      {BackToTop}
     </View>
   );
 };
