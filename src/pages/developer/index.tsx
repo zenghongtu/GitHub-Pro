@@ -30,6 +30,7 @@ const Developer = () => {
       pathParams: { username },
     },
     {
+      enabled: !!username,
       onSuccess(data) {
         const isFollowing = !data && data !== null;
         setIsFollowing(isFollowing);
