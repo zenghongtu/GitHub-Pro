@@ -1,25 +1,64 @@
 import LoadMore from '@/components/load-more';
 import SkeletonCard from '@/components/skeleton-card';
 import { defaultSearchParams } from '@/constants';
-import {
-  SearchIssuesAndPullRequestsResponse,
-  useSearchIssuesAndPullRequests,
-} from '@/github/githubComponents';
-import useInfiniteGithubRequest from '@/hooks/useInfiniteGithubRequest';
+import { useSearchIssuesAndPullRequests } from '@/github/githubComponents';
 import IssueItem from '@/pages/issues/issue-item';
 import { View } from '@tarojs/components';
-import { FC } from 'react';
+import { usePullDownRefresh, useReachBottom } from '@tarojs/taro';
+import { FC, useRef, useState } from 'react';
 
 const issues: FC<{ keyword: string }> = ({ keyword }) => {
-  const { data, isLoading, isError, hasMore } = useInfiniteGithubRequest<
-    SearchIssuesAndPullRequestsResponse['items'][number]
-  >(useSearchIssuesAndPullRequests, {
-    queryParams: { ...defaultSearchParams, q: keyword },
-    getItems: (data) => data.items,
+  const [queryParams, setQueryParams] = useState<any>({
+    ...defaultSearchParams,
+    per_page: 10,
+    q: keyword,
+  });
+
+  const isMountedRef = useRef(false);
+  const [hasMore, setHasMore] = useState(false);
+  const [data, setData] = useState<any[]>([]);
+
+  // FIXME isLoading 每次加载都为 true
+  const { isError, isLoading, isFetching, refetch } =
+    useSearchIssuesAndPullRequests(
+      {
+        queryParams,
+      },
+      {
+        onSuccess(newData: any) {
+          isMountedRef.current = true;
+
+          newData = newData.items;
+          console.log('newData: ', newData);
+
+          if (newData?.length >= queryParams.per_page!) {
+            setHasMore(true);
+          }
+          if (queryParams.page! > 1) {
+            setData([...data, ...newData]);
+          } else {
+            setData(newData);
+          }
+        },
+      },
+    );
+
+  useReachBottom(() => {
+    if (hasMore) {
+      setQueryParams({ ...queryParams, page: queryParams.page! + 1 });
+    }
+  });
+
+  usePullDownRefresh(() => {
+    setQueryParams({ ...defaultSearchParams, per_page: 10, q: keyword });
+    // refetch();
   });
 
   return (
-    <SkeletonCard isLoading={isLoading} isError={isError}>
+    <SkeletonCard
+      isLoading={isLoading && !isMountedRef.current}
+      isError={isError}
+    >
       {data?.length > 0 && (
         <View>
           {data.map((item, idx) => {

@@ -1,5 +1,5 @@
 import usePageScrollBackToTop from '@/hooks/usePageScrollBackToTop';
-import { View } from '@tarojs/components';
+import { Block, View } from '@tarojs/components';
 import Taro from '@tarojs/taro';
 import { useEffect, useState } from 'react';
 import { AtSearchBar, AtTabs, AtTag } from 'taro-ui';
@@ -67,7 +67,7 @@ const Search = () => {
         <AtSearchBar
           onConfirm={handleConfirm}
           placeholder="search"
-          actionName="GO"
+          actionName="Search"
           value={value}
           onClear={onClear}
           onChange={onChange}
@@ -83,13 +83,11 @@ const Search = () => {
       </View>
       <View>
         {searchValue ? (
-          current === 0 ? (
-            <Repos keyword={searchValue}></Repos>
-          ) : current === 1 ? (
-            <Users keyword={searchValue}></Users>
-          ) : (
-            <Issues keyword={searchValue}></Issues>
-          )
+          <Block>
+            {current === 0 && <Repos keyword={searchValue}></Repos>}
+            {current === 1 && <Users keyword={searchValue}></Users>}
+            {current === 2 && <Issues keyword={searchValue}></Issues>}
+          </Block>
         ) : (
           <View className={styles['history-tags']}>
             {searchHistory &&

@@ -12,6 +12,7 @@ import { githubHttpsUrl } from '@/utils/repo';
 import { Block, ITouchEvent, Text, View } from '@tarojs/components';
 import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
 import { useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
 import { AtIcon, AtList } from 'taro-ui';
 import Empty from '../../components/empty';
 import ListItem from '../../components/list-item';
@@ -25,6 +26,8 @@ const Repository = () => {
   let {
     params: { owner, repo, full_name },
   } = useRouter();
+
+  const username = useSelector<any, any>((state) => state.user.username);
 
   if (!owner && full_name) {
     [owner, repo] = full_name!?.split('/');
@@ -46,6 +49,7 @@ const Repository = () => {
       pathParams,
     },
     {
+      enabled: !!username,
       onSuccess(data) {
         if (!data && data !== null) {
           setIsStarred(true);
