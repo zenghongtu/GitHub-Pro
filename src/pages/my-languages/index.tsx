@@ -77,7 +77,5 @@ const MyLanguages = () => {
     </View>
   );
 };
-MyLanguages.config = {
-  navigationBarTitleText: 'My Languages',
-};
+
 export default MyLanguages;

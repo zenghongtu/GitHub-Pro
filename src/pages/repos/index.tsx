@@ -308,8 +308,4 @@ const Repository = () => {
   );
 };
 
-Repository.config = {
-  navigationBarTitleText: 'Repository',
-};
-
 export default Repository;
