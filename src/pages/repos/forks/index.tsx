@@ -1,30 +1,14 @@
-import UserItem from '@/components/user-item';
-import useRequestWIthMore from '@/hooks/useRequestWIthMore';
-import { getRepoForks } from '@/services/repos';
-import Taro, { useReachBottom, useRouter } from '@tarojs/taro';
-import { useEffect } from 'react';
+import { useReposListForks } from '@/github/githubComponents';
+import ListRender from '../list-render';
 
 const Forks = () => {
-  const {
-    params: { owner, repo },
-  } = useRouter();
-  const full_name = `${owner}/${repo}`;
-
-  const [data, hasMore, refresh, getMore] = useRequestWIthMore<any, any>(
-    { full_name },
-    getRepoForks,
+  return (
+    <ListRender
+      getItems={(data) => (data ? data.map((item) => item.owner) : null)}
+      name={'Forks'}
+      useRequest={useReposListForks}
+    ></ListRender>
   );
-
-  useEffect(() => {
-    const title = `${full_name} - Forks`;
-    Taro.setNavigationBarTitle({ title });
-  }, []);
-
-  useReachBottom(() => {
-    getMore!();
-  });
-
-  return <UserItem data={data} hasMore={hasMore}></UserItem>;
 };
 
 export default Forks;

@@ -71,7 +71,7 @@ const IssueItem = ({ issue, full_name: _full_name }: IssueItemProps) => {
 
   return (
     <View className={styles.wrap} onClick={handleNavTo}>
-      <Avatar url={avatar_url} size="28"></Avatar>
+      <Avatar url={`${avatar_url}&s=96`} size="28"></Avatar>
       <View className={styles.info}>
         <View className={styles.top}>
           <Text className={styles.login}>{login}</Text>
