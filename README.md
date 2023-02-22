@@ -5,7 +5,7 @@
 > 一个简洁、强大的 GitHub 小程序客户端
 
 
-基于 Taro3 / Taro-ui / React-query / React18 / TypeScript。
+基于 Taro3 / Taro-ui / React-query / React18 / **TypeScript**。
 
 
 ## 想法
@@ -24,11 +24,12 @@
 
 ## Screenshots
 
-![](docs/Jietu20230218-171612.png)<br/>
-![](docs/Jietu20230218-171628.png)<br/>
-![](docs/Jietu20230218-171643.png)<br/>
-![](docs/Jietu20230218-171702.png)<br/>
-![](docs/Jietu20230218-171941.png)<br/>
+|  |  |  |
+| :---: | :---: | :---: |
+|![](docs/Jietu20230218-171612.png)|![](docs/Jietu20230218-171628.png)|![](docs/Jietu20230218-171643.png)|
+|![](docs/Jietu20230218-171702.png)|![](docs/Jietu20230218-171941.png)|![](docs/Jietu20230218-171643.png)|
+
+
 
 
 ## 协议
