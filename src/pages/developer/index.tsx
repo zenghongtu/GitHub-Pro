@@ -9,25 +9,27 @@ import {
 import { Block } from '@tarojs/components';
 import Taro, { useRouter, useShareAppMessage } from '@tarojs/taro';
 import { useEffect, useState } from 'react';
+import { useSelector } from 'react-redux';
 
 const Developer = () => {
   const {
     params: { name },
-  } = useRouter();
-  const username = name!;
+  } = useRouter<{ name: string }>();
+  const username = useSelector<any, any>((state) => state.user.username);
+
   const {
     data: userInfo,
     isError,
     isLoading,
   } = useUsersGetByUsername({
-    pathParams: { username },
+    pathParams: { username: name },
   });
 
   const [isFollowing, setIsFollowing] = useState(false);
 
   useUsersCheckPersonIsFollowedByAuthenticated(
     {
-      pathParams: { username },
+      pathParams: { username: name },
     },
     {
       enabled: !!username,
@@ -49,13 +51,13 @@ const Developer = () => {
 
   const handleFollowBtnClick = () => {
     if (isFollowing) {
-      unFollow({ pathParams: { username } }).then((data) => {
+      unFollow({ pathParams: { username: name } }).then((data) => {
         if (!data && data !== null) {
           setIsFollowing(false);
         }
       });
     } else {
-      updateFollow({ pathParams: { username } }).then((data) => {
+      updateFollow({ pathParams: { username: name } }).then((data) => {
         if (!data && data !== null) {
           setIsFollowing(true);
         }

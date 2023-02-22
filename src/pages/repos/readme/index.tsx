@@ -23,7 +23,10 @@ const Readme = ({ owner, repo, full_name }, ref) => {
   return (
     <SkeletonCard isError={isError} isLoading={isFetching}>
       {data && (
-        <View className={styles.wrap} style={showAll ? { height: 'auto' } : {}}>
+        <View
+          className={styles.wrap}
+          style={showAll ? { maxHeight: 'fit-content' } : {}}
+        >
           <Markdown md={data as any as string} full_name={full_name}></Markdown>
           <AtButton
             onClick={() => {

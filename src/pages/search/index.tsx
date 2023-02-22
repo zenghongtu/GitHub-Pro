@@ -65,6 +65,7 @@ const Search = () => {
     <View className={styles.wrap}>
       <View className={styles['search-wrap']}>
         <AtSearchBar
+          showActionButton
           onConfirm={handleConfirm}
           placeholder="search"
           actionName="Search"

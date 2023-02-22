@@ -255,7 +255,7 @@ const UserInfo = ({
                   style={{ ...style, fontWeight: '800' }}
                   hasBorder={true}
                   // arrow="right"
-                  title="Support"
+                  title="Star Support"
                   onClick={handleSupport}
                 />
               )}

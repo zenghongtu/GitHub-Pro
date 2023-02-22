@@ -11,7 +11,7 @@ import useRequestWIthMore from '../../hooks/useRequestWIthMore';
 const Activity = () => {
   const {
     params: { name },
-  } = useRouter();
+  } = useRouter<{ name: string }>();
 
   const [eventsData, hasMore, refresh, getMoreData] =
     useRequestWIthMore<IUserReceivedEvent>(name, getUserEvents);

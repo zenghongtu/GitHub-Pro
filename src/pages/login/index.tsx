@@ -92,7 +92,7 @@ const Login = () => {
             <Text
               onClick={async () => {
                 await copyText(
-                  'https://github.com/settings/tokens/new?scopes=repo,workflow,notifications,user,gist,project&description=Github%20Pro',
+                  'https://github.com/settings/tokens/new?scopes=repo%2Cworkflow%2Cnotifications%2Cuser%2Cgist%2Cproject&description=Github%20Pro',
                 );
               }}
             >
